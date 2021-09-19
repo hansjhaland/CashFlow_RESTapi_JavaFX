@@ -1,13 +1,10 @@
 package core;
 
-import java.util.Collection;
-
 public abstract class AbstractAccount {
 
     String name;
     double balance;
     int accountNumber;
-    Collection<Transaction> transactions;
 
     public AbstractAccount(String name, int accountNumber) {
         checkName(name);
@@ -25,6 +22,8 @@ public abstract class AbstractAccount {
     public abstract void deposit(int amount);
 
     public abstract void withdraw(int amount);
+
+    public abstract void transfer(int amount);
 
     // Getters and setters:
     public double getBalance() {
