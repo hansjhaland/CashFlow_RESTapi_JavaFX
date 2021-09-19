@@ -1,8 +1,8 @@
 package core;
 
-public class SavingsAccount extends AbstractAccount {
-    
-    public SavingsAccount(String name, double balance, int accountNumber) {
+public class CheckingAccount extends AbstractAccount {
+
+    public CheckingAccount(String name, double balance, int accountNumber) {
         super(name, accountNumber);
     }
 
