@@ -1,8 +1,8 @@
 package core;
 
-public class SavingsAccount extends AbstractAccount {
-    
-    public SavingsAccount(String name, double balance, int accountNumber, User owner) {
+public class BSUAccount extends AbstractAccount {
+
+    public BSUAccount(String name, double balance, int accountNumber, User owner) {
         super(name, accountNumber, owner);
     }
 
@@ -17,4 +17,5 @@ public class SavingsAccount extends AbstractAccount {
         // TODO Auto-generated method stub
         
     }
+    
 }
