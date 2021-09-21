@@ -1,5 +1,7 @@
 package json;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.core.util.VersionUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,10 +25,11 @@ public class CashFlowModule extends SimpleModule {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new CashFlowModule());
         User user = new User(123456);
+        user.setName("Hans");
         CheckingAccount account = new CheckingAccount("ac", 200, 5555, user);
         try{
             System.out.println(mapper.writeValueAsString(user));
-        } catch (JsonProsessingException e){
+        } catch (JsonProcessingException e){
             System.out.println("Virket ikke");
         }
     }
