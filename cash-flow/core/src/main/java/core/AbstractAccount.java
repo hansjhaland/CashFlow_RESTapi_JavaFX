@@ -17,15 +17,9 @@ public abstract class AbstractAccount {
 
         this.owner = owner;
 
-        if (accountNumber < 1000 || accountNumber > 9999) {
-            throw new IllegalArgumentException("Accountnumber must be between 1000 and 9999, but was: " + accountNumber);
-        }
-        for (int exisitingAccountNumber : owner.getAccountNumbers()) {
-            if (exisitingAccountNumber == accountNumber) {
-                throw new IllegalArgumentException("The user already has an account with account number: " + accountNumber);
-            }
-        }
+        checkIfValidAccountNumber(accountNumber);
         this.accountNumber = accountNumber;
+
         owner.addAccount(this);
     }
 
@@ -68,6 +62,17 @@ public abstract class AbstractAccount {
         double newBalance = balance + amount;
         if (newBalance < 0) {
             throw new IllegalStateException("The balance of the account must be positive, but was: " + newBalance);
+        }
+    }
+
+    private void checkIfValidAccountNumber(int accountNumber) {
+        if (accountNumber < 1000 || accountNumber > 9999) {
+            throw new IllegalArgumentException("Accountnumber must be between 1000 and 9999, but was: " + accountNumber);
+        }
+        for (int exisitingAccountNumber : owner.getAccountNumbers()) {
+            if (exisitingAccountNumber == accountNumber) {
+                throw new IllegalArgumentException("The user already has an account with account number: " + accountNumber);
+            }
         }
     }
     

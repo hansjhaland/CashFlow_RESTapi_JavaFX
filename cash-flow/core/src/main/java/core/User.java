@@ -8,7 +8,6 @@ public class User {
     private String name;
     private final int UserID;
     private Collection<AbstractAccount> accounts = new ArrayList<>();
-    private Collection<Integer> accountNumbers = new ArrayList<>();
 
     //==============================================================================================
     // Contstructors
@@ -51,11 +50,10 @@ public class User {
      * @return {@code true} if the account was added
      */
     public boolean addAccount(AbstractAccount account) {
-        if (accountNumbers.contains(account.getAccountNumber())) {
+        if (getAccountNumbers().contains(account.getAccountNumber())) {
             return false;
         }
         accounts.add(account);
-        accountNumbers.add(account.getAccountNumber());
         return true;
     }
 
@@ -67,7 +65,6 @@ public class User {
      */
     public boolean removeAccount(AbstractAccount account) {
         if (accounts.remove(account)) {
-            accountNumbers.remove(account.getAccountNumber());
             return true;
         }
         return false;
@@ -106,7 +103,11 @@ public class User {
     }
 
     public Collection<Integer> getAccountNumbers() {
-        return new ArrayList<>(accountNumbers);
+        Collection<Integer> accountNumbers = new ArrayList<>();
+        for (AbstractAccount account : getAccounts()) {
+            accountNumbers.add(account.getAccountNumber());
+        }
+        return accountNumbers;
     }
     
     /**
@@ -119,5 +120,14 @@ public class User {
             throw new IllegalArgumentException("The name of the user must be 20 characters or less, but was: " + name.length());
         }
         this.name = name;
+    }
+
+    public static void main(String[] args) {
+        User test = new User(180900);
+        CheckingAccount a1 = new CheckingAccount("Arild", 100, 4353, test);
+        test.addAccount(a1);
+        CheckingAccount a2 = new CheckingAccount("Arild", 200, 4352, test);
+        test.addAccount(a2);
+        
     }
 }
