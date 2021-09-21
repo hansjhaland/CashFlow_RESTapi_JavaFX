@@ -19,14 +19,14 @@ import org.testfx.framework.junit5.ApplicationTest;
 /**
  * TestFX App test
  */
-public class AppTest extends ApplicationTest {
+public class CashFlowAppTest extends ApplicationTest {
 
-    private AppController controller;
+    private CashFlowController controller;
     private Parent root;
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("App.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("CashFlow.fxml"));
         root = fxmlLoader.load();
         controller = fxmlLoader.getController();
         stage.setScene(new Scene(root));
