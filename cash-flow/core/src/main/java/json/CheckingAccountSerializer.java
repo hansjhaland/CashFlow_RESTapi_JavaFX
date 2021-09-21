@@ -13,8 +13,9 @@ public class CheckingAccountSerializer extends JsonSerializer<CheckingAccount> {
     @Override
     public void serialize(CheckingAccount account, JsonGenerator jGen, SerializerProvider serializerProvider) throws IOException{
         jGen.writeStartObject();
-        jGen.writeStringField("start", account.getName());
-        jGen.writeStringField("end", null);
+        jGen.writeStringField("name", account.getName());
+        jGen.writeNumberField("balance", account.getBalance());
+        jGen.writeNumberField("accountNumber", account.getAccountNumber());
         jGen.writeEndObject();
     }
 }
