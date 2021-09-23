@@ -1,5 +1,7 @@
 package json;
 
+import java.util.Iterator;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -19,8 +21,10 @@ public class CashFlowModule extends SimpleModule {
         super(NAME, VERSION_UTIL.version());
         addSerializer(CheckingAccount.class, new CheckingAccountSerializer());
         addSerializer(User.class, new UserSerializer());
+        addDeserializer(CheckingAccount.class, new CheckingAccountDeserializer());
+        addDeserializer(User.class, new UserDeserializer());
     }
-
+   
     public static void main(String[] args) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new CashFlowModule());
@@ -28,9 +32,14 @@ public class CashFlowModule extends SimpleModule {
         user.setName("Hans");
         CheckingAccount account = new CheckingAccount("ac", 200, 5555, user);
         try{
-            System.out.println(mapper.writeValueAsString(user));
+            String json = mapper.writeValueAsString(user);
+            User user2 = mapper.readValue(json, User.class);
+            for (AbstractAccount account2 : user2.getAccounts()){
+                System.out.println(account2);
+            }
         } catch (JsonProcessingException e){
             System.out.println("Virket ikke");
+            e.printStackTrace();
         }
     }
 
