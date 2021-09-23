@@ -4,7 +4,7 @@ public abstract class AbstractAccount {
 
     private String name;
     private double balance;
-    private final int accountNumber;
+    private int accountNumber;
     private User owner;
 
     //==============================================================================================
@@ -22,6 +22,8 @@ public abstract class AbstractAccount {
 
         owner.addAccount(this);
     }
+
+    public AbstractAccount(){};
 
     //==============================================================================================
     // Functional methods
@@ -87,6 +89,12 @@ public abstract class AbstractAccount {
         }
     }
 
+    private void checkOwnerNotNull(User owner){
+        if (owner == null) {
+            throw new IllegalArgumentException("Cannot set owner to null");
+        }
+    }
+
     //==============================================================================================
     // Getters and setters
     //==============================================================================================
@@ -103,9 +111,28 @@ public abstract class AbstractAccount {
         return name;
     }
 
+    public User getOwner(){
+        return owner;
+    }
+
     public void setName(String name) {
         checkIfValidName(name);
         this.name = name;
+    }
+
+    public void setBalance(double amount) {
+        checkIfValidAmount(amount);
+        this.balance = amount;
+    }
+
+    public void setAccountNumber(int accountNumber) {
+        //checkIfValidAccountNumber(accountNumber);
+        this.accountNumber = accountNumber;
+    }
+
+    public void setOwner(User owner) {
+        checkOwnerNotNull(owner);
+        this.owner = owner;
     }
 
     @Override

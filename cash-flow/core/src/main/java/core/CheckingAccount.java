@@ -17,6 +17,10 @@ public class CheckingAccount extends AbstractAccount {
         super(name, accountNumber, owner);
         deposit(amount);
     }
+
+    public CheckingAccount() {
+        super();
+    }
     
     /**
      * Deposits the given amount in to the account.

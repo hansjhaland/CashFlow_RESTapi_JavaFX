@@ -6,21 +6,23 @@ import java.util.Collection;
 public class User {
 
     private String name;
-    private final int UserID;
+    private int userID;
     private Collection<AbstractAccount> accounts = new ArrayList<>();
 
     //==============================================================================================
     // Contstructors
     //==============================================================================================
     
+    public User(){}
+
     /**
      * Initializes a new User-object. UserID must be excactly 6 digits long (for example 180900).
      * @param UserID the users identification number
      * @throws IllegalArgumentException if the UserID is not excactly 6 digits long
      */
-    public User(int UserID) {
-        CheckIfValidUserID(UserID);
-        this.UserID = UserID;
+    public User(int userID) {
+        CheckIfValidUserID(userID);
+        this.userID = userID;
     }
     
     /**
@@ -31,9 +33,9 @@ public class User {
      * @param accounts the accounts to be added, given as a vararg
      * @throws IllegalArgumentException if the UserID is not excactly 6 digits long
      */
-    public User(int UserID, AbstractAccount... accounts) {
-        CheckIfValidUserID(UserID);
-        this.UserID = UserID;
+    public User(int userID, AbstractAccount... accounts) {
+        CheckIfValidUserID(userID);
+        this.userID = userID;
         for (AbstractAccount account : accounts) {
             addAccount(account);
         }
@@ -76,11 +78,11 @@ public class User {
     
     /**
      * Checks if the UserID is excactly 6 digits long.
-     * @param UserID the UserID to be checked
+     * @param userID the UserID to be checked
      * @throws IllegalArguementException if the UserID isn't excactly 6 digits long
      */
-    private void CheckIfValidUserID(int UserID) {
-        int numberOfDigits = (int)Math.log10(UserID)+1;
+    private void CheckIfValidUserID(int userID) {
+        int numberOfDigits = (int)Math.log10(userID)+1;
         if (numberOfDigits != 6) {
             throw new IllegalArgumentException("UserID must be an int with excactly 6 digits, but had: " + numberOfDigits + " digits.");
         }
@@ -95,7 +97,7 @@ public class User {
     }
 
     public int getUserID() {
-        return UserID;
+        return userID;
     }
 
     public Collection<AbstractAccount> getAccounts() {
@@ -120,6 +122,11 @@ public class User {
             throw new IllegalArgumentException("The name of the user must be 20 characters or less, but was: " + name.length());
         }
         this.name = name;
+    }
+
+    public void setUserID(int userID) {
+        CheckIfValidUserID(userID);
+        this.userID = userID;
     }
 
     public static void main(String[] args) {
