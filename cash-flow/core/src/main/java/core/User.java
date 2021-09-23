@@ -6,14 +6,12 @@ import java.util.Collection;
 public class User {
 
     private String name;
-    private int userID;
+    private final int userID;
     private Collection<AbstractAccount> accounts = new ArrayList<>();
 
     //==============================================================================================
     // Contstructors
     //==============================================================================================
-    
-    public User(){}
 
     /**
      * Initializes a new User-object. UserID must be excactly 6 digits long (for example 180900).
@@ -122,11 +120,6 @@ public class User {
             throw new IllegalArgumentException("The name of the user must be 20 characters or less, but was: " + name.length());
         }
         this.name = name;
-    }
-
-    public void setUserID(int userID) {
-        CheckIfValidUserID(userID);
-        this.userID = userID;
     }
 
     public static void main(String[] args) {

@@ -4,7 +4,7 @@ public abstract class AbstractAccount {
 
     private String name;
     private double balance;
-    private int accountNumber;
+    private final int accountNumber;
     private User owner;
 
     //==============================================================================================
@@ -23,7 +23,13 @@ public abstract class AbstractAccount {
         owner.addAccount(this);
     }
 
-    public AbstractAccount(){};
+    public AbstractAccount(String name, int accountNumber) {
+        checkIfValidName(name);
+        this.name = name;
+
+        checkIfValidAccountNumber(accountNumber);
+        this.accountNumber = accountNumber;
+    }
 
     //==============================================================================================
     // Functional methods
@@ -68,12 +74,14 @@ public abstract class AbstractAccount {
     }
 
     private void checkIfValidAccountNumber(int accountNumber) {
-        if (accountNumber < 1000 || accountNumber > 9999) {
-            throw new IllegalArgumentException("Accountnumber must be between 1000 and 9999, but was: " + accountNumber);
-        }
-        for (int exisitingAccountNumber : owner.getAccountNumbers()) {
-            if (exisitingAccountNumber == accountNumber) {
-                throw new IllegalArgumentException("The user already has an account with account number: " + accountNumber);
+        if (owner != null){
+            if (accountNumber < 1000 || accountNumber > 9999) {
+                throw new IllegalArgumentException("Accountnumber must be between 1000 and 9999, but was: " + accountNumber);
+            }
+            for (int exisitingAccountNumber : owner.getAccountNumbers()) {
+                if (exisitingAccountNumber == accountNumber) {
+                    throw new IllegalArgumentException("The user already has an account with account number: " + accountNumber);
+                }
             }
         }
     }
@@ -86,12 +94,6 @@ public abstract class AbstractAccount {
     private void checkIfValidAmount(double amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("The amount must be positive, but was: " + amount);
-        }
-    }
-
-    private void checkOwnerNotNull(User owner){
-        if (owner == null) {
-            throw new IllegalArgumentException("Cannot set owner to null");
         }
     }
 
@@ -120,18 +122,7 @@ public abstract class AbstractAccount {
         this.name = name;
     }
 
-    public void setBalance(double amount) {
-        checkIfValidAmount(amount);
-        this.balance = amount;
-    }
-
-    public void setAccountNumber(int accountNumber) {
-        //checkIfValidAccountNumber(accountNumber);
-        this.accountNumber = accountNumber;
-    }
-
     public void setOwner(User owner) {
-        checkOwnerNotNull(owner);
         this.owner = owner;
     }
 
