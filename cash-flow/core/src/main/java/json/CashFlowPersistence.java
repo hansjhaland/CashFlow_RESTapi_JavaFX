@@ -49,7 +49,7 @@ public class CashFlowPersistence {
         }
     }
 
-    public void saveTodoModel(User user) throws IOException, IllegalStateException {
+    public void saveUser(User user) throws IOException, IllegalStateException {
         checkSaveFilePath(saveFilePath);
         try (Writer writer = new FileWriter(saveFilePath.toFile(), StandardCharsets.UTF_8)) {
             writeUser(user, writer);
