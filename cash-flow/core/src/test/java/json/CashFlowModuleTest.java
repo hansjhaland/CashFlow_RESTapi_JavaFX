@@ -44,13 +44,13 @@ public class CashFlowModuleTest {
         }
     }
 
-    private void checkCheckingAccount(AbstractAccount account, String name, double balance, int accountNumber) {
+    public static void checkCheckingAccount(AbstractAccount account, String name, double balance, int accountNumber) {
         assertEquals(name, account.getName(), "Incorrect account name for account: " + account);
         assertTrue(balance == account.getBalance(), "Incorrect balance for account: " + account);
         assertTrue(accountNumber == account.getAccountNumber(), "Incorrect account number for account: " + account);
     }
 
-    private void checkCheckingAccount(AbstractAccount account1, AbstractAccount account2) {
+    public static void checkCheckingAccount(AbstractAccount account1, AbstractAccount account2) {
         checkCheckingAccount(account1, account2.getName(), account2.getBalance(), account2.getAccountNumber());
     }
 
