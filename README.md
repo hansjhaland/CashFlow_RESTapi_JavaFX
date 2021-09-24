@@ -19,3 +19,9 @@ FXML-filen finnes under resources-mappen.
 Til Gruppeinnlevering 1 har vi bare skrevet ferdig tester for json-klassene. Disse testklassene ligger i core-modulens test-mappe under json-mappen.
 Grunnen til at vi enda ikke har testet mer er at vi tolket oppgaven slik at vi bare trengte en test for å kjøre "mvn test". 
 Vi skal implementere tester for resten av klassene til neste release.
+
+# Hvordan kjøre appen
+ - Først må man gå inn i rot-mappen til prosjektet (.../gr2151/cash-flow).
+ - Deretter må man kjøre mvn install.
+ - Kjøre kommandoen "cd ui" for å komme inn i ui-mappen som skal kjøres (.../gr2151/cash-flow/ui).
+ - Kjøre kommandoen "mvn javafx:run".
