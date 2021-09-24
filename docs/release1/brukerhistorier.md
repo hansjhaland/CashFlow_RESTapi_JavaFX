@@ -1,5 +1,5 @@
 # Brukerhistorier
-Her samler vi brukerhistorier som har til hensikt å (av)dekke krav som systemet må tilfredsstille.
+Her samler vi brukerhistorier som har til hensikt å (av)dekke krav som systemet må tilfredsstille for Gruppeinnlevering 1.
 
 ## Innlevering 1
 
