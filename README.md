@@ -5,12 +5,14 @@
 # cash-flow-prosjektet
 
 Prosjektet ligger i mappen "cash-flow". 
+
 Vi har domenelogikk og json-hådtering plassert i core-modulen, i henholdsvis core- og json-mappene. 
-    - I core ligger javaklassene AbstractAccount, CheckingAccount, SavingsAccount, BSUAccount og User. SavingsAccount og BSUAccount skal implementeres i fremtiden.
-    - I json har vi serialiserings- og deserialiseringsklasser for CheckingAccount og User, samt en wrapper-klasse for disse og CashFlowPersistence for å håndtere persistens.
+I core ligger javaklassene AbstractAccount, CheckingAccount, SavingsAccount, BSUAccount og User. SavingsAccount og BSUAccount skal - implementeres i fremtiden.
+I json har vi serialiserings- og deserialiseringsklasser for CheckingAccount og User, samt en wrapper-klasse for disse og CashFlowPersistence for å håndtere persistens.
+
 Klasser og filer som omhandler GUI ligger i ui-modulen.
-    - App-klassen og kontrollerklassen finnes under ui-mappen.
-    - FXML-filen finnes under resources-mappen.
+App-klassen og kontrollerklassen finnes under ui-mappen.
+FXML-filen finnes under resources-mappen.
 
 # Testing
 
