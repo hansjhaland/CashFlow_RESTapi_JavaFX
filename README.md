@@ -4,4 +4,16 @@
 
 # cash-flow-prosjektet
 
-For å komme inn til prosjektet går man inn i mappen "cash-flow". Vi har core-logikk plassert i mappen "core", der vi har opprettet klassene AbstractAccount.java, BSUAccount.java, CheckingAccount.java, SavingsAccount.java, og User.java. Flere av disse klassene er enda ikke ferdig implementert, og skal jobbes videre med neste iterasjon. For utseendet av appen ligger koden i "ui"-mappen fxml filen er ferdig og samsvarer med CashFlowController.java som også er ferdig implementert. Kode for testing finner man i src/test/java/json og heter CashFlowModuleTest.java.
+Prosjektet ligger i mappen "cash-flow". 
+Vi har domenelogikk og json-hådtering plassert i core-modulen, i henholdsvis core- og json-mappene. 
+    - I core ligger javaklassene AbstractAccount, CheckingAccount, SavingsAccount, BSUAccount og User. SavingsAccount og BSUAccount skal implementeres i fremtiden.
+    - I json har vi serialiserings- og deserialiseringsklasser for CheckingAccount og User, samt en wrapper-klasse for disse og CashFlowPersistence for å håndtere persistens.
+Klasser og filer som omhandler GUI ligger i ui-modulen.
+    - App-klassen og kontrollerklassen finnes under ui-mappen.
+    - FXML-filen finnes under resources-mappen.
+
+# Testing
+
+Til Gruppeinnlevering 1 har vi bare skrevet ferdig tester for json-klassene. Disse testklassene ligger i core-modulens test-mappe under json-mappen.
+Grunnen til at vi enda ikke har testet mer er at vi tolket oppgaven slik at vi bare trengte en test for å kjøre "mvn test". 
+Vi skal implementere tester for resten av klassene til neste release.
