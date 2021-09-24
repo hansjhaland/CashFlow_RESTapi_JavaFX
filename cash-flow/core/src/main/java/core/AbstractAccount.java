@@ -17,16 +17,18 @@ public abstract class AbstractAccount {
 
         this.owner = owner;
 
-        if (accountNumber < 1000 || accountNumber > 9999) {
-            throw new IllegalArgumentException("Accountnumber must be between 1000 and 9999, but was: " + accountNumber);
-        }
-        for (int exisitingAccountNumber : owner.getAccountNumbers()) {
-            if (exisitingAccountNumber == accountNumber) {
-                throw new IllegalArgumentException("The user already has an account with account number: " + accountNumber);
-            }
-        }
+        checkIfValidAccountNumber(accountNumber);
         this.accountNumber = accountNumber;
+
         owner.addAccount(this);
+    }
+
+    public AbstractAccount(String name, int accountNumber) {
+        checkIfValidName(name);
+        this.name = name;
+
+        checkIfValidAccountNumber(accountNumber);
+        this.accountNumber = accountNumber;
     }
 
     //==============================================================================================
@@ -70,6 +72,19 @@ public abstract class AbstractAccount {
             throw new IllegalStateException("The balance of the account must be positive, but was: " + newBalance);
         }
     }
+
+    private void checkIfValidAccountNumber(int accountNumber) {
+        if (owner != null){
+            if (accountNumber < 1000 || accountNumber > 9999) {
+                throw new IllegalArgumentException("Accountnumber must be between 1000 and 9999, but was: " + accountNumber);
+            }
+            for (int exisitingAccountNumber : owner.getAccountNumbers()) {
+                if (exisitingAccountNumber == accountNumber) {
+                    throw new IllegalArgumentException("The user already has an account with account number: " + accountNumber);
+                }
+            }
+        }
+    }
     
     /**
      * Checks if the amount is positive.
@@ -98,9 +113,17 @@ public abstract class AbstractAccount {
         return name;
     }
 
+    public User getOwner(){
+        return owner;
+    }
+
     public void setName(String name) {
         checkIfValidName(name);
         this.name = name;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     @Override
