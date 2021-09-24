@@ -99,7 +99,7 @@ private void updateAccountView(){
 }
 
 private void save() {
-    cfp.setSaveFilePath("SaveData");
+    cfp.setSaveFilePath("SaveData.json");
     try {
         cfp.saveUser(user);
     } catch (IllegalStateException e) {
@@ -110,7 +110,7 @@ private void save() {
 }
 
 private void load() {
-    cfp.setSaveFilePath("SaveData");
+    cfp.setSaveFilePath("SaveData.json");
     try {
         user = cfp.loadUser();
     } catch (IllegalStateException e) {
