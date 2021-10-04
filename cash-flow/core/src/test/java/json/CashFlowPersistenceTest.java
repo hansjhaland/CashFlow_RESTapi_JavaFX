@@ -9,7 +9,14 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.util.Iterator;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.io.TempDir;
+
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +28,22 @@ import core.User;
 public class CashFlowPersistenceTest {
     
     private CashFlowPersistence cashFlowPersistence = new CashFlowPersistence();
+    User user1;
+    AbstractAccount account1, account2;
+
+    @TempDir
+    Path tempDir;
+
+    @BeforeEach
+    public void setUp(){
+        user1 = new User(123456);
+        user1.setName("name");
+        account1 = new CheckingAccount("ac1", 100.0, 5555, user1);
+        account2 = new CheckingAccount("ac2", 200.0, 1234, user1);
+    }
 
     @Test
     public void testSerializersDeserializers() {
-        User user1 = new User(123456);
-        user1.setName("name");
-        AbstractAccount account1 = new CheckingAccount("ac1", 100.0, 5555, user1);
-        AbstractAccount account2 = new CheckingAccount("ac2", 200.0, 1234, user1);
         try {
             StringWriter writer = new StringWriter();
             cashFlowPersistence.writeUser(user1, writer);
