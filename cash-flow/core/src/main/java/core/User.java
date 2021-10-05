@@ -109,9 +109,25 @@ public class User {
         }
         return accountNumbers;
     }
+
+    /**
+     * Returns the account with the coresponding account number, if the user has an account
+     * with this account number. If not, it returns null.
+     * @param accountNumber the account number of the account you wish to find
+     * @return the account with the account number, or null if the 
+     * account number doesn't excist
+     */
+    public AbstractAccount getAccount(int accountNumber) {
+        AbstractAccount account = getAccounts()
+                                  .stream()
+                                  .filter(existingAccount -> existingAccount.getAccountNumber() == accountNumber)
+                                  .findAny().orElse(null);            
+        return account;
+    }
     
     /**
-     * Changes the name of the user. Name must be 20 characters or less.
+     * Changes the name of the user. Name must be 20 characters or less, and can only consist
+     * of letters and spaces.
      * @param name the name you wish to change to
      * @throws IllegalArgumentException if the name is more than 20 characters long
      */
@@ -119,8 +135,22 @@ public class User {
         if (name.length() > 20) {
             throw new IllegalArgumentException("The name of the user must be 20 characters or less, but was: " + name.length());
         }
+        if (!onlyLettersAndSpaces(name)) {
+            throw new IllegalArgumentException("The name '" + name + "' can only consist of letters and spaces");
+        }
         this.name = name;
     }
+
+    public static boolean onlyLettersAndSpaces(String s){
+        for(int i = 0; i < s.length(); i++){
+          char ch = s.charAt(i);
+          if (Character.isLetter(ch) || ch == ' ') {
+            continue;
+          }
+          return false;
+        }
+        return true;
+      }
 
     public static void main(String[] args) {
         User test = new User(180900);

@@ -1,5 +1,6 @@
 package core;
 
+
 public abstract class AbstractAccount {
 
     private String name;
@@ -18,17 +19,24 @@ public abstract class AbstractAccount {
         this.owner = owner;
 
         checkIfValidAccountNumber(accountNumber);
+        checkIfAccountNumberIsTaken(accountNumber);
         this.accountNumber = accountNumber;
 
         owner.addAccount(this);
     }
 
-    public AbstractAccount(String name, int accountNumber) {
+    public AbstractAccount(String name, User owner) {
         checkIfValidName(name);
         this.name = name;
 
-        checkIfValidAccountNumber(accountNumber);
-        this.accountNumber = accountNumber;
+        this.owner = owner;
+
+        int availableAccountNumber = getNextAvailableAccountNumber(owner);
+        if (availableAccountNumber == -1) {
+            throw new IllegalStateException("This user has reached the maximum number of account");
+        }
+        accountNumber = availableAccountNumber;
+        
     }
 
     //==============================================================================================
@@ -44,6 +52,17 @@ public abstract class AbstractAccount {
         checkIfValidAmount(amount);
         checkIfValidBalance(-amount);
         this.balance -= amount;
+    }
+
+    private int getNextAvailableAccountNumber(User user) {
+        if (user != null) {
+            for (int number = 1000; number < 10000; number++) {
+                if (!user.getAccountNumbers().contains(number)) {
+                    return number;
+                }
+            }
+        }
+        return -1;
     }
     
     //==============================================================================================
@@ -78,9 +97,14 @@ public abstract class AbstractAccount {
             if (accountNumber < 1000 || accountNumber > 9999) {
                 throw new IllegalArgumentException("Accountnumber must be between 1000 and 9999, but was: " + accountNumber);
             }
+        }
+    }
+
+    private void checkIfAccountNumberIsTaken(int accountNumber) {
+        if (owner != null){
             for (int exisitingAccountNumber : owner.getAccountNumbers()) {
                 if (exisitingAccountNumber == accountNumber) {
-                    throw new IllegalArgumentException("The user already has an account with account number: " + accountNumber);
+                    throw new IllegalStateException("The user already has an account with account number: " + accountNumber);
                 }
             }
         }

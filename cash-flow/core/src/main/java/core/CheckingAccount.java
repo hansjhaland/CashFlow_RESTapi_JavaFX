@@ -18,10 +18,6 @@ public class CheckingAccount extends AbstractAccount {
         deposit(amount);
     }
 
-    public CheckingAccount(String name, double amount, int accountNumber) {
-        super(name, accountNumber);
-        deposit(amount);
-    }
     
     /**
      * Deposits the given amount in to the account.
