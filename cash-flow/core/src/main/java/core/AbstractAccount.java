@@ -19,12 +19,12 @@ public abstract class AbstractAccount {
         this.owner = owner;
 
         checkIfValidAccountNumber(accountNumber);
-        checkIfAccountNumberIsTaken(accountNumber);
-        this.accountNumber = accountNumber;
-
-        if(owner != null){
+        if (owner != null){
+            owner.checkIfAccountNumberIsTaken(accountNumber);
             owner.addAccount(this);
         }
+        this.accountNumber = accountNumber;
+
     }
 
     public AbstractAccount(String name, User owner) {
@@ -101,16 +101,6 @@ public abstract class AbstractAccount {
         if (owner != null){
             if (accountNumber < 1000 || accountNumber > 9999) {
                 throw new IllegalArgumentException("Accountnumber must be between 1000 and 9999, but was: " + accountNumber);
-            }
-        }
-    }
-
-    private void checkIfAccountNumberIsTaken(int accountNumber) {
-        if (owner != null){
-            for (int exisitingAccountNumber : owner.getAccountNumbers()) {
-                if (exisitingAccountNumber == accountNumber) {
-                    throw new IllegalStateException("The user already has an account with account number: " + accountNumber);
-                }
             }
         }
     }

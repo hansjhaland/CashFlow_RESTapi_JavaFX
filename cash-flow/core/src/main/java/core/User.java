@@ -86,6 +86,14 @@ public class User {
         }
     }
 
+    public void checkIfAccountNumberIsTaken(int accountNumber) {
+        for (int exisitingAccountNumber : getAccountNumbers()) {
+            if (exisitingAccountNumber == accountNumber) {
+                throw new IllegalStateException("The user already has an account with account number: " + accountNumber);
+            }
+        }
+    }
+
     //==============================================================================================
     // Getters and setters
     //==============================================================================================
@@ -151,6 +159,8 @@ public class User {
         }
         return true;
       }
+
+
 
     public static void main(String[] args) {
         User test = new User(180900);
