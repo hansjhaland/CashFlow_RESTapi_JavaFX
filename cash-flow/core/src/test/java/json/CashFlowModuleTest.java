@@ -28,13 +28,13 @@ public class CashFlowModuleTest {
         mapper.registerModule(new CashFlowModule());
     }
 
-    private final static String userWithOneAccount  = "{\"name\":\"name1\",\"userID\":123456,\"accounts\":[{\"name\":\"ac1\",\"balance\":200.0,\"accountNumber\":5555}]}";
-    private final static String userWithTwoAccounts = "{\"name\":\"name2\",\"userID\":654321,\"accounts\":[{\"name\":\"ac1\",\"balance\":200.0,\"accountNumber\":5555},{\"name\":\"ac2\",\"balance\":100.0,\"accountNumber\":1234}]}";
+    private final static String userWithOneAccount  = "{\"name\":\"nameA\",\"userID\":123456,\"accounts\":[{\"name\":\"ac1\",\"balance\":200.0,\"accountNumber\":5555}]}";
+    private final static String userWithTwoAccounts = "{\"name\":\"nameB\",\"userID\":654321,\"accounts\":[{\"name\":\"ac1\",\"balance\":200.0,\"accountNumber\":5555},{\"name\":\"ac2\",\"balance\":100.0,\"accountNumber\":1234}]}";
 
     @Test
     public void testCheckingAccountAndUserSerializers(){
         User user = new User(123456);
-        user.setName("name1");
+        user.setName("nameA");
         CheckingAccount account = new CheckingAccount("ac1", 200, 5555, user);
         try{
             assertEquals(userWithOneAccount, mapper.writeValueAsString(user), 
@@ -58,7 +58,7 @@ public class CashFlowModuleTest {
     public void testCheckingAccountAndUserDeserializers(){
         try {
             User user = mapper.readValue(userWithTwoAccounts, User.class);
-            assertEquals("name2", user.getName());
+            assertEquals("nameB", user.getName());
             assertTrue(654321 == user.getUserID());
             Iterator<AbstractAccount> it = user.getAccounts().iterator();
             AbstractAccount account = null;
@@ -79,7 +79,7 @@ public class CashFlowModuleTest {
     @Test
     public void testCheckingAccountAndUserSerializersDeserializers() {
         User user1 = new User(123456);
-        user1.setName("name1");
+        user1.setName("nameA");
         AbstractAccount account1 = new CheckingAccount("ac1", 200, 5555, user1);
         AbstractAccount account2 = new CheckingAccount("ac2", 100, 1234, user1);
         try{

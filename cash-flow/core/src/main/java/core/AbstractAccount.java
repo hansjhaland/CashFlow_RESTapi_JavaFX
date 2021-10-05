@@ -22,7 +22,9 @@ public abstract class AbstractAccount {
         checkIfAccountNumberIsTaken(accountNumber);
         this.accountNumber = accountNumber;
 
-        owner.addAccount(this);
+        if(owner != null){
+            owner.addAccount(this);
+        }
     }
 
     public AbstractAccount(String name, User owner) {
