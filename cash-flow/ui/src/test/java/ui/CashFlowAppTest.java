@@ -32,4 +32,5 @@ public class CashFlowAppTest extends ApplicationTest {
         stage.setScene(new Scene(root));
         stage.show();
     }
+
 }
