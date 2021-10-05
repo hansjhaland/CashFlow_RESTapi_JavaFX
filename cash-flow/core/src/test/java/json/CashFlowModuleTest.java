@@ -1,7 +1,6 @@
 package json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -28,14 +27,14 @@ public class CashFlowModuleTest {
         mapper.registerModule(new CashFlowModule());
     }
 
-    private final static String userWithOneAccount  = "{\"name\":\"nameA\",\"userID\":123456,\"accounts\":[{\"name\":\"ac1\",\"balance\":200.0,\"accountNumber\":5555}]}";
-    private final static String userWithTwoAccounts = "{\"name\":\"nameB\",\"userID\":654321,\"accounts\":[{\"name\":\"ac1\",\"balance\":200.0,\"accountNumber\":5555},{\"name\":\"ac2\",\"balance\":100.0,\"accountNumber\":1234}]}";
+    private final static String userWithOneAccount  = "{\"name\":\"nameA\",\"userID\":123456,\"accounts\":[{\"name\":\"acA\",\"balance\":200.0,\"accountNumber\":5555}]}";
+    private final static String userWithTwoAccounts = "{\"name\":\"nameB\",\"userID\":654321,\"accounts\":[{\"name\":\"acA\",\"balance\":200.0,\"accountNumber\":5555},{\"name\":\"acB\",\"balance\":100.0,\"accountNumber\":1234}]}";
 
     @Test
     public void testCheckingAccountAndUserSerializers(){
         User user = new User(123456);
         user.setName("nameA");
-        CheckingAccount account = new CheckingAccount("ac1", 200, 5555, user);
+        CheckingAccount account = new CheckingAccount("acA", 200, 5555, user);
         try{
             assertEquals(userWithOneAccount, mapper.writeValueAsString(user), 
                 "Incorrect serialization of User and/or CheckingAccount!");
@@ -64,11 +63,11 @@ public class CashFlowModuleTest {
             AbstractAccount account = null;
             assertTrue(it.hasNext());
             account = it.next();
-            checkCheckingAccount(account, "ac1", 200.0, 5555);
+            checkCheckingAccount(account, "acA", 200.0, 5555);
             assertEquals(user.getUserID(), account.getOwnerID());
             assertTrue(it.hasNext());
             account = it.next();
-            checkCheckingAccount(account, "ac2", 100.0, 1234);
+            checkCheckingAccount(account, "acB", 100.0, 1234);
             assertEquals(user.getUserID(), account.getOwnerID());
             assertFalse(it.hasNext());
         } catch (JsonProcessingException e){
@@ -80,8 +79,8 @@ public class CashFlowModuleTest {
     public void testCheckingAccountAndUserSerializersDeserializers() {
         User user1 = new User(123456);
         user1.setName("nameA");
-        AbstractAccount account1 = new CheckingAccount("ac1", 200, 5555, user1);
-        AbstractAccount account2 = new CheckingAccount("ac2", 100, 1234, user1);
+        AbstractAccount account1 = new CheckingAccount("acA", 200, 5555, user1);
+        AbstractAccount account2 = new CheckingAccount("acB", 100, 1234, user1);
         try{
             String json = mapper.writeValueAsString(user1);
             User user2 = mapper.readValue(json, User.class);

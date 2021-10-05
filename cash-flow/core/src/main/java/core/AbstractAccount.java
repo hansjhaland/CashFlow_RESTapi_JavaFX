@@ -80,6 +80,9 @@ public abstract class AbstractAccount {
         if (name.length() > 20) {
             throw new IllegalArgumentException("The name of the account must be 20 characters or less, but was: " + name.length());
         }
+        if (!User.onlyLettersAndSpaces(name)){
+            throw new IllegalArgumentException("The name '" + name + "' can only consist of letters and spaces");
+        }
     }
     
     /**
