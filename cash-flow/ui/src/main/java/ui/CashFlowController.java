@@ -32,6 +32,8 @@ private Random ran = new Random();
 
 public void initialize() {
     kontoer.setEditable(false);
+    navnKonto.setEditable(true);
+    settBelop.setEditable(true);
     updateAccountView();
 }
 
@@ -42,10 +44,19 @@ private void onCreateAccount() {
         feilmelding.setText("Husk å fylle inn alle felt");
     }
 
-    else if (!onlyLetters(this.navnKonto.getText())){
+    else if (!this.navnKonto.getText().isBlank()) {
+        try {
+            user.setName(this.navnKonto.getText());
+        } catch (IllegalArgumentException e) {
+            clear();
+            feilmelding.setText("Du kan ikke bruke tall eller tegn i navnet");
+        }
+    }
+
+    /*else if (!onlyLetters(this.navnKonto.getText())){
         clear();
         feilmelding.setText("Du kan ikke bruke tall eller tegn i navnet");
-    }
+    }*/
 
     else if (!this.settBelop.getText().matches("[0-9]+")){
         clear();
@@ -69,7 +80,8 @@ private void clear() {
     feilmelding.setText("");
 }
 
-@FXML
+
+/*@FXML
 private boolean onlyLetters(String s){
     for(int i = 0; i < s.length(); i++){
         char ch = s.charAt(i);
@@ -79,7 +91,7 @@ private boolean onlyLetters(String s){
         return false;
     }
     return true;
-}
+}*/
 
 @FXML
 private void updateAccountView(){
