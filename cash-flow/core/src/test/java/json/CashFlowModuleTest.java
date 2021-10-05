@@ -65,11 +65,11 @@ public class CashFlowModuleTest {
             assertTrue(it.hasNext());
             account = it.next();
             checkCheckingAccount(account, "ac1", 200.0, 5555);
-            assertEquals(user, account.getOwner());
+            assertEquals(user.getUserID(), account.getOwnerID());
             assertTrue(it.hasNext());
             account = it.next();
             checkCheckingAccount(account, "ac2", 100.0, 1234);
-            assertEquals(user, account.getOwner());
+            assertEquals(user.getUserID(), account.getOwnerID());
             assertFalse(it.hasNext());
         } catch (JsonProcessingException e){
             fail("Throws JsonProcessingException");

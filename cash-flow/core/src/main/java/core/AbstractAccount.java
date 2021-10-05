@@ -113,8 +113,8 @@ public abstract class AbstractAccount {
         return name;
     }
 
-    public User getOwner(){
-        return owner;
+    public int getOwnerID(){
+        return owner.getUserID();
     }
 
     public void setName(String name) {
