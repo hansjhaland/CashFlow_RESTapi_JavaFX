@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +18,9 @@ public class GeneralAccountTest {
     @BeforeEach
     public void setUp() {
         User user = new User(180900);
+        user.setName("user");
         AbstractAccount test = new CheckingAccount("Kontonavn", 0, 1000);
+        test.setName("test");
     }
 
     @Test
