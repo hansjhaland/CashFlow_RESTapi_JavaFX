@@ -17,4 +17,9 @@ public class SavingsAccount extends AbstractAccount {
         // TODO Auto-generated method stub
         
     }
+
+    public void getNumberOfWithdrawals() {
+        // TODO 
+    }
+
 }

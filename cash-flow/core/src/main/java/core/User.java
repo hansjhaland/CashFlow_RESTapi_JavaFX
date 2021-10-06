@@ -23,10 +23,11 @@ public class User {
         this.userID = userID;
     }
     
+
+    //Er mulig man ikke trenger denne konstruktøren!
     /**
      * Initializes a new User-object. UserID must be excactly 6 digits long (for example 180900).
-     * Also adds the given accounts to the users list of accounts and the account numbers to the
-     * users list of account numbers.
+     * Also adds the given accounts to the users list of accounts
      * @param UserID the users identification number
      * @param accounts the accounts to be added, given as a vararg
      * @throws IllegalArgumentException if the UserID is not excactly 6 digits long
