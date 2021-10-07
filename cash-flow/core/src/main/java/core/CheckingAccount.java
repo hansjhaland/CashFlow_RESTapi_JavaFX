@@ -15,8 +15,14 @@ public class CheckingAccount extends AbstractAccount {
      */
     public CheckingAccount(String name, double amount, int accountNumber, User owner) {
         super(name, accountNumber, owner);
-        deposit(amount);
+        initialDeposit(amount);
     }
+
+    public CheckingAccount(String name, double amount, User owner) {
+        super(name, owner);
+        initialDeposit(amount);
+    }
+
 
     
     /**
@@ -25,8 +31,8 @@ public class CheckingAccount extends AbstractAccount {
      * @throws IllegalArgumentException if the given amount is negative
      */
     @Override
-    public void deposit(double amount) {
-        super.deposit(amount);
+    public boolean deposit(double amount) {
+        return super.deposit(amount);
     }
     
     /**
@@ -36,8 +42,8 @@ public class CheckingAccount extends AbstractAccount {
      * @throws IllegalStateException if the withdrawal of the amount leads to the balance being negative
      */
     @Override
-    public void withdraw(double amount) {
-        super.withdraw(amount);
+    public boolean withdraw(double amount) {
+        return super.withdraw(amount);
         
     }
 }
