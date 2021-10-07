@@ -56,7 +56,7 @@ private void onCreateAccount() {
         clear();
         kontoOpprettet.setText("Kontoen er opprettet");
         kontoOversikt.add(navnKonto.getText() + ":" + settBelop.getText());
-        AbstractAccount account = new CheckingAccount(navnKonto.getText(), Double.valueOf(settBelop.getText()), 1000 + ran.nextInt(8999));
+        AbstractAccount account = new CheckingAccount(navnKonto.getText(), Double.valueOf(settBelop.getText()), 1000 + ran.nextInt(8999), user);
         user.addAccount(account);
         save();
         updateAccountView();
