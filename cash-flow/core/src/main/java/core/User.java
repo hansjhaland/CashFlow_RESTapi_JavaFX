@@ -54,6 +54,9 @@ public class User {
         if (getAccountNumbers().contains(account.getAccountNumber())) {
             return false;
         }
+        if (account.getOwnerID() != -1) { //this means that some other user already owns this account
+            account.removeOwnersOwnershipOfAccount();
+        }
         accounts.add(account);
         return true;
     }
@@ -76,14 +79,22 @@ public class User {
     //==============================================================================================
     
     /**
-     * Checks if the UserID is excactly 6 digits long.
+     * Checks if the UserID is between 100000 and 999999.
      * @param userID the UserID to be checked
-     * @throws IllegalArguementException if the UserID isn't excactly 6 digits long
+     * @throws IllegalArguementException if the UserID isn't between 100000 and 999999
      */
     private void CheckIfValidUserID(int userID) {
         int numberOfDigits = (int)Math.log10(userID)+1;
         if (numberOfDigits != 6) {
-            throw new IllegalArgumentException("UserID must be an int with excactly 6 digits, but had: " + numberOfDigits + " digits.");
+            throw new IllegalArgumentException("UserID must be between 100000 and 999999, but had: " + numberOfDigits + " digits.");
+        }
+    }
+
+    public void checkIfAccountNumberIsTaken(int accountNumber) {
+        for (int exisitingAccountNumber : getAccountNumbers()) {
+            if (exisitingAccountNumber == accountNumber) {
+                throw new IllegalStateException("The user already has an account with account number: " + accountNumber);
+            }
         }
     }
 
@@ -110,9 +121,25 @@ public class User {
         }
         return accountNumbers;
     }
+
+    /**
+     * Returns the account with the coresponding account number, if the user has an account
+     * with this account number. If not, it returns {@code null}.
+     * @param accountNumber the account number of the account you wish to find
+     * @return the account with the account number, or {@code null} if the 
+     * account number doesn't excist
+     */
+    public AbstractAccount getAccount(int accountNumber) {
+        AbstractAccount account = getAccounts()
+                                  .stream()
+                                  .filter(existingAccount -> existingAccount.getAccountNumber() == accountNumber)
+                                  .findAny().orElse(null);            
+        return account;
+    }
     
     /**
-     * Changes the name of the user. Name must be 20 characters or less.
+     * Changes the name of the user. Name must be 20 characters or less, and can only consist
+     * of letters and spaces.
      * @param name the name you wish to change to
      * @throws IllegalArgumentException if the name is more than 20 characters long
      */
@@ -120,8 +147,24 @@ public class User {
         if (name.length() > 20) {
             throw new IllegalArgumentException("The name of the user must be 20 characters or less, but was: " + name.length());
         }
+        if (!onlyLettersAndSpaces(name)) {
+            throw new IllegalArgumentException("The name '" + name + "' can only consist of letters and spaces");
+        }
         this.name = name;
     }
+
+    public static boolean onlyLettersAndSpaces(String s){
+        for(int i = 0; i < s.length(); i++){
+          char ch = s.charAt(i);
+          if (Character.isLetter(ch) || ch == ' ') {
+            continue;
+          }
+          return false;
+        }
+        return true;
+      }
+
+
 
     public static void main(String[] args) {
         User test = new User(180900);
