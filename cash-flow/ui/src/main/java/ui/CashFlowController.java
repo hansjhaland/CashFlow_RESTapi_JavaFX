@@ -22,8 +22,10 @@ public class CashFlowController {
 
 @FXML private TextField navnKonto, settBelop;
 @FXML private TextArea kontoer;
-@FXML private Button opprettKonto;
+@FXML private Button opprettKonto, detaljerOgOverføringer;
 @FXML private Text kontoOpprettet, feilmelding;
+
+
 
 private static List<String> kontoOversikt = new ArrayList<String>();
 private User user = new User(123456);
