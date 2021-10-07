@@ -9,7 +9,7 @@ For å få til dette trengs det en ekstra side for detaljer og overføringer, og
 
 # Designdokumentasjon
 ## Forside
-![Bilde av forside](img/forside.png "Forside")
+![Bilde av forside](img/forside.PNG "Forside")
 1. Inntastingsfelt for å skrive inn navn på kontoen.
 2. Inntastingsfelt for å skrive inn startbeløp som skal settes inn ved opprettelse av kontoen. Det på forhånd fylt ut med “0.0”.
 3. Knapp for å opprette kontoen. Kontoinformasjonen lagres og vises i oversiktsfeltet (6).
@@ -20,7 +20,7 @@ For å få til dette trengs det en ekstra side for detaljer og overføringer, og
 8. Knapp for å komme til siden for kontodetaljer og overføring
 
 ## Detaljer og overføringer
-![Bilde av detaljer- og overføringsside](img/detaljerOverforinger.png "Detaljer og overføringer")
+![Bilde av detaljer- og overføringsside](img/detaljerOverforinger.PNG "Detaljer og overføringer")
 
 9. Nedtreksmeny for valg av hvilken konto sine kontodetaljer man vil se
 10. Oversikt over kontohistorikken til valgt konto
