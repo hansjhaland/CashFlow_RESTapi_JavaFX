@@ -42,8 +42,11 @@ private CashFlowPersistence cfp = new CashFlowPersistence();
 private Random ran = new Random();
 
 public void initialize() {
-    kontoer.setEditable(false);
-    updateAccountView();
+    if (this.kontoer != null) {
+        kontoer.setEditable(false);
+        updateAccountView();
+    }
+    
 }
 
 @FXML
@@ -134,7 +137,7 @@ private void load() {
 @FXML
 private void onNextPage() throws IOException {
     Stage stage = (Stage) detaljerOgOverforinger.getScene().getWindow();
-    //stage.close();
+    stage.close();
     Stage primaryStage = new Stage();
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DetaljerOgOverforinger.fxml"));
     Parent parent = fxmlLoader.load();
