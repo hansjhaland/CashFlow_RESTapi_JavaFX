@@ -24,10 +24,11 @@
       <Text layoutX="193.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kontoer" />
       <Button fx:id="opprettKonto" layoutX="20.0" layoutY="188.0" mnemonicParsing="false" onAction="#onCreateAccount" text="Opprett konto" />
       <TextArea fx:id="kontoer" layoutX="193.0" layoutY="101.0" prefHeight="258.0" prefWidth="178.0" />
-      <Button fx:id="detaljerOgOverføringer" layoutX="213.0" layoutY="375.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="138.0" text="Detaljer og overføringer">
+      <Button fx:id="detaljerOgOverføringer" layoutX="213.0" layoutY="377.0" mnemonicParsing="false" onAction="#onNextPage" prefHeight="42.0" prefWidth="138.0" text="Detaljer og overføringer">
          <font>
             <Font size="12.0" />
          </font>
       </Button>
+      <Button fx:id="avsluttApp" layoutX="14.0" layoutY="427.0" mnemonicParsing="false" onAction="#onCloseApp" text="Avslutt" />
    </children>
 </AnchorPane>

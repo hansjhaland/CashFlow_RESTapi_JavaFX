@@ -2,12 +2,18 @@ package ui;
 
 
 import javafx.fxml.FXML;
+import javafx.application.Application;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.text.Text;
 import json.CashFlowPersistence;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,10 +26,12 @@ import core.CheckingAccount;
 
 public class CashFlowController {
 
-@FXML private TextField navnKonto, settBelop;
-@FXML private TextArea kontoer;
-@FXML private Button opprettKonto, detaljerOgOverføringer;
+@FXML private TextField navnKonto, settBelop, overførBeløp;
+@FXML private TextArea kontoer, kontoHistorikk;
+@FXML private Button opprettKonto, detaljerOgOverføringer, avsluttApp, tilHovedside, overfør;
 @FXML private Text kontoOpprettet, feilmelding;
+@FXML private ChoiceBox velgKonto, overførKonto;
+
 
 
 
@@ -120,6 +128,26 @@ private void load() {
     } catch (IOException e) {
         feilmelding.setText("Bankkontoene ble ikke funnet.");
     }
+}
+
+@FXML
+private void onNextPage() throws IOException {
+    Stage stage = (Stage) detaljerOgOverføringer.getScene().getWindow();
+    stage.close();
+    Stage primaryStage = new Stage();
+    FXMLLoader fxmlLoader = new FXMLLoader(primaryStage.getClass().getResource("DetaljerOgOverføringer.fxml"));
+    Parent parent = fxmlLoader.load();
+    primaryStage.setScene(new Scene(parent));
+    primaryStage.show();
+    
+
+}
+
+@FXML
+private void onCloseApp() {
+    Stage stage = (Stage) avsluttApp.getScene().getWindow();
+    stage.close();
+
 }
 
 
