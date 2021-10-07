@@ -5,15 +5,25 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.testfx.framework.junit5.ApplicationTest;
 
-import core.User;
 import core.AbstractAccount;
-import core.CheckingAccount;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
-public class CashFlowControllerTest{
+public class CashFlowControllerTest extends ApplicationTest{
     
     private CashFlowController controller;
 
+    @Override
+    public void start(final Stage stage) throws Exception {
+    final FXMLLoader loader = new FXMLLoader(getClass().getResource("TodoList_test.fxml"));
+    final Parent root = loader.load();
+    this.controller = loader.getController();
+    stage.setScene(new Scene(root));
+    stage.show();
+  }
 
     @BeforeEach
     public void setUp() {
@@ -29,13 +39,7 @@ public class CashFlowControllerTest{
     
     @Test
     public void testOnlyLetters() {
-        //String konto = "konto";
-        User user = new User(123456);
-        /*AbstractAccount account = new CheckingAccount(konto,12,1000);
-        User user = new User(1000,new AbstractAccount[]{account});*/
-        user.setName("name");
-
-
-        assertEquals(user.getUserID(),123456,"sjekker om konto ID er riktig");
+        String name = "Account";
+        click
     }
 }

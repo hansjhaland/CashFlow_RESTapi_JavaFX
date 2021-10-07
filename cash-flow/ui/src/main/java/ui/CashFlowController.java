@@ -20,15 +20,16 @@ import core.CheckingAccount;
 
 public class CashFlowController {
 
-@FXML private TextField navnKonto, settBelop;
-@FXML private TextArea kontoer;
-@FXML private Button opprettKonto;
-@FXML private Text kontoOpprettet, feilmelding;
+@FXML TextField navnKonto, settBelop;
+@FXML TextArea kontoer;
+@FXML Button opprettKonto;
+@FXML Text kontoOpprettet, feilmelding;
 
-private static List<String> kontoOversikt = new ArrayList<String>();
+private List<String> kontoOversikt = new ArrayList<String>();
 private User user = new User(123456);
 private CashFlowPersistence cfp = new CashFlowPersistence();
 private Random ran = new Random();
+private AbstractAccount abstractAccount;
 
 public void initialize() {
     kontoer.setEditable(false);
@@ -37,20 +38,27 @@ public void initialize() {
 
 @FXML
 private void onCreateAccount() {
-    if (this.navnKonto.getText().isBlank() || this.settBelop.getText().isBlank()) {
+    String name = this.navnKonto.getText();
+    String amount = this.settBelop.getText();
+    if (name.isBlank() || amount.isBlank()) {
         clear();
         feilmelding.setText("Husk å fylle inn alle felt");
     }
 
-    else if (!onlyLetters(this.navnKonto.getText())){
+    else if (checkIfThrowsException(name, null) == false) {
         clear();
         feilmelding.setText("Du kan ikke bruke tall eller tegn i navnet");
     }
-
-    else if (!this.settBelop.getText().matches("[0-9]+")){
+    
+    else if (checkIfThrowsException(null, amount) == false) {
         clear();
         feilmelding.setText("Beløpet må bestå av tall");
     }
+
+    /*else if (!amount.matches("[0-9]+")){
+        clear();
+        feilmelding.setText("Beløpet må bestå av tall");
+    }*/
     
     else {
         clear();
@@ -63,13 +71,35 @@ private void onCreateAccount() {
     } 
 }
 
+private boolean checkIfThrowsException(String name, String amount) {
+    if (name == null && amount != null) {
+        try {
+            abstractAccount.checkIfValidBalance(amount);
+            return true;
+        } catch (IllegalStateException e) {
+            return false;
+        }
+    }
+    else if (name != null && amount == null) {
+        try {
+            abstractAccount.checkIfValidName(name);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+   else {
+       return false;
+   }
+}
+
 @FXML
 private void clear() {
     kontoOpprettet.setText("");
     feilmelding.setText("");
 }
 
-@FXML
+/*@FXML
 private boolean onlyLetters(String s){
     for(int i = 0; i < s.length(); i++){
         char ch = s.charAt(i);
@@ -79,7 +109,7 @@ private boolean onlyLetters(String s){
         return false;
     }
     return true;
-}
+}*/
 
 @FXML
 private void updateAccountView(){
