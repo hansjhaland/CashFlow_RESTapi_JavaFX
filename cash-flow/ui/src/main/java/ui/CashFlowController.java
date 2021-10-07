@@ -4,6 +4,7 @@ package ui;
 import javafx.fxml.FXML;
 import javafx.application.Application;
 
+
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -28,7 +29,7 @@ public class CashFlowController {
 
 @FXML private TextField navnKonto, settBelop, overførBeløp;
 @FXML private TextArea kontoer, kontoHistorikk;
-@FXML private Button opprettKonto, detaljerOgOverføringer, avsluttApp, tilHovedside, overfør;
+@FXML private Button opprettKonto, detaljerOgOverforinger, avsluttApp, tilHovedside, overfør;
 @FXML private Text kontoOpprettet, feilmelding;
 @FXML private ChoiceBox velgKonto, overførKonto;
 
@@ -132,10 +133,10 @@ private void load() {
 
 @FXML
 private void onNextPage() throws IOException {
-    Stage stage = (Stage) detaljerOgOverføringer.getScene().getWindow();
-    stage.close();
+    Stage stage = (Stage) detaljerOgOverforinger.getScene().getWindow();
+    //stage.close();
     Stage primaryStage = new Stage();
-    FXMLLoader fxmlLoader = new FXMLLoader(primaryStage.getClass().getResource("DetaljerOgOverføringer.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DetaljerOgOverforinger.fxml"));
     Parent parent = fxmlLoader.load();
     primaryStage.setScene(new Scene(parent));
     primaryStage.show();
@@ -143,12 +144,6 @@ private void onNextPage() throws IOException {
 
 }
 
-@FXML
-private void onCloseApp() {
-    Stage stage = (Stage) avsluttApp.getScene().getWindow();
-    stage.close();
-
-}
 
 
 }
