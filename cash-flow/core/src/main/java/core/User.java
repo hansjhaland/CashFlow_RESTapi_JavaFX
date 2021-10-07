@@ -53,6 +53,9 @@ public class User {
         if (getAccountNumbers().contains(account.getAccountNumber())) {
             return false;
         }
+        if (account.getOwnerID() != -1) { //this means that some other user already owns this account
+            account.removeOwnersOwnershipOfAccount();
+        }
         accounts.add(account);
         return true;
     }
@@ -75,14 +78,14 @@ public class User {
     //==============================================================================================
     
     /**
-     * Checks if the UserID is excactly 6 digits long.
+     * Checks if the UserID is between 100000 and 999999.
      * @param userID the UserID to be checked
-     * @throws IllegalArguementException if the UserID isn't excactly 6 digits long
+     * @throws IllegalArguementException if the UserID isn't between 100000 and 999999
      */
     private void CheckIfValidUserID(int userID) {
         int numberOfDigits = (int)Math.log10(userID)+1;
         if (numberOfDigits != 6) {
-            throw new IllegalArgumentException("UserID must be an int with excactly 6 digits, but had: " + numberOfDigits + " digits.");
+            throw new IllegalArgumentException("UserID must be between 100000 and 999999, but had: " + numberOfDigits + " digits.");
         }
     }
 
@@ -120,9 +123,9 @@ public class User {
 
     /**
      * Returns the account with the coresponding account number, if the user has an account
-     * with this account number. If not, it returns null.
+     * with this account number. If not, it returns {@code null}.
      * @param accountNumber the account number of the account you wish to find
-     * @return the account with the account number, or null if the 
+     * @return the account with the account number, or {@code null} if the 
      * account number doesn't excist
      */
     public AbstractAccount getAccount(int accountNumber) {
