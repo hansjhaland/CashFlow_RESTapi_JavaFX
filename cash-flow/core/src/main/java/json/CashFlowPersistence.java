@@ -16,7 +16,6 @@ import core.User;
 public class CashFlowPersistence {
 
     private ObjectMapper mapper;
-    private Path saveFilePath = null;
 
     public CashFlowPersistence() {
         mapper = new ObjectMapper();
@@ -31,12 +30,10 @@ public class CashFlowPersistence {
         mapper.writerWithDefaultPrettyPrinter().writeValue(writer, user);
     }
 
+    private Path saveFilePath = null;
+
     public void setSaveFilePath(String saveFile) {
         this.saveFilePath = Paths.get(System.getProperty("user.home"), saveFile);
-    }
-
-    public void setSaveFilePath(Path path){
-        this.saveFilePath = path;
     }
 
     private void checkSaveFilePath(Path saveFilePath) {
