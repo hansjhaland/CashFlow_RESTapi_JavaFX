@@ -44,7 +44,7 @@
          </font>
       </Text>
       <TextField fx:id="overførBeløp" alignment="CENTER_RIGHT" layoutX="180.0" layoutY="380.0" prefHeight="27.0" prefWidth="120.0" promptText="0.00" />
-      <Button fx:id="tilHovedside" layoutX="311.0" layoutY="423.0" mnemonicParsing="false" text="Tilbake" />
+      <Button fx:id="tilHovedside" layoutX="311.0" layoutY="423.0" mnemonicParsing="false" onAction="#onPreviousPage" text="Tilbake" />
       <Button fx:id="overfør" layoutX="38.0" layoutY="423.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="73.0" text="Overfør" />
    </children>
 </AnchorPane>

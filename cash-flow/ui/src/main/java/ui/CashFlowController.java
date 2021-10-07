@@ -29,7 +29,7 @@ public class CashFlowController {
 
 @FXML private TextField navnKonto, settBelop, overførBeløp;
 @FXML private TextArea kontoer, kontoHistorikk;
-@FXML private Button opprettKonto, detaljerOgOverforinger, avsluttApp, tilHovedside, overfør;
+@FXML private Button opprettKonto, detaljerOgOverforinger, tilHovedside, overfør;
 @FXML private Text kontoOpprettet, feilmelding;
 @FXML private ChoiceBox velgKonto, overførKonto;
 
@@ -140,6 +140,19 @@ private void onNextPage() throws IOException {
     stage.close();
     Stage primaryStage = new Stage();
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DetaljerOgOverforinger.fxml"));
+    Parent parent = fxmlLoader.load();
+    primaryStage.setScene(new Scene(parent));
+    primaryStage.show();
+    
+
+}
+
+@FXML
+private void onPreviousPage() throws IOException {
+    Stage stage = (Stage) tilHovedside.getScene().getWindow();
+    stage.close();
+    Stage primaryStage = new Stage();
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CashFlow.fxml"));
     Parent parent = fxmlLoader.load();
     primaryStage.setScene(new Scene(parent));
     primaryStage.show();
