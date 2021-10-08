@@ -1,13 +1,17 @@
 # Intro
-Dette er en beskrivelse av hvordan appen skal se ut til Gruppeinnlevering 2. 
+Dette er en beskrivelse av hvordan appen skal se ut til gruppeinnlevering 2. 
 Hovedfunksjonaliteten som legges til i denne releasen er:
-- Kontotype: Brukeren skal kunne opprette forskjellige typer kontoer
-- Kontodetaljer: Overføringshistorikken til en valgt konto
-- Overføring: Mlighet til å overføre mellom kontoer
+- **Kontotype**: Brukeren skal kunne opprette forskjellige typer kontoer
+- **Kontodetaljer**: Overføringshistorikken til en valgt konto
+- **Overføring**: Mlighet til å overføre mellom kontoer
 For å få til dette trengs det en ekstra side for detaljer og overføringer, og tilpassinger på forsiden
+
+Brukerhistoriene for gruppeinnlevering ligger i [brukerhistorier](brukerhistorier.md)
+
 ---
 
 # Designdokumentasjon
+Her er en skissering av appens design og fuksjonalitet til gruppeinnlevering 2, og forklaring av de forskjellige elementene på de to sidene
 ## Forside
 ![Bilde av forside](img/forside.PNG "Forside")
 1. Inntastingsfelt for å skrive inn navn på kontoen.
