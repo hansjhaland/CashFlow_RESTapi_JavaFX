@@ -19,43 +19,43 @@ public class GeneralAccountTest {
     public void setUp() {
         User user = new User(180900);
         user.setName("user");
-        AbstractAccount test = new CheckingAccount("Kontonavn", 0, 1000);
+        AbstractAccount test = new CheckingAccount("Kontonavn", 0, 1000, null);
         test.setName("test");
     }
 
     @Test
     public void testConstructorWithAccountNumber() {
         //throwing if name is longer than 20 characters
-        AbstractAccount test = new CheckingAccount("qwertyuiopasdfghjklz", 0, 1000);
+        AbstractAccount test = new CheckingAccount("qwertyuiopasdfghjklz", 0, 1000, null);
         assertThrows(IllegalArgumentException.class,
-                    () -> new CheckingAccount("qwertyuiopasdfghjklzx", 0, 1000),
+                    () -> new CheckingAccount("qwertyuiopasdfghjklzx", 0, 1000, null),
                     "An IllegalArgumentException should have been thrown");
 
         //throwing if name contains characters other than letters or spaces
-        test = new CheckingAccount("Tilfeldig kontonavn", 0, 1000);
+        test = new CheckingAccount("Tilfeldig kontonavn", 0, 1000, null);
         assertThrows(IllegalArgumentException.class,
-                    () -> new CheckingAccount("K0nt0navn med ta1l", 0, 1000),
+                    () -> new CheckingAccount("K0nt0navn med ta1l", 0, 1000, null),
                     "An IllegalArgumentException should have been thrown");
         assertThrows(IllegalArgumentException.class,
-                    () -> new CheckingAccount("Kontonavn_med-tegn", 0, 1000),
+                    () -> new CheckingAccount("Kontonavn_med-tegn", 0, 1000, null),
                     "An IllegalArgumentException should have been thrown");
         assertThrows(IllegalArgumentException.class,
-                    () -> new CheckingAccount("Kontonavn! med tegn?", 0, 1000),
+                    () -> new CheckingAccount("Kontonavn! med tegn?", 0, 1000, null),
                     "An IllegalArgumentException should have been thrown");
 
         //throwing if the account number is not between 1000 and 9999
-        test = new CheckingAccount("Kontonavn", 0, 9999);
+        test = new CheckingAccount("Kontonavn", 0, 9999, null);
         assertThrows(IllegalArgumentException.class,
-                    () -> new CheckingAccount("Kontonavn", 0, 999),
+                    () -> new CheckingAccount("Kontonavn", 0, 999, null),
                     "An IllegalArgumentException should have been thrown");
         assertThrows(IllegalArgumentException.class,
-                    () -> new CheckingAccount("Kontonavn", 0, 10000),
+                    () -> new CheckingAccount("Kontonavn", 0, 10000, null),
                     "An IllegalArgumentException should have been thrown");
 
         //throwing if the account number already exists in the users list of account numbers
         test = new CheckingAccount("Kontonavn", 0, 1234, user);
-        AbstractAccount test2 = new CheckingAccount("Kontonavn", 0, 1234);
-        AbstractAccount test3 = new CheckingAccount("Kontonavn", 0, 4321);
+        AbstractAccount test2 = new CheckingAccount("Kontonavn", 0, 1234, null);
+        AbstractAccount test3 = new CheckingAccount("Kontonavn", 0, 4321, null);
         user.addAccount(test3);
         assertThrows(IllegalStateException.class,
                     () -> user.addAccount(test2), 
@@ -63,7 +63,7 @@ public class GeneralAccountTest {
 
         //throwing if the initial balance is set to be less than 0
         assertThrows(IllegalArgumentException.class,
-                    () -> new CheckingAccount("Kontnavn", -1, 1000),
+                    () -> new CheckingAccount("Kontnavn", -1, 1000, null),
                     "An IllegalArgumentException should have been thrown");
 
         //test that the fields have been set correctly
@@ -71,7 +71,7 @@ public class GeneralAccountTest {
         assertEquals("Kontonavn", test.getName(), "Expected 'Kontonavn', but was: " + test.getName());
         assertEquals(123, test.getBalance(), "Expected '123', but was: " + test.getBalance());
         assertEquals(2345, test.getAccountNumber(), "Expected '2345', but was: " + test.getAccountNumber());
-        assertEquals(user.getUserID(), test.getOwner().getUserID());
+        assertEquals(user.getUserID(), test.getOwnerID());
 
         //also reinitializing object-pointers/variable names
         //and see if the users list of accounts is correct
@@ -110,7 +110,7 @@ public class GeneralAccountTest {
     @Test
     public void testWithdraw() {
         //test if withdrawal works properly
-        test = new CheckingAccount("Kontonavn", 100, 1000);
+        test = new CheckingAccount("Kontonavn", 100, 1000, null);
         test.withdraw(80);
         assertEquals(20, test.getBalance(), "The expected value is 20.0, but was: " + test.getBalance());
 

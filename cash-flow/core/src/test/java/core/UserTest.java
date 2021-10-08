@@ -41,7 +41,7 @@ public class UserTest {
     @Test
     public void testAddingAccounts() {
         //test adding an account, and returning true
-        AbstractAccount account1 = new CheckingAccount("Kontonavn", 0, 1000);
+        AbstractAccount account1 = new CheckingAccount("Kontonavn", 0, 1000, null);
         assertTrue(user.addAccount(account1), "Expected the account to be added and 'addAccount' to return 'true', but returned 'false'");
         List<AbstractAccount> listOfAccounts = new ArrayList<>(user.getAccounts());
         assertEquals(account1, listOfAccounts.get(0), "Expected to find the account in users list of accounts, but found no such account");
@@ -52,7 +52,7 @@ public class UserTest {
         assertEquals(1, listOfAccounts.size(), "Expected the number of accounts to be '1', but was: " + listOfAccounts.size());
 
         //test adding different accounts with the same account number
-        AbstractAccount account2 = new CheckingAccount("Kontonavn", 0, 1000);
+        AbstractAccount account2 = new CheckingAccount("Kontonavn", 0, 1000, null);
         assertFalse(user.addAccount(account2), "Expected the account to not be added and 'addAccount' to return 'false', but returned 'true'");
         listOfAccounts = new ArrayList<>(user.getAccounts());
         assertEquals(1, listOfAccounts.size(), "Expected the number of accounts to be '1', but was: " + listOfAccounts.size());
@@ -60,7 +60,7 @@ public class UserTest {
 
         //test if adding an account without an owner leads to the user adding the account becoming
         //the new owner of this account
-        assertEquals(user, listOfAccounts.get(0).getOwner(), "Expected the specified user to be the owner of the account, but was: " + listOfAccounts.get(0).getOwner());
+        assertEquals(user.getUserID(), listOfAccounts.get(0).getOwnerID(), "Expected the specified user to be the owner of the account, but was: " + listOfAccounts.get(0).getOwnerID());
         
         //test if adding an account with a different owner leads to the user adding the account becoming
         //the new owner of this account, and the previous owner not being the owner anymore
@@ -69,13 +69,12 @@ public class UserTest {
         AbstractAccount testAccount = new CheckingAccount("testAccount", 0, 1234, otherUser);
         user.addAccount(testAccount);
         assertTrue(user.getAccounts().contains(testAccount), "Expected that the user owning the account is 'true', but was 'false'");
-        assertEquals(user, testAccount.getOwner(), "Expected that the new owner of the account is the user but was: " + testAccount.getOwner().getName());
+        assertEquals(user.getUserID(), testAccount.getOwnerID(), "Expected that the new owner of the account is the user but was: " + testAccount.getOwnerID());
         assertFalse(otherUser.getAccounts().contains(testAccount), "Expected that the otherUser owning the account is 'false', but was 'true'");
     }
 
     @Test
     public void testReachingMaximumNumberOfAccounts() {
-        // Todo
         //test adding 9000 accounts with account numbers from 1000 to 9999 leads to 
         //not being able to create a new account because the number of accounts
         //has reached a mixumum
@@ -83,9 +82,13 @@ public class UserTest {
             new CheckingAccount("name", 0, i, user);
         }
         assertEquals(9000, user.getAccounts().size(), "Expected that the users number of accounts is '9000', but was: " + user.getAccounts().size());
-        assertThrows(IllegalArgumentException.class,
-                    () -> new CheckingAccount("name", 0, 9998, user),
-                    "An IllegalArgumentExpection should have been thrown");
+        assertThrows(IllegalStateException.class,
+                    () -> new CheckingAccount("name", 0, user),
+                    "An IllegalStateExpection should have been thrown");
+        
+        //test adding an account which doesn't have the user as an owner
+        AbstractAccount account = new CheckingAccount("name", 0, null);
+        assertFalse(user.addAccount(account), "Expected that the account was not added, but it was");
     }
 
     @Test
@@ -99,7 +102,7 @@ public class UserTest {
         assertFalse(user.removeAccount(account), "Expected that the removal of this account was 'false', but was 'true'");
 
         //test removing an account that the user doesn't own, but with the same account number
-        AbstractAccount newAccount = new CheckingAccount("name", 0, 1234);
+        AbstractAccount newAccount = new CheckingAccount("name", 0, 1234, null);
         assertFalse(user.removeAccount(newAccount), "Expecter that the removal of this account was 'false', but was 'true'");
     }
 
@@ -128,19 +131,17 @@ public class UserTest {
     @Test
     public void testGettingAccountNumbers() {
         List<Integer> accountNumbers = new ArrayList<>();
-        AbstractAccount account1 = new CheckingAccount("name", 0, 1111);
-        /* AbstractAccount account2 = new CheckingAccount("name", 0, 2222);
-        AbstractAccount account3 = new CheckingAccount("name", 0, 3333);
-        AbstractAccount account4 = new CheckingAccount("name", 0, 4444); */
+        AbstractAccount account1 = new CheckingAccount("name", 0, 1111, null);
         //test adding account
+
         user.addAccount(account1);
         accountNumbers.add(account1.getAccountNumber());
         assertTrue(user.getAccountNumbers().contains(account1.getAccountNumber()), "Expected that account1's account number was added to the user's list of account numbers, but it wasn't");
         //test removing this account
+
         user.removeAccount(account1);
         accountNumbers.remove((Integer) account1.getAccountNumber());
         assertFalse(user.getAccountNumbers().contains(account1.getAccountNumber()), "Expectes that account1's account number was removed from the user's list of account numbers, but it wasn't");
-        //
     }
 
 }
