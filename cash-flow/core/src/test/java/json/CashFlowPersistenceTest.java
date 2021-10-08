@@ -61,4 +61,26 @@ public class CashFlowPersistenceTest {
         }
     }
 
+    @Test
+    public void testWriteToReadFromFile(){
+        try{
+            Path testPath = tempDir.resolve("testFile.json");
+            cashFlowPersistence.setSaveFilePath(testPath);
+            cashFlowPersistence.saveUser(user1);
+            User user2 = cashFlowPersistence.loadUser();
+            assertEquals("name", user2.getName());
+            assertEquals(123456, user2.getUserID());
+            List<AbstractAccount> accountList = new ArrayList<>();
+            for (AbstractAccount user2Account : user2.getAccounts()) {
+                accountList.add(user2Account);
+            }
+            CashFlowModuleTest.checkCheckingAccount(account1, accountList.get(0));
+            CashFlowModuleTest.checkCheckingAccount(account2, accountList.get(1));
+        }
+        catch(InvalidPathException | IllegalStateException | IOException e) {
+            fail();
+        }
+    }
+
+
 }
