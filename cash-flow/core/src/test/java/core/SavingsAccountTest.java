@@ -34,7 +34,7 @@ public class SavingsAccountTest {
         for (int i = 0; i < 9; i++) { 
             test.withdraw(1); //withdrawing 9 times so that number of withdrawals is 10
         }
-        assertEquals(12, test.getBalance(), "Expected '12', but was: " + test.getBalance());
+        assertEquals(11, test.getBalance(), "Expected '11', but was: " + test.getBalance());
         
         //withdrawing for the 11th time should throw an exception
         assertThrows(IllegalStateException.class,

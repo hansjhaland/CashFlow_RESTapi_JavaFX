@@ -20,9 +20,9 @@ public class BSUAccountTest {
     public void testConstructor() {
         //test depositing more than 25 000
         new BSUAccount("Kontonavn", 25000, 1000, user);
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(IllegalStateException.class,
                     () -> new BSUAccount("Kontonavn", 25000.01, 1234, user),
-                    "An IllegalArgumentException should have been thrown");
+                    "An IllegalStateException should have been thrown");
     }
 
     @Test

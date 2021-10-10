@@ -1,6 +1,7 @@
 package core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -17,9 +18,9 @@ public class GeneralAccountTest {
 
     @BeforeEach
     public void setUp() {
-        User user = new User(180900);
+        user = new User(180900);
         user.setName("user");
-        AbstractAccount test = new CheckingAccount("Kontonavn", 0, 1000, null);
+        test = new CheckingAccount("Kontonavn", 0, 1000, null);
         test.setName("test");
     }
 
@@ -52,14 +53,12 @@ public class GeneralAccountTest {
                     () -> new CheckingAccount("Kontonavn", 0, 10000, null),
                     "An IllegalArgumentException should have been thrown");
 
-        //throwing if the account number already exists in the users list of account numbers
+        //return false if the account number already exists in the users list of account numbers
         test = new CheckingAccount("Kontonavn", 0, 1234, user);
         AbstractAccount test2 = new CheckingAccount("Kontonavn", 0, 1234, null);
         AbstractAccount test3 = new CheckingAccount("Kontonavn", 0, 4321, null);
         user.addAccount(test3);
-        assertThrows(IllegalStateException.class,
-                    () -> user.addAccount(test2), 
-                    "An IllegalStateException should have been thrown");
+        assertFalse(user.addAccount(test2), "Expected that the account was not added, but it was");
 
         //throwing if the initial balance is set to be less than 0
         assertThrows(IllegalArgumentException.class,
@@ -73,12 +72,12 @@ public class GeneralAccountTest {
         assertEquals(2345, test.getAccountNumber(), "Expected '2345', but was: " + test.getAccountNumber());
         assertEquals(user.getUserID(), test.getOwnerID());
 
-        //also reinitializing object-pointers/variable names
+        //reinitializing object-pointer 'test'
         //and see if the users list of accounts is correct
         test = new CheckingAccount("Kontonavn", 123, 2346, user);
         List<AbstractAccount> listOfAccounts = new ArrayList<>(user.getAccounts());
-        assertEquals(2, listOfAccounts.size(),
-                    "Expected '2', but was: " + listOfAccounts.size());
+        assertEquals(4, listOfAccounts.size(),
+                    "Expected '4', but was: " + listOfAccounts.size());
         assertTrue(listOfAccounts.stream()
                                  .anyMatch(account -> account.getAccountNumber() == 2345),
                                  "Expected to find account with account number '2345', but non was found");
@@ -91,8 +90,13 @@ public class GeneralAccountTest {
 
     @Test
     public void testConstructorWithoutAccountNumber() {
-        //test if account numbers are set properly
-
+        //test if account numbers are set properly when automatically generated
+        user.addAccount(test);
+        AbstractAccount test2 = new CheckingAccount("testTwo", 100, user);
+        assertEquals(1001, test2.getAccountNumber(), "Expected account number to be '1001', but was: " + test2.getAccountNumber());
+        AbstractAccount test3 = new CheckingAccount("testThree", 200, 1002, user);
+        AbstractAccount test4 = new CheckingAccount("testFour", 300, user);
+        assertEquals(1003, test4.getAccountNumber(), "Expected account number to be '1003', but was: " + test4.getAccountNumber());
     }
 
     @Test
