@@ -22,7 +22,7 @@ import core.User;
 
 public class UserDeserializer extends JsonDeserializer<User>  {
 
-    private CheckingAccountDeserializer checkingAccountDeserializer = new CheckingAccountDeserializer();
+    private AccountDeserializer checkingAccountDeserializer = new AccountDeserializer();
 
     @Override
     public User deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
@@ -49,7 +49,7 @@ public class UserDeserializer extends JsonDeserializer<User>  {
             JsonNode accountsNode = objectNode.get("accounts");
             if (accountsNode instanceof ArrayNode) {
                 for (JsonNode elementNode: accountsNode) {
-                    CheckingAccount account = checkingAccountDeserializer.deserialize(elementNode);
+                    AbstractAccount account = checkingAccountDeserializer.deserialize(elementNode);
                     if (account != null) {
                        user.addAccount(account);
                        account.setOwner(user);

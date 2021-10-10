@@ -54,8 +54,8 @@ public class CashFlowPersistenceTest {
             for (AbstractAccount user2Account : user2.getAccounts()) {
                 accountList.add(user2Account);
             }
-            CashFlowModuleTest.checkCheckingAccount(account1, accountList.get(0));
-            CashFlowModuleTest.checkCheckingAccount(account2, accountList.get(1));
+            CashFlowModuleTest.checkAccount(account1, accountList.get(0));
+            CashFlowModuleTest.checkAccount(account2, accountList.get(1));
         } catch (IOException e) {
             fail();
         }
@@ -74,8 +74,8 @@ public class CashFlowPersistenceTest {
             for (AbstractAccount user2Account : user2.getAccounts()) {
                 accountList.add(user2Account);
             }
-            CashFlowModuleTest.checkCheckingAccount(account1, accountList.get(0));
-            CashFlowModuleTest.checkCheckingAccount(account2, accountList.get(1));
+            CashFlowModuleTest.checkAccount(account1, accountList.get(0));
+            CashFlowModuleTest.checkAccount(account2, accountList.get(1));
         }
         catch(InvalidPathException | IllegalStateException | IOException e) {
             fail();

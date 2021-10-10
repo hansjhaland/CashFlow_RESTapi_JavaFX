@@ -19,9 +19,9 @@ public class CashFlowModule extends SimpleModule {
   
     public CashFlowModule() {
         super(NAME, VERSION_UTIL.version());
-        addSerializer(CheckingAccount.class, new CheckingAccountSerializer());
+        addSerializer(AbstractAccount.class, new AccountSerializer());
         addSerializer(User.class, new UserSerializer());
-        addDeserializer(CheckingAccount.class, new CheckingAccountDeserializer());
+        addDeserializer(AbstractAccount.class, new AccountDeserializer());
         addDeserializer(User.class, new UserDeserializer());
     }
    
