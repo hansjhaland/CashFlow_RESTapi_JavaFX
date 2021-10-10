@@ -1,6 +1,5 @@
 package core;
 
-
 public class Transaction {
     
     public enum TransactionType {DEPOSIT, WITHDRAWAL, TRANSFER}
@@ -12,6 +11,14 @@ public class Transaction {
     private final int recipientsAccountNumber;
     private final double amount;
 
+    /**
+     * Initializes a new Transaction-object. The Transaction-object is an object which is initialized
+     * each time there's a transfer, deposit or a withdrawal. It keeps track of: the paying account,
+     * the recipient account, the type of transfer and the amount money transferred. 
+     * @param payerAccount
+     * @param recipientAccount
+     * @param amount
+     */
     public Transaction(AbstractAccount payerAccount, AbstractAccount recipientAccount, double amount) {
         if (payerAccount == null && recipientAccount == null) {
             throw new IllegalArgumentException("A transaction must have either 'payer' or a 'recipient', but both were null");
@@ -76,19 +83,4 @@ public class Transaction {
                "\nrecipientsAccountNumber: " + recipientsAccountNumber +
                "\namount: " + amount;
     }
-
-    public static void main(String[] args) {
-        User payer = new User(180900);
-        payer.setName("Payer");
-        AbstractAccount account1 = new CheckingAccount("payer", 100, payer);
-        User recipient = new User(123456);
-        recipient.setName("Recipient");
-        AbstractAccount account2 = new CheckingAccount("recipient", 0, recipient);
-        account1.transfer(account2, 50);
-        Transaction transaction = account1.getTransactionHistory().get(0);
-        System.out.println(transaction.toString());
-        account1.withdraw(25);
-        System.out.println(account1.getTransactionHistory().get(1));
-    }
-
 }
