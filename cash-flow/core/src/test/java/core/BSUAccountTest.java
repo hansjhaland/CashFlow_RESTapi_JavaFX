@@ -2,6 +2,7 @@ package core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,17 +13,28 @@ public class BSUAccountTest {
 
     @BeforeEach
     public void setUp() {
-        User user = new User(180900);
+        user = new User(180900);
         user.setName("user");
     }
     
     @Test
     public void testConstructor() {
         //test depositing more than 25 000
-        new BSUAccount("Kontonavn", 25000, 1000, user);
+        new BSUAccount("Kontonavn", 25000, 1000, null);
         assertThrows(IllegalStateException.class,
-                    () -> new BSUAccount("Kontonavn", 25000.01, 1234, user),
+                    () -> new BSUAccount("Kontonavn", 25000.01, 1234, null),
                     "An IllegalStateException should have been thrown");
+    }
+
+    @Test
+    public void testUserAlreadyOwningBSU() {
+        //test adding two BSU-accounts
+        AbstractAccount account1 = new BSUAccount("accountOne", 100, user);
+        assertTrue(account1 instanceof BSUAccount, "'account1' should have been an instance of BSUAccount");
+        assertThrows(IllegalStateException.class,
+                    () -> new BSUAccount("accountTwo", 100, user),
+                    "An IllegalStateException should have been thrown");
+
     }
 
     @Test
