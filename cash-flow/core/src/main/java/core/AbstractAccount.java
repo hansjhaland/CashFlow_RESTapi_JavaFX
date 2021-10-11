@@ -265,6 +265,7 @@ public abstract class AbstractAccount {
     //dårlig innkapsling?
     public void setOwner(User owner) {
         this.owner = owner;
+        owner.addAccount(this);
     }
 
     @Override

@@ -123,6 +123,10 @@ public class User {
         return true;
     }
 
+    public boolean hasBSU() {
+        return getAccounts().stream().anyMatch(account -> account instanceof BSUAccount);
+    }
+
     //==============================================================================================
     // Getters and setters
     //==============================================================================================

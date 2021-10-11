@@ -9,12 +9,13 @@ public class BSUAccount extends AbstractAccount {
      * @param accountNumber the account number of the account
      * @param owner the owner of the account
      * @throws IllegalArgumentException if the name is more than 20 characters long or contains characters other than letters and spaces
-     * @throws IllegalArgumentException if the account number is not between 1000 and 9999 
-     * @throws IllegalArgumentException if the account number already exists in the users list of account numbers
-     * @throws IllegalStateException if the initial balance is set to be less than 0 or more than 25000
+     * @throws IllegalArgumentException if the account number is not between 1000 and 9999 or already exists in the users list of account numbers
+     * @throws IllegalStateException if the initial balance is set to be less than 0 or more than 25000 or the user already owns a BSU-account
      */
     public BSUAccount(String name, double balance, int accountNumber, User owner) {
-        super(name, accountNumber, owner);
+        super(name, accountNumber, null);
+        checkIfUserDoesNotHaveBSU(owner);
+        setOwner(owner);
         checkIfValidDeposit(balance);
         initialDeposit(balance);
     }
@@ -27,10 +28,12 @@ public class BSUAccount extends AbstractAccount {
      * @param owner the owner of the account
      * @throws IllegalArgumentException if the name is more than 20 characters long or contains characters other than letters and spaces
      * @throws IllegalStateException if the maximum number of accounts have been reached for this user
-     * @throws IllegalStateException if the initial balance is set to be less than 0 or more than 25000
+     * @throws IllegalStateException if the initial balance is set to be less than 0 or more than 25000 or the user already owns a BSU-account
      */
     public BSUAccount(String name, double balance, User owner) {
-        super(name, owner);
+        super(name, null);
+        checkIfUserDoesNotHaveBSU(owner);
+        setOwner(owner);
         checkIfValidDeposit(balance);
         initialDeposit(balance);
     }
@@ -75,6 +78,12 @@ public class BSUAccount extends AbstractAccount {
         }
     }
 
+    private void checkIfUserDoesNotHaveBSU(User user) {
+        if (user != null && user.hasBSU()) {
+            throw new IllegalStateException("A user can only own excactly one BSU-account");
+        }
+    }
+
     /**
      * Checks if the deposit leads to the balance of the BSUAccount exceeding the cap of 25000.
      * @param amount the amount to be added
@@ -84,5 +93,4 @@ public class BSUAccount extends AbstractAccount {
         double newBalance = amount + getBalance();
         return newBalance <= 25000;
     }
-    
 }
