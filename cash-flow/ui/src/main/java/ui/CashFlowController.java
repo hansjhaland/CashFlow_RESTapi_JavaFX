@@ -74,7 +74,7 @@ private void onCreateAccount() {
 private boolean checkIfThrowsException(String name, String amount) {
     if (name == null && amount != null) {
         try {
-            abstractAccount.checkIfValidBalance(amount);
+            //abstractAccount.checkIfValidBalance(amount);
             return true;
         } catch (IllegalStateException e) {
             return false;
@@ -82,7 +82,7 @@ private boolean checkIfThrowsException(String name, String amount) {
     }
     else if (name != null && amount == null) {
         try {
-            abstractAccount.checkIfValidName(name);
+            //abstractAccount.checkIfValidName(name);
             return true;
         } catch (IllegalArgumentException e) {
             return false;
@@ -148,6 +148,10 @@ private void load() {
     } catch (IOException e) {
         feilmelding.setText("Bankkontoene ble ikke funnet.");
     }
+}
+
+public List<String> getAccountOverview() {
+    return kontoOversikt;
 }
 
 

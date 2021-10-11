@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.CashFlowController">
+   <children>
+      </Text>
+      <TextField fx:id="navnKonto" promptText="Navn på konto"/>
+      <TextField fx:id="settBelop" promptText="Sett inn valgt beløp"/>
+      <Text fx:id="kontoOpprettet" />
+      <Text fx:id="feilmelding" />
+      <Button fx:id="opprettKonto" text="Opprett konto" onAction="#onCreateAccount"/>
+      <TextArea fx:id="kontoer" />
+   </children>
+</AnchorPane>
