@@ -52,7 +52,7 @@ private void onCreateAccount() {
     
     else if (checkIfThrowsException(null, amount) == false) {
         clear();
-        feilmelding.setText("Beløpet må bestå av tall");
+        feilmelding.setText("Beløpet må bestå av tall og kan ikke være mindre enn null");
     }
 
     /*else if (!amount.matches("[0-9]+")){
