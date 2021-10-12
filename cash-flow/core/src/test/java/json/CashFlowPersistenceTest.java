@@ -38,6 +38,7 @@ public class CashFlowPersistenceTest {
         user1.setName("name");
         account1 = new CheckingAccount("acA", 100.0, 5555, user1);
         account2 = new CheckingAccount("acB", 200.0, 1234, user1);
+        account1.transfer(account2, 10);
     }
 
 

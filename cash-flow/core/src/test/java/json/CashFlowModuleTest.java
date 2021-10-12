@@ -30,7 +30,7 @@ public class CashFlowModuleTest {
     }
 
     
-    private final static String userWithOneAccount  = "{\"name\":\"nameA\",\"userID\":123456,\"accounts\":[{\"type\":\"checking\",\"name\":\"acA\",\"balance\":200.0,\"accountNumber\":5555}]}";
+    private final static String userWithOneAccount  = "{\"name\":\"nameA\",\"userID\":123456,\"accounts\":[{\"type\":\"checking\",\"name\":\"acA\",\"balance\":700.0,\"accountNumber\":5555,\"transactionHistory\":[{\"payer\":\"\",\"payersAccountNumber\":0,\"recipient\":\"acA\",\"recipientsAccountNumber\":5555,\"amount\":500.0}]}]}";
     private final static String userWithTwoAccounts = "{\"name\":\"nameB\",\"userID\":654321,\"accounts\":[{\"type\":\"savings\",\"name\":\"acA\",\"balance\":200.0,\"accountNumber\":5555},{\"type\":\"bsu\",\"name\":\"acB\",\"balance\":100.0,\"accountNumber\":1234}]}";
 
     @Test
@@ -38,6 +38,7 @@ public class CashFlowModuleTest {
         User user = new User(123456);
         user.setName("nameA");
         CheckingAccount account = new CheckingAccount("acA", 200, 5555, user);
+        account.deposit(500.0);
         try{
             assertEquals(userWithOneAccount, mapper.writeValueAsString(user), 
                 "Incorrect serialization of User and/or CheckingAccount!");
@@ -66,7 +67,7 @@ public class CashFlowModuleTest {
             AbstractAccount account = null;
             assertTrue(it.hasNext());
             account = it.next();
-            assertTrue(account instanceof SavingsAccount);
+            assertTrue(account instanceof SavingsAccount, "Account type was: " + account.getClass().getName());
             checkAccount(account, "acA", 200.0, 5555);
             assertEquals(user.getUserID(), account.getOwnerID());
             assertTrue(it.hasNext());
