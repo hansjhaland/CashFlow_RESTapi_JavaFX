@@ -40,19 +40,19 @@ public class CashFlowControllerTest extends ApplicationTest{
         controller = new CashFlowController();
     }
     
-    /*@Test
+    @Test
     public void testController() {
         assertNotNull(this.controller);
         
     }
-*/
+    
     @Test
     public void testNewCorrectAccount() {
         String name = "first account";
         String amount = "12";
-        clickOn("navnKonto").write(name);
-        clickOn("settBelop").write(amount);
-        clickOn("opprettKonto");
+        clickOn("#navnKonto").write(name);
+        clickOn("#settBelop").write(amount);
+        clickOn("#opprettKonto");
 
         List<String> accountOverview = controller.getAccountOverview();
 
@@ -70,20 +70,20 @@ public class CashFlowControllerTest extends ApplicationTest{
     @Test
     public void testMissingFields() {
         //hvis du ikke skriver inn noe
-        clickOn("opprettKonto");
+        clickOn("#opprettKonto");
         assertTrue(controller.getAccountOverview().isEmpty());
         assertEquals("Husk å fylle inn alle felt", controller.feilmelding.getText());
 
         //hvis du bare skriver inn beløp
-        clickOn("settBelop").write("12");
-        clickOn("opprettKonto");
+        clickOn("#settBelop").write("12");
+        clickOn("#opprettKonto");
 
         assertTrue(controller.getAccountOverview().isEmpty());
         assertEquals("Husk å fylle inn alle felt", controller.feilmelding.getText());
 
         //hvis du bare skriver inn navn
-        clickOn("navnKonto").write("test");
-        clickOn("opprettKonto");
+        clickOn("#navnKonto").write("test");
+        clickOn("#opprettKonto");
 
         assertTrue(controller.getAccountOverview().isEmpty());
         assertEquals("Husk å fylle inn alle felt", controller.feilmelding.getText());
@@ -93,9 +93,9 @@ public class CashFlowControllerTest extends ApplicationTest{
     public void testWrongAccountName() {
         String name = "account1";
         String amount = "12";
-        clickOn("navnKonto").write(name);
-        clickOn("settBelop").write(amount);
-        clickOn("opprettKonto");
+        clickOn("#navnKonto").write(name);
+        clickOn("#settBelop").write(amount);
+        clickOn("#opprettKonto");
 
         //sjekker at kontoen ikke er lagt til i kontooversikten
         assertTrue(controller.getAccountOverview().isEmpty());
@@ -108,9 +108,9 @@ public class CashFlowControllerTest extends ApplicationTest{
     public void testWrongAmount() {
         String name = "account";
         String amount = "-12";
-        clickOn("navnKonto").write(name);
-        clickOn("settBelop").write(amount);
-        clickOn("opprettKonto");
+        clickOn("#navnKonto").write(name);
+        clickOn("#settBelop").write(amount);
+        clickOn("#opprettKonto");
 
         assertTrue(controller.getAccountOverview().isEmpty());
         //vil sjekke at riktig feilmelding er sendt ut

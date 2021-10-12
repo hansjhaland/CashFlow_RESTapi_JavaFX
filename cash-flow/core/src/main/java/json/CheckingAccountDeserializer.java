@@ -46,7 +46,7 @@ public class CheckingAccountDeserializer extends JsonDeserializer<CheckingAccoun
                 accountNumber = intNode.asInt();
             }
 
-            return new CheckingAccount(name, balance, accountNumber);
+            return new CheckingAccount(name, balance, accountNumber, null);
         }
         return null;
     }

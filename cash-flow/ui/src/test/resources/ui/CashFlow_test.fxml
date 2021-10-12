@@ -10,7 +10,6 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.CashFlowController">
    <children>
-      </Text>
       <TextField fx:id="navnKonto" promptText="Navn på konto"/>
       <TextField fx:id="settBelop" promptText="Sett inn valgt beløp"/>
       <Text fx:id="kontoOpprettet" />
