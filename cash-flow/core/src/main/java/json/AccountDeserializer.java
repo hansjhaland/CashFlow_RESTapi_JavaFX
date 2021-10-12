@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.DoubleNode;
 import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -16,9 +17,12 @@ import com.fasterxml.jackson.databind.node.TextNode;
 import core.AbstractAccount;
 import core.CheckingAccount;
 import core.SavingsAccount;
+import core.Transaction;
 import core.BSUAccount;
 
 public class AccountDeserializer extends JsonDeserializer<AbstractAccount>  {
+
+    private TransactionDeserializer transactionDeserializer = new TransactionDeserializer();
 
     @Override
     public AbstractAccount deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
@@ -55,14 +59,23 @@ public class AccountDeserializer extends JsonDeserializer<AbstractAccount>  {
                 accountNumber = acNumberNode.asInt();
             }
 
+            AbstractAccount account = null;
             switch(type){
                 case "checking":
-                    return new CheckingAccount(name, balance, accountNumber, null);
+                    account = new CheckingAccount(name, balance, accountNumber, null);
                 case "savings":
-                    return new SavingsAccount(name, balance, accountNumber, null);
+                    account = new SavingsAccount(name, balance, accountNumber, null);
                 case "bsu":
-                    return new BSUAccount(name, balance, accountNumber, null);
+                    account = new BSUAccount(name, balance, accountNumber, null);
             }
+            JsonNode transactionHistoryNode = objectNode.get("transactionHistory");
+            if (transactionHistoryNode instanceof ArrayNode) {
+                for (JsonNode transactionNode : transactionHistoryNode) {
+                    Transaction transaction = transactionDeserializer.deserialize(transactionNode);
+                    account.addToTransactionHistory(transaction);
+                }
+            }
+            return account;
             
         }
         return null;

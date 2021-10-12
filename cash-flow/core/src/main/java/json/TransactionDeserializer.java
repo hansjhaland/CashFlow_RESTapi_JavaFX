@@ -21,8 +21,6 @@ import core.BSUAccount;
 
 public class TransactionDeserializer extends JsonDeserializer<Transaction>  {
 
-    private AccountDeserializer accountDeserializer = new AccountDeserializer();
-
     @Override
     public Transaction deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         TreeNode treeNode = parser.getCodec().readTree(parser);
@@ -64,7 +62,7 @@ public class TransactionDeserializer extends JsonDeserializer<Transaction>  {
                 amount = amountNode.asDouble();
             }
 
-            return new Transaction(payer, recipient, payersAccountNumber, recipientsAccountNumber, amount);
+            return new Transaction(payer, payersAccountNumber, recipient, recipientsAccountNumber, amount);
         }
         return null;
     }

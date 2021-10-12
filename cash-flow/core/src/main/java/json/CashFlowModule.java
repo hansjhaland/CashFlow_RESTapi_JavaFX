@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import core.AbstractAccount;
 import core.CheckingAccount;
+import core.Transaction;
 import core.User;
 
 
@@ -23,6 +24,8 @@ public class CashFlowModule extends SimpleModule {
         addSerializer(User.class, new UserSerializer());
         addDeserializer(AbstractAccount.class, new AccountDeserializer());
         addDeserializer(User.class, new UserDeserializer());
+        addSerializer(Transaction.class, new TransactionSerializer());
+        addDeserializer(Transaction.class, new TransactionDeserializer());
     }
    
     public static void main(String[] args) {

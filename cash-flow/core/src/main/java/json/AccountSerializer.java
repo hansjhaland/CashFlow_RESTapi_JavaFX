@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import core.AbstractAccount;
 import core.CheckingAccount;
 import core.SavingsAccount;
+import core.Transaction;
 import core.BSUAccount;
 
 public class AccountSerializer extends JsonSerializer<AbstractAccount> {
@@ -29,5 +30,9 @@ public class AccountSerializer extends JsonSerializer<AbstractAccount> {
         jGen.writeNumberField("balance", account.getBalance());
         jGen.writeNumberField("accountNumber", account.getAccountNumber());
         jGen.writeEndObject();
+        for (Transaction transaction : account.getTransactionHistory()) {
+            jGen.writeObject(transaction);
+        }
+        
     }
 }

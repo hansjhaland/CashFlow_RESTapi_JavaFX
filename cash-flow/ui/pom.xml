@@ -87,7 +87,7 @@
                         <artifactId>javafx-maven-plugin</artifactId>
                         <version>0.0.6</version>
                         <configuration>                    
-                            <mainClass>cashflow.ui.CashFlowApp</mainClass>
+                            <mainClass>ui.CashFlowApp</mainClass>
                         </configuration>
                     </plugin>
                 </plugins>
