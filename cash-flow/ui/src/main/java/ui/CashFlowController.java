@@ -47,12 +47,12 @@ private void onCreateAccount() {
         feilmelding.setText("Husk å fylle inn alle felt");
     }
 
-    else if (checkIfThrowsException(name, null) == false) {
+    else if (checkValidNameAmount(name, null) == false) {
         clear();
-        feilmelding.setText("Du kan ikke bruke tall eller tegn i navnet");
+        feilmelding.setText("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver");
     }
     
-    else if (checkIfThrowsException(null, amount) == false) {
+    else if (checkValidNameAmount(null, amount) == false) {
         clear();
         feilmelding.setText("Beløpet må bestå av tall og kan ikke være mindre enn null");
     }
@@ -73,22 +73,18 @@ private void onCreateAccount() {
     } 
 }
 
-private boolean checkIfThrowsException(String name, String amount) {
+private boolean checkValidNameAmount(String name, String amount) {
     if (name == null && amount != null) {
-        try {
-            abstractAccount.checkIfValidBalance(amount);
-            return true;
-        } catch (IllegalStateException e) {
+        if (isNumeric(amount)) {
+            return AbstractAccount.isPositiveAmount(Double.parseDouble(amount));
+        }
+        else {
             return false;
         }
+        
     }
     else if (name != null && amount == null) {
-        try {
-            abstractAccount.checkIfValidName(name);
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
+        return User.isValidName(name);
     }
    else {
        return false;
@@ -96,22 +92,22 @@ private boolean checkIfThrowsException(String name, String amount) {
 }
 
 @FXML
-private void clear() {
-    kontoOpprettet.setText("");
-    feilmelding.setText("");
-}
-
-/*@FXML
-private boolean onlyLetters(String s){
-    for(int i = 0; i < s.length(); i++){
-        char ch = s.charAt(i);
-        if (Character.isLetter(ch) || ch == ' ') {
-            continue;        
-        }
+private boolean isNumeric(String s){
+    try {
+        Double.parseDouble(s);
+        return true;
+    } catch (NumberFormatException e) {
         return false;
     }
-    return true;
-}*/
+}
+
+@FXML
+private void clear() {
+    kontoOpprettet.setText(" ");
+    feilmelding.setText(" ");
+}
+
+
 
 @FXML
 private void updateAccountView(){
@@ -155,6 +151,5 @@ private void load() {
 public List<String> getAccountOverview() {
     return kontoOversikt;
 }
-
 
 }

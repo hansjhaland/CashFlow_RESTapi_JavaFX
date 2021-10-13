@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.internal.bytebuddy.implementation.bind.annotation.Default;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -50,8 +51,8 @@ public class CashFlowControllerTest extends ApplicationTest{
     public void testNewCorrectAccount() {
         String name = "first account";
         String amount = "12";
-        clickOn("#navnKonto").write(name);
         clickOn("#settBelop").write(amount);
+        clickOn("#navnKonto").write(name);
         clickOn("#opprettKonto");
 
         List<String> accountOverview = controller.getAccountOverview();
@@ -66,6 +67,7 @@ public class CashFlowControllerTest extends ApplicationTest{
         assertEquals("Kontoen er opprettet", controller.kontoOpprettet.getText());
 
     }
+    
     
     @Test
     public void testMissingFields() {
@@ -115,6 +117,6 @@ public class CashFlowControllerTest extends ApplicationTest{
         assertTrue(controller.getAccountOverview().isEmpty());
         //vil sjekke at riktig feilmelding er sendt ut
         assertEquals("Beløpet må bestå av tall og kan ikke være mindre enn null", controller.feilmelding.getText());
-        assertEquals("", controller.kontoOpprettet.getText());
-    }
+        assertEquals(" ", controller.kontoOpprettet.getText());
+    }*/
 }
