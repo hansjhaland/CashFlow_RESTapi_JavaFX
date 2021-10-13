@@ -11,6 +11,13 @@ import core.Transaction;
 
 public class TransactionSerializer extends JsonSerializer<Transaction> {
 
+    /**
+     * Method for serializing a Transaction object to specific JSON format.
+     * @param account Transaction object to be serialized.
+     * @param jGen JsonGenerator object
+     * @param serializerProvider SerializerProvider object
+     * @throws IOException if I/O problem when processing JSON content.
+     */
     @Override
     public void serialize(Transaction transaction, JsonGenerator jGen, SerializerProvider serializerProvider) throws IOException{
         jGen.writeStartObject();

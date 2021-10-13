@@ -18,12 +18,25 @@ import core.Transaction;
 
 public class TransactionDeserializer extends JsonDeserializer<Transaction>  {
 
+    /**
+     * Method for deserialization of a Transaction object.
+     * @param parser a JsonParser object.
+     * @param ctxt a DeserializationContext object.
+     * @throws IOException if I/O problem when processing JSON content.
+     * @throws JsonProcessingException if porblem other than I/O is encountered when processing JSON content.
+     * @return Transaction object which is returned from helper method
+     */
     @Override
     public Transaction deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         TreeNode treeNode = parser.getCodec().readTree(parser);
         return deserialize((JsonNode) treeNode);
     }
 
+    /**
+     * Helper method for deserialization of a Transaction object.
+     * @param jsonNode a JsonNode object.
+     * @return a Transaction object. 
+     */
     public Transaction deserialize(JsonNode jsonNode) {
         if (jsonNode instanceof ObjectNode) {
             ObjectNode objectNode = (ObjectNode) jsonNode;

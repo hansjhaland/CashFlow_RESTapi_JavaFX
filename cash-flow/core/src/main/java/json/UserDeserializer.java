@@ -21,6 +21,14 @@ public class UserDeserializer extends JsonDeserializer<User>  {
 
     private AccountDeserializer checkingAccountDeserializer = new AccountDeserializer();
 
+    /**
+     * Method for deserialization of a User object.
+     * @param parser a JsonParser object.
+     * @param ctxt a DeserializationContext object.
+     * @throws IOException if I/O problem when processing JSON content.
+     * @throws JsonProcessingException if porblem other than I/O is encountered when processing JSON content.
+     * @return User object.
+     */
     @Override
     public User deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         TreeNode treeNode = parser.getCodec().readTree(parser);

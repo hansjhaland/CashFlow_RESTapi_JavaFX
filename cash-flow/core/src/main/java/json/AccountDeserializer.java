@@ -24,12 +24,25 @@ public class AccountDeserializer extends JsonDeserializer<AbstractAccount>  {
 
     private TransactionDeserializer transactionDeserializer = new TransactionDeserializer();
 
+    /**
+     * Method for deserialization of an AbstractAccount object.
+     * @param parser a JsonParser object.
+     * @param ctxt a DeserializationContext object.
+     * @throws IOException if I/O problem when processing JSON content.
+     * @throws JsonProcessingException if porblem other than I/O is encountered when processing JSON content.
+     * @return AbstractAccount object which is returned from helper method
+     */
     @Override
     public AbstractAccount deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         TreeNode treeNode = parser.getCodec().readTree(parser);
         return deserialize((JsonNode) treeNode);
     }
 
+    /**
+     * Helper method for deserialization of an AbstractAccount object.
+     * @param jsonNode a JsonNode object.
+     * @return an AbstractAccount object of variyng type depending on the content of the "type" node in jsonNode. 
+     */
     public AbstractAccount deserialize(JsonNode jsonNode) {
         if (jsonNode instanceof ObjectNode) {
             ObjectNode objectNode = (ObjectNode) jsonNode;

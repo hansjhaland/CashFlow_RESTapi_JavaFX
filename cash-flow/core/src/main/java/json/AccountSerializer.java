@@ -14,6 +14,13 @@ import core.BSUAccount;
 
 public class AccountSerializer extends JsonSerializer<AbstractAccount> {
 
+    /**
+     * Method for serializing an AbstractAccount object to specific JSON format.
+     * @param account AbstractAccount object to be serialized.
+     * @param jGen JsonGenerator object
+     * @param serializerProvider SerializerProvider object
+     * @throws IOException if I/O problem when processing JSON content.
+     */
     @Override
     public void serialize(AbstractAccount account, JsonGenerator jGen, SerializerProvider serializerProvider) throws IOException{
         jGen.writeStartObject();
