@@ -64,7 +64,7 @@ public class CashFlowModuleTest {
             assertEquals("nameB", user.getName());
             assertTrue(654321 == user.getUserID());
             // Iterator<AbstractAccount> it = user.getAccounts().iterator();
-            AbstractAccount account = user.getAccounts().stream().filter(ac -> ac.getName() == "acA").findFirst().orElse(null);
+            AbstractAccount account = user.getAccounts().stream().filter(ac -> ac.getName().equals("acA")).findFirst().orElse(null);
             /* assertTrue(it.hasNext());
             account = it.next(); */
             assertTrue(account instanceof SavingsAccount, "Account type was: " + account.getClass().getName());
@@ -72,8 +72,8 @@ public class CashFlowModuleTest {
             assertEquals(user.getUserID(), account.getOwnerID());
             /* assertTrue(it.hasNext());
             account = it.next(); */
-            account = user.getAccounts().stream().filter(ac -> ac.getName() == "acB").findFirst().orElse(null);
-            assertTrue(account instanceof BSUAccount);
+            account = user.getAccounts().stream().filter(ac -> ac.getName().equals("acB")).findFirst().orElse(null);
+            assertTrue(account instanceof BSUAccount, "Account type was: " + account.getClass().getName());
             checkAccount(account, "acB", 100.0, 1234);
             assertEquals(user.getUserID(), account.getOwnerID());
             //assertFalse(it.hasNext());

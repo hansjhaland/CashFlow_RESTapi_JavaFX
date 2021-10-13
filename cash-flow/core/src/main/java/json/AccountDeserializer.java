@@ -63,10 +63,13 @@ public class AccountDeserializer extends JsonDeserializer<AbstractAccount>  {
             switch(type){
                 case "checking":
                     account = new CheckingAccount(name, balance, accountNumber, null);
+                    break;
                 case "savings":
                     account = new SavingsAccount(name, balance, accountNumber, null);
+                    break;
                 case "bsu":
                     account = new BSUAccount(name, balance, accountNumber, null);
+                    break;
             }
             JsonNode transactionHistoryNode = objectNode.get("transactionHistory");
             if (transactionHistoryNode instanceof ArrayNode) {

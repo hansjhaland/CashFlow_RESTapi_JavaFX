@@ -29,10 +29,13 @@ public class AccountSerializer extends JsonSerializer<AbstractAccount> {
         jGen.writeStringField("name", account.getName());
         jGen.writeNumberField("balance", account.getBalance());
         jGen.writeNumberField("accountNumber", account.getAccountNumber());
-        jGen.writeEndObject();
+        jGen.writeFieldName("transactionHistory");
+        jGen.writeStartArray();
         for (Transaction transaction : account.getTransactionHistory()) {
-            jGen.writeObject(transaction);
+            jGen.writeObject(transaction);       
         }
+        jGen.writeEndArray();
+        jGen.writeEndObject();
         
     }
 }
