@@ -48,6 +48,11 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <configuration>
+                    <argLine>
+                        --add-opens cashflow.core/json=ALL-UNNAMED
+                    </argLine>
+                </configuration>
         		<artifactId>maven-surefire-plugin</artifactId>
 	        </plugin>
 
