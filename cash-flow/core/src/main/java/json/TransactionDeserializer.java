@@ -13,11 +13,8 @@ import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
-import core.AbstractAccount;
-import core.CheckingAccount;
-import core.SavingsAccount;
 import core.Transaction;
-import core.BSUAccount;
+
 
 public class TransactionDeserializer extends JsonDeserializer<Transaction>  {
 
