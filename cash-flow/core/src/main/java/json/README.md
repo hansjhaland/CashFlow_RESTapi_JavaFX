@@ -1,11 +1,12 @@
-##Lagringsmetafor
+## Lagringsmetafor
 Lagringen i Cash-Flow gjennomføres slik lagring av data i vanlige bank-applikasjoner gjennomføres. Det er altså **ingen eksplisitt lagringsknapp**.
 - Nye kontoer lagres når de blir opprettet
 - Endringer av kontodata, ved f.eks overføringer mellom kontoer, lagres når endringen gjennomføres
 
-##Lagringsformat
+## Lagringsformat
 Data lagres i en json-fil som konstrueres ved hjelp av serialisering med Jacksonbiblioteket. Filene har følgende format (med eksempelverdier):
-'''
+
+```
 {
     name: "Ola Nordmann",
     userID: 223344,
@@ -38,4 +39,4 @@ Data lagres i en json-fil som konstrueres ved hjelp av serialisering med Jackson
         ]}
     ]}
 }
-'''
+```
