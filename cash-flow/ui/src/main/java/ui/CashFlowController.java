@@ -29,19 +29,21 @@ private List<String> kontoOversikt = new ArrayList<String>();
 private User user = new User(123456);
 private CashFlowPersistence cfp = new CashFlowPersistence();
 private Random ran = new Random();
-private AbstractAccount abstractAccount;
+//private AbstractAccount abstractAccount;
 
 public void initialize() {
     kontoer.setEditable(false);
     updateAccountView();
-    kontoOpprettet.setText(" ");
-    feilmelding.setText(" ");
+    //kontoOpprettet.setText(" hei");
+    //System.out.println(kontoOpprettet.getText());
+    //feilmelding.setText(" ");
 }
 
 @FXML
-private void onCreateAccount() {
+public void onCreateAccount() {
     String name = this.navnKonto.getText();
     String amount = this.settBelop.getText();
+    System.out.println("Kom hit");
     if (name.isBlank() || amount.isBlank()) {
         clear();
         feilmelding.setText("Husk å fylle inn alle felt");
