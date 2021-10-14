@@ -1,0 +1,121 @@
+@startuml
+
+abstract class AbstractAccount {
+    - String name;
+    - double balance;
+    - final int accountNumber;
+    - User owner;
+    - List<Transaction> transactionHistory
+    
+    + AbstractAccount(String name, int accountNumber, User owner)
+    + AbstractAccount(String name, User owner)
+    
+    + boolean deposit(double amount)
+    + boolean withdraw(double amount)
+    + void transfer(AbstractAccount recievingAccount, double amount)
+    + boolean addToTransactionHistory(Transaction transaction)
+    # void initialDeposit(double amount)
+    # void removeOwnersOwnershipOfAccount()
+    - int getNextAvailableAccountNumber(User user)
+    - void recieveFromOtherAccount(double amount)
+    
+    + double getBalance()
+    + int getAccountNumber()
+    + String getName()
+    + int getOwnerID()
+    + List<Transaction> getTransactionHistory()
+    + void setName(String name)
+    + void setOwner(User owner)
+    + String toString()
+}
+
+class CheckingAccount {
+    + CheckingAccount(String name, double amount, int accountNumber, User owner)
+    + CheckingAccount(String name, double amount, User owner)
+}
+
+class SavingsAccount {
+    + SavingsAccount(String name, double balance, int accountNumber, User owner)
+    + SavingsAccount(String name, double balance, User owner)
+    
+    + boolean isWithdrawalOrTransferPossible()
+    - void checkIfWithdrawalOrTransferPossible()
+    - long getNumberOfWithdrawals()
+    - long getNumberOfTransfersFromThisAccount()
+}
+
+class BSUAccount {
+    + BSUAccount(String name, double balance, int accountNumber, User owner)
+    + BSUAccount(String name, double balance, User owner)
+    
+    + boolean isValidDeposit(double amount)
+    - void checkIfValidDeposit(double amount)
+    - void checkIfUserDoesNotHaveBSU(User user)
+}
+
+class User {
+    - String name;
+    - final int userID;
+    - Collection<AbstractAccount> accounts
+    
+    + User(int userID)
+    
+    + boolean addAccount(AbstractAccount account)
+    + boolean removeAccount(AbstractAccount account)
+    
+    + String getName()
+    + int getUserID()
+    + Collection<AbstractAccount> getAccounts()
+    + Collection<Integer> getAccountNumbers()
+    + AbstractAccount getAccount(int accountNumber)
+    + void setName(String name)
+
+}
+
+class Transaction {
+    - final TransactionType type;
+    - final String payer;
+    - final int payersAccountNumber;
+    - final String recipient;
+    - final int recipientsAccountNumber;
+    - final double amount;
+    
+    + Transaction(AbstractAccount payerAccount, AbstractAccount recipientAccount, double amount)
+    + Transaction(String payer, int payersAccountNumber, String recipient, int recipientsAccountNumber, double amount)
+    
+    + TransactionType getType()
+    + String getRecipient()
+    + int getPayersAccountNumber()
+    + int getRecipientsAccountNumber()
+    + double getAmount()
+    + String toString()
+}
+
+class BankHelper {
+    + boolean isOnlyLettersAndSpaces(String s)
+    + boolean isValidName(String name)
+    + boolean isPositiveAmount(double amount)
+    + boolean isBalanceValidWhenAdding(double amount)
+    ~ void checkIfAccountNumberIsTaken(int accountNumber)
+    ~ void checkIfValidUserID(int userID)
+    ~ void checkIfValidName(String name)
+    ~ void checkIfValidBalance(double amount)
+    ~ void checkIfValidAccountNumber(int accountNumber)
+    ~ void checkIfValidAmount(double amount)
+}
+
+
+AbstractAccount <|-- CheckingAccount 
+AbstractAccount <|-- SavingsAccount 
+AbstractAccount <|-- BSUAccount 
+
+User "1" -- "*" AbstractAccount : contains
+
+Transaction "*" -- AbstractAccount : contains
+
+BankHelper "1" -- AbstractAccount : uses
+
+BankHelper "1" -- User : uses
+
+
+@enduml
