@@ -50,6 +50,29 @@ public class Transaction {
         this.amount = amount;
     }
 
+    /**
+     * Method for json.
+     */
+    public Transaction(String payer, int payersAccountNumber, String recipient, int recipientsAccountNumber, double amount) {
+        if (payer.equals("") && recipient.equals("")) {
+            throw new IllegalArgumentException("A transaction must have either 'payer' or a 'recipient', but both were null");
+        }
+        if (payer.equals("")) {
+            type = TransactionType.DEPOSIT;
+        }
+        else if (recipient.equals("")) {
+            type = TransactionType.WITHDRAWAL;
+        }
+        else {
+            type = TransactionType.TRANSFER;
+        }
+        this.payer = payer;
+        this.payersAccountNumber = payersAccountNumber;
+        this.recipient = recipient;
+        this.recipientsAccountNumber = recipientsAccountNumber;
+        this.amount = amount;
+    }
+
     public TransactionType getType() {
         return type;
     }

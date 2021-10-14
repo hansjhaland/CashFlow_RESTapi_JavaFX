@@ -15,6 +15,8 @@ import java.util.Iterator;
 
 import core.AbstractAccount;
 import core.CheckingAccount;
+import core.SavingsAccount;
+import core.BSUAccount;
 import core.User;
 
 public class CashFlowModuleTest {
@@ -27,14 +29,16 @@ public class CashFlowModuleTest {
         mapper.registerModule(new CashFlowModule());
     }
 
-    private final static String userWithOneAccount  = "{\"name\":\"nameA\",\"userID\":123456,\"accounts\":[{\"name\":\"acA\",\"balance\":200.0,\"accountNumber\":5555}]}";
-    private final static String userWithTwoAccounts = "{\"name\":\"nameB\",\"userID\":654321,\"accounts\":[{\"name\":\"acA\",\"balance\":200.0,\"accountNumber\":5555},{\"name\":\"acB\",\"balance\":100.0,\"accountNumber\":1234}]}";
+    
+    private final static String userWithOneAccount  = "{\"name\":\"nameA\",\"userID\":123456,\"accounts\":[{\"type\":\"checking\",\"name\":\"acA\",\"balance\":700.0,\"accountNumber\":5555,\"transactionHistory\":[{\"payer\":\"\",\"payersAccountNumber\":0,\"recipient\":\"acA\",\"recipientsAccountNumber\":5555,\"amount\":500.0}]}]}";
+    private final static String userWithTwoAccounts = "{\"name\":\"nameB\",\"userID\":654321,\"accounts\":[{\"type\":\"savings\",\"name\":\"acA\",\"balance\":200.0,\"accountNumber\":5555},{\"type\":\"bsu\",\"name\":\"acB\",\"balance\":100.0,\"accountNumber\":1234}]}";
 
     @Test
-    public void testCheckingAccountAndUserSerializers(){
+    public void testAccountAndUserSerializers(){
         User user = new User(123456);
         user.setName("nameA");
         CheckingAccount account = new CheckingAccount("acA", 200, 5555, user);
+        account.deposit(500.0);
         try{
             assertEquals(userWithOneAccount, mapper.writeValueAsString(user), 
                 "Incorrect serialization of User and/or CheckingAccount!");
@@ -43,40 +47,37 @@ public class CashFlowModuleTest {
         }
     }
 
-    public static void checkCheckingAccount(AbstractAccount account, String name, double balance, int accountNumber) {
+    public static void checkAccount(AbstractAccount account, String name, double balance, int accountNumber) {
         assertEquals(name, account.getName(), "Incorrect account name for account: " + account);
         assertTrue(balance == account.getBalance(), "Incorrect balance for account: " + account);
         assertTrue(accountNumber == account.getAccountNumber(), "Incorrect account number for account: " + account);
     }
 
-    public static void checkCheckingAccount(AbstractAccount account1, AbstractAccount account2) {
-        checkCheckingAccount(account1, account2.getName(), account2.getBalance(), account2.getAccountNumber());
+    public static void checkAccount(AbstractAccount account1, AbstractAccount account2) {
+        checkAccount(account1, account2.getName(), account2.getBalance(), account2.getAccountNumber());
     }
 
     @Test
-    public void testCheckingAccountAndUserDeserializers(){
+    public void testAccountAndUserDeserializers(){
         try {
             User user = mapper.readValue(userWithTwoAccounts, User.class);
             assertEquals("nameB", user.getName());
             assertTrue(654321 == user.getUserID());
-            Iterator<AbstractAccount> it = user.getAccounts().iterator();
-            AbstractAccount account = null;
-            assertTrue(it.hasNext());
-            account = it.next();
-            checkCheckingAccount(account, "acA", 200.0, 5555);
+            AbstractAccount account = user.getAccounts().stream().filter(ac -> ac.getName().equals("acA")).findFirst().orElse(null);
+            assertTrue(account instanceof SavingsAccount, "Account type was: " + account.getClass().getName());
+            checkAccount(account, "acA", 200.0, 5555);
             assertEquals(user.getUserID(), account.getOwnerID());
-            assertTrue(it.hasNext());
-            account = it.next();
-            checkCheckingAccount(account, "acB", 100.0, 1234);
+            account = user.getAccounts().stream().filter(ac -> ac.getName().equals("acB")).findFirst().orElse(null);
+            assertTrue(account instanceof BSUAccount, "Account type was: " + account.getClass().getName());
+            checkAccount(account, "acB", 100.0, 1234);
             assertEquals(user.getUserID(), account.getOwnerID());
-            assertFalse(it.hasNext());
         } catch (JsonProcessingException e){
             fail("Throws JsonProcessingException");
         }
     }
 
     @Test
-    public void testCheckingAccountAndUserSerializersDeserializers() {
+    public void testAccountAndUserSerializersDeserializers() {
         User user1 = new User(123456);
         user1.setName("nameA");
         AbstractAccount account1 = new CheckingAccount("acA", 200, 5555, user1);
@@ -94,12 +95,12 @@ public class CashFlowModuleTest {
             assertTrue(it2.hasNext());
             user1Account = it1.next();
             user2Account = it2.next();
-            checkCheckingAccount(user1Account, user2Account);
+            checkAccount(user1Account, user2Account);
             assertTrue(it1.hasNext());
             assertTrue(it2.hasNext());
             user1Account = it1.next();
             user2Account = it2.next();
-            checkCheckingAccount(user1Account, user2Account);
+            checkAccount(user1Account, user2Account);
             assertFalse(it1.hasNext());
             assertFalse(it2.hasNext());
         } catch (JsonProcessingException e){
