@@ -4,7 +4,7 @@ Lagringen i Cash-Flow gjennomføres slik lagring av data i vanlige bank-applikas
 - Endringer av kontodata, ved f.eks overføringer mellom kontoer, lagres når endringen gjennomføres
 
 ## Lagringsformat
-Data lagres i en json-fil som konstrueres ved hjelp av serialisering med Jacksonbiblioteket. Filene har følgende format (med eksempelverdier):
+Data lagres i en json-fil som konstrueres ved hjelp av serialisering med Jacksonbiblioteket. Nederst ligger et JSON-diagram. Filene har følgende format (med eksempelverdier):
 
 ```
 @startjson
@@ -41,5 +41,6 @@ Data lagres i en json-fil som konstrueres ved hjelp av serialisering med Jackson
 }
 @endjson
 ```
+## JSON-diagram
 
 ![JSONdiagram](img/json.png "json")
