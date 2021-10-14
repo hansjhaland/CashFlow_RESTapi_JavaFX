@@ -59,6 +59,7 @@ public class CashFlowPersistence {
      * @param path path of the JSON file.
     */
     public void setSaveFilePath(Path path){
+        checkSaveFilePath(path);
         this.saveFilePath = path;
     }
 

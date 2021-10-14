@@ -1,6 +1,7 @@
 package json;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 import java.io.IOException;
 import java.io.StringReader;
@@ -83,5 +84,11 @@ public class CashFlowPersistenceTest {
         }
     }
 
+    @Test
+    public void testSetSaveFilePathWith(){
+        assertThrows(IllegalStateException.class, () -> {
+            cashFlowPersistence.setSaveFilePath((Path) null);
+        });
+    }
 
 }
