@@ -35,19 +35,15 @@ Klasser og filer som omhandler GUI ligger i **ui-modulen**
 
 ## Testing
 
-Testklasser ligger i tilhørende modul sin **test-mappe**.
-
-Vi har lagt til rapportering av testdekkningsgrad med **Jacoco**.
-
-For å gjennomføre tester og få rapporten må man kjøre kommandoen **mvn test jacoco:report**
-
-Etter dette vil selve rapporten ligge i hver modul sin **target/site/jacoco/index.html**
-
-Tester kan også kjøres uten jacoco med **mvn test**
+- Testklasser ligger i tilhørende modul sin **test-mappe**.
+- Vi har lagt til rapportering av testdekkningsgrad med **Jacoco**.
+- For å gjennomføre tester og få rapporten må man kjøre kommandoen **mvn test jacoco:report**
+- Etter dette vil rapporten ligge i hver modul sin **target/site/jacoco/index.html**
+- Tester kan også kjøres uten jacoco med **mvn test**
 
 
 # Hvordan kjøre appen
  - Først må man gå inn i rot-mappen til prosjektet (.../gr2151/cash-flow).
- - Deretter må man kjøre mvn install.
- - Kjøre kommandoen "cd ui" for å komme inn i ui-mappen som skal kjøres (.../gr2151/cash-flow/ui).
- - Kjøre kommandoen "mvn javafx:run".
+ - Deretter må man kjøre kommandoen **mvn install**
+ - Kjøre kommandoen **cd ui** for å komme inn i ui-mappen som skal kjøres (.../gr2151/cash-flow/ui).
+ - Kjøre kommandoen **mvn javafx:run**
