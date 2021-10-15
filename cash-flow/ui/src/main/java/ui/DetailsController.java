@@ -24,6 +24,7 @@ import java.util.Random;
 import core.User;
 import core.AbstractAccount;
 import core.CheckingAccount;
+import core.Transaction;
 
 public class DetailsController {
 
@@ -32,6 +33,77 @@ public class DetailsController {
 @FXML private Button opprettKonto, detaljerOgOverforinger, tilHovedside, overfør;
 @FXML private Text kontoOpprettet, feilmelding;
 @FXML private ChoiceBox velgKonto, overførKonto;
+
+private User user;
+private AbstractAccount account;
+private AbstractAccount accountToTransferTo;
+private FileHandler fileHandler = new FileHandler();
+
+public void initialize() {
+    try {
+        user = fileHandler.load();
+    } catch (IllegalStateException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+
+    updateTransferHistoryView();
+    updateChooseAccountView();
+}
+
+private void updateTransferHistoryView() {
+    String string = "";
+    if (account != null) {
+        for (Transaction transaction : account.getTransactionHistory()) {
+            string += transaction.toString() + "\n";
+        }
+    }
+    kontoHistorikk.setText(string);
+}
+
+private void updateChooseAccountView() {
+    for (AbstractAccount account : user.getAccounts()) {
+        velgKonto.getItems().add(account.getName() + ": " + account.getAccountNumber());
+        overførKonto.getItems().add(account.getName() + ": " + account.getAccountNumber());
+    }
+}
+
+@FXML
+private void onChooseAccount() {
+    String valueText = (String) velgKonto.getValue();
+    int accountNumber = Integer.valueOf(valueText.split(": ")[1]);
+    account = user.getAccount(accountNumber);
+    updateTransferHistoryView();
+}
+
+
+
+@FXML
+private void onTransfer() {
+    if (account != null && accountToTransferTo != null) {
+        account.transfer(accountToTransferTo, Integer.valueOf(overførBeløp.getText()));
+        try {
+            fileHandler.save(user);
+        } catch (IllegalStateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        updateTransferHistoryView();
+    }
+}
+
+@FXML
+private void onChooseAccountToTransferTo() {
+    String valueText = (String) overførKonto.getValue();
+    int accountNumber = Integer.valueOf(valueText.split(": ")[1]);
+    accountToTransferTo = user.getAccount(accountNumber);
+}
 
 @FXML
 private void onPreviousPage() throws IOException {
@@ -42,8 +114,6 @@ private void onPreviousPage() throws IOException {
     Parent parent = fxmlLoader.load();
     primaryStage.setScene(new Scene(parent));
     primaryStage.show();
-    
-
 }
 
 
