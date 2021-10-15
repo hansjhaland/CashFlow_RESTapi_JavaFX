@@ -24,8 +24,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import json.CashFlowPersistence;
 
 
@@ -35,12 +37,8 @@ public class CashFlowControllerTest extends ApplicationTest{
     final String SETTBELOP = "#settBelop";
     final String NAVNKONTO = "#navnKonto";
     final String OPPRETTKONTO = "#opprettKonto";
+    final String TYPEKONTO = "#typeKonto";
 
-
-    @BeforeClass
-    public static void config() throws Exception {
-        System.getProperties().put("testfx.robot", "glass");
-    }
 
     @Override
     public void start(final Stage stage) throws Exception {
@@ -70,88 +68,93 @@ public class CashFlowControllerTest extends ApplicationTest{
 
     @Test
     public void testClickOn() {
-        //Node feilmelding = find("#feilmelding");
-        //Node opprettKonto = find("#opprettKonto");
-        Node kontoOpprettet = find("#kontoOpprettet");
-
-        //clickOn("#opprettKonto");
-        clickOn(((Button)find("#opprettKonto")));
-        WaitForAsyncUtils.waitForFxEvents();
-
-        assertEquals("Kontoen er opprettet", ((Text) kontoOpprettet).getText());
-
-       // assertEquals("Husk å fylle inn alle felt", ((Text) feilmelding).getText());
+        clickOn(OPPRETTKONTO);
+        assertEquals("Velg en kontotype!", lookup("#feilmelding").queryText().getText());
     }
     
-    /*
+    
     @Test
     public void testNewCorrectAccount() {
-        Node kontoOpprettet = find("#kontoOpprettet");
-        //Node feilmelding = find("#feilmelding");
-        TextField settBelop = find(SETTBELOP);
-        TextField navnKonto = find(NAVNKONTO);
-        Node opprettKonto = find(OPPRETTKONTO);
         String name = "first account";
         String amount = "12";
 
-        clickOn(navnKonto);
-        navnKonto.setText(name);
-        clickOn(settBelop);
-        settBelop.setText(amount);
+        clickOn(TYPEKONTO);
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
 
-        WaitForAsyncUtils.waitForFxEvents();
+        clickOn(NAVNKONTO).write(name);
+        clickOn(SETTBELOP).write(amount);
 
-        clickOn(((Button) opprettKonto));
+        clickOn(OPPRETTKONTO);
 
+        assertNotNull(lookup("#kontoOpprettet").queryText().getText());
+        assertEquals("Kontoen er opprettet", (lookup("#kontoOpprettet").queryText().getText()));
         
-        WaitForAsyncUtils.waitForFxEvents();
-
-        //assertNotNull(kontoOpprettet);
-
-        //assertNotNull(((Text) kontoOpprettet).getText());
-        assertEquals("Kontoen er opprettet", ((Text) kontoOpprettet).getText());
-        //System.out.println(((Text) kontoOpprettet).getText());
-        //System.out.println(((Text) feilmelding).getText());
-        //List<String> accountOverview = controller.getAccountOverview();
-
-        //List<String> thisAccountOverview = new ArrayList<String>();
-        //thisAccountOverview.add(name + ":" + amount);
-
-        //assertFalse(accountOverview.isEmpty());
-        //assertEquals(thisAccountOverview, accountOverview);
-
-        //System.out.println(controller.kontoOpprettet.getText());
-        //vil sjekke at riktig tilbakemelding er sendt ut
-        //assertEquals("Kontoen er opprettet", controller.kontoOpprettet.getText());
-    }*/
+    }
     
     @SuppressWarnings (value="unchecked")
     private <T extends Node> T find(final String query) {
         return (T) lookup(query).queryAll().iterator().next();
     }
 
-   /* @Test
+    @Test
     public void testMissingFields() {
         //hvis du ikke skriver inn noe
-        clickOn("#opprettKonto");
-        assertTrue(controller.getAccountOverview().isEmpty());
-        assertEquals("Husk å fylle inn alle felt", controller.feilmelding.getText());
+        clickOn(OPPRETTKONTO);
+        assertEquals("Velg en kontotype!", lookup("#feilmelding").queryText().getText());
+        //onClear();
 
         //hvis du bare skriver inn beløp
         clickOn("#settBelop").write("12");
         clickOn("#opprettKonto");
-
-        assertTrue(controller.getAccountOverview().isEmpty());
-        assertEquals("Husk å fylle inn alle felt", controller.feilmelding.getText());
+        assertEquals("Velg en kontotype!", lookup("#feilmelding").queryText().getText());
+        //onClear();
 
         //hvis du bare skriver inn navn
         clickOn("#navnKonto").write("test");
         clickOn("#opprettKonto");
+        assertEquals("Velg en kontotype!", lookup("#feilmelding").queryText().getText());
+        //onClear();
 
-        assertTrue(controller.getAccountOverview().isEmpty());
-        assertEquals("Husk å fylle inn alle felt", controller.feilmelding.getText());
+        //hvis du skriver inn navn og beløp 
+        clickOn("#navnKonto").write("test");
+        clickOn("#settBelop").write("12");
+        clickOn("#opprettKonto");
+        assertEquals("Velg en kontotype!", lookup("#feilmelding").queryText().getText());
+       //onClear();
+
+        //hvis du skriver inn type
+        if(controller.navnKonto != null) {
+            controller.navnKonto.clear();
+        }
+        if(controller.settBelop != null) {
+            controller.settBelop.clear();;
+        }
+        
+        clickOn("#typeKonto");
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+        assertEquals("Husk å fylle inn alle felt", lookup("#feilmelding").queryText().getText());
+        //onClear();
+
+        //hvis du skriver inn type og navn
+        clickOn("#navnKonto").write("test");
+        clickOn("#typeKonto");
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+        assertEquals("Husk å fylle inn alle felt", lookup("#feilmelding").queryText().getText());
+        //onClear();
+
+        //hvis du skriver inn type og beløp
+        controller.navnKonto.clear();
+        clickOn("#settBelop").write("12");
+        clickOn("#typeKonto");
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+        assertEquals("Husk å fylle inn alle felt", lookup("#feilmelding").queryText().getText());
+        //onClear();
     }
-
+/*
     @Test
     public void testWrongAccountName() {
         String name = "account1";
@@ -161,7 +164,7 @@ public class CashFlowControllerTest extends ApplicationTest{
         clickOn("#opprettKonto");
 
         //sjekker at kontoen ikke er lagt til i kontooversikten
-        assertTrue(controller.getAccountOverview().isEmpty());
+        
 
         //sjekker at riktig feilmelding er sendt ut
         assertEquals("Du kan ikke bruke tall eller tegn i navnet", controller.feilmelding.getText());
@@ -175,9 +178,16 @@ public class CashFlowControllerTest extends ApplicationTest{
         clickOn("#settBelop").write(amount);
         clickOn("#opprettKonto");
 
-        assertTrue(controller.getAccountOverview().isEmpty());
         //vil sjekke at riktig feilmelding er sendt ut
         assertEquals("Beløpet må bestå av tall og kan ikke være mindre enn null", controller.feilmelding.getText());
         assertEquals(" ", controller.kontoOpprettet.getText());
+    }*/
+/*
+	private void onClear() {
+		controller.navnKonto.clear();
+		controller.settBelop.clear();
+		controller.typeKonto.setValue(null);
+		controller.kontoOpprettet.setText("");
+        controller.feilmelding.setText("");
     }*/
 }

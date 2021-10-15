@@ -141,11 +141,12 @@ public abstract class AbstractAccount {
         return new Random().nextInt(8999) + 1000; //if the user is null, return a random number between 1000 and 9999
     }
 
-    private boolean addToTransactionHistory(Transaction transaction) {
-        if (transactionHistory.add(transaction)) {
-            return true;
+    public boolean addToTransactionHistory(Transaction transaction) {
+        if (transaction != null) {
+            return (transactionHistory.add(transaction));
         }
         return false;
+        
     }
 
     /**Only used when a user is adding this account that already has an owner.
@@ -265,7 +266,9 @@ public abstract class AbstractAccount {
     //dårlig innkapsling?
     public void setOwner(User owner) {
         this.owner = owner;
-        owner.addAccount(this);
+        if (owner != null) {
+            owner.addAccount(this);
+        }
     }
 
     @Override
