@@ -18,12 +18,20 @@ import core.User;
 import core.AbstractAccount;
 import core.CheckingAccount;
 
-public class CashFlowController {
+import javafx.application.Application;
+import javafx.scene.control.ChoiceBox;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-@FXML private TextField navnKonto, settBelop;
-@FXML private TextArea kontoer;
-@FXML private Button opprettKonto;
-@FXML private Text kontoOpprettet, feilmelding;
+public class CashFlowController {
+    
+    @FXML private TextField navnKonto, settBelop;
+    @FXML private TextArea kontoer;
+    @FXML private Button opprettKonto, detaljerOgOverforinger;
+    @FXML private Text kontoOpprettet, feilmelding;
+    @FXML private ChoiceBox typeKonto;
 
 private static List<String> kontoOversikt = new ArrayList<String>();
 private User user = new User(123456);
@@ -56,7 +64,7 @@ private void onCreateAccount() {
         clear();
         kontoOpprettet.setText("Kontoen er opprettet");
         kontoOversikt.add(navnKonto.getText() + ":" + settBelop.getText());
-        AbstractAccount account = new CheckingAccount(navnKonto.getText(), Double.valueOf(settBelop.getText()), 1000 + ran.nextInt(8999));
+        AbstractAccount account = new CheckingAccount(navnKonto.getText(), Double.valueOf(settBelop.getText()), user);
         user.addAccount(account);
         save();
         updateAccountView();
@@ -120,25 +128,14 @@ private void load() {
     }
 }
 
-
+@FXML
+private void onNextPage() throws IOException {
+    Stage stage = (Stage) detaljerOgOverforinger.getScene().getWindow();
+    stage.close();
+    Stage primaryStage = new Stage();
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Details.fxml"));
+    Parent parent = fxmlLoader.load();
+    primaryStage.setScene(new Scene(parent));
+    primaryStage.show();
+}   
 }
-    @FXML
-    private void onNextPage() throws IOException {
-        Stage stage = (Stage) detaljerOgOverforinger.getScene().getWindow();
-        stage.close();
-        Stage primaryStage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Details.fxml"));
-        Parent parent = fxmlLoader.load();
-        primaryStage.setScene(new Scene(parent));
-        primaryStage.show();
-    }   
-import javafx.application.Application;
-import javafx.scene.control.ChoiceBox;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-@FXML private ChoiceBox typeKonto, velgKonto, overførKonto;
-@FXML private TextField overførBeløp;
-@FXML private TextArea kontoHistorikk;
-@FXML private Button detaljerOgOverforinger, tilHovedside, overfør;
