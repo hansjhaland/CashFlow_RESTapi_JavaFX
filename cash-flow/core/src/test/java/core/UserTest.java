@@ -132,16 +132,20 @@ public class UserTest {
     public void testGettingAccountNumbers() {
         List<Integer> accountNumbers = new ArrayList<>();
         AbstractAccount account1 = new CheckingAccount("name", 0, 1111, null);
+        
         //test adding account
-
         user.addAccount(account1);
         accountNumbers.add(account1.getAccountNumber());
         assertTrue(user.getAccountNumbers().contains(account1.getAccountNumber()), "Expected that account1's account number was added to the user's list of account numbers, but it wasn't");
+        
         //test removing this account
-
         user.removeAccount(account1);
         accountNumbers.remove((Integer) account1.getAccountNumber());
         assertFalse(user.getAccountNumbers().contains(account1.getAccountNumber()), "Expectes that account1's account number was removed from the user's list of account numbers, but it wasn't");
     }
-
+    @Test
+    public void testGetAccount() {
+        //test getting the right account when given the accountnumber
+        
+    }
 }
