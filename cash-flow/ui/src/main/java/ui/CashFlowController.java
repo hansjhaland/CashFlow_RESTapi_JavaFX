@@ -29,9 +29,9 @@ public class CashFlowController {
 
 @FXML private TextField navnKonto, settBelop, overførBeløp;
 @FXML private TextArea kontoer, kontoHistorikk;
-@FXML private Button opprettKonto, detaljerOgOverforinger, tilHovedside, overfør;
+@FXML private Button detaljerOgOverforinger, tilHovedside, overfør;
 @FXML private Text kontoOpprettet, feilmelding;
-@FXML private ChoiceBox velgKonto, overførKonto;
+@FXML private ChoiceBox typeKonto, velgKonto, overførKonto;
 
 
 
