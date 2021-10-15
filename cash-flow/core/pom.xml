@@ -48,6 +48,11 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <configuration>
+                    <argLine>
+                        @{jaCoCoArgLine} --add-opens cashflow.core/json=ALL-UNNAMED
+                    </argLine>
+                </configuration>
         		<artifactId>maven-surefire-plugin</artifactId>
 	        </plugin>
 
@@ -55,8 +60,11 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-            </plugin>
+                <configuration>
+                    <propertyName>jaCoCoArgLine</propertyName>
+                </configuration>
 
+            </plugin>
         </plugins>
     </build>
 </project>
