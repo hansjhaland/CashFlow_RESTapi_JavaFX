@@ -54,9 +54,7 @@ private void setDropDownMenu() {
 public void onCreateAccount() {
     String name = navnKonto.getText();
     String amount = settBelop.getText();
-    System.out.println("kom hit1");
     if (typeKonto.getValue() == null){
-        System.out.println("Kom hit2");
         feilmelding.setText("Velg en kontotype!");
     }
     else if (name.isBlank() || amount.isBlank()) {
@@ -189,4 +187,5 @@ private void onNextPage() throws IOException {
     primaryStage.setScene(new Scene(parent));
     primaryStage.show();
 }   
+
 }

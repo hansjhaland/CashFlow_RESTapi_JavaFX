@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,16 +29,22 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
 import json.CashFlowPersistence;
 
 
 public class CashFlowControllerTest extends ApplicationTest{
+
+    //Nødvendig å reste hva som skjer ved klikk på knapp "neste side"?
+    //Har jeg testet verdi lik null riktig?
+    //mangler kanskje noen edge cases
     
     private CashFlowController controller;
     final String SETTBELOP = "#settBelop";
     final String NAVNKONTO = "#navnKonto";
     final String OPPRETTKONTO = "#opprettKonto";
     final String TYPEKONTO = "#typeKonto";
+    final String KONTOER = "#kontoer";
 
 
     @Override
@@ -55,9 +62,14 @@ public class CashFlowControllerTest extends ApplicationTest{
 
     @BeforeEach
     public void setUpItems() {
-        controller = new CashFlowController();
+        TextField amount = find(SETTBELOP);
+        TextField name = find(NAVNKONTO);
+        amount.setText("");
+        name.setText("");
+        ChoiceBox cb = find(TYPEKONTO);
+        cb.getSelectionModel().clearSelection();
+        //controller = new CashFlowController();
         //System.getProperties().put("testfx.robot", "glass");
-        //System.out.println(controller.kontoOpprettet.getText());
     }
     
     @Test
@@ -75,6 +87,10 @@ public class CashFlowControllerTest extends ApplicationTest{
     
     @Test
     public void testNewCorrectAccount() {
+        TextArea kontoOversikt = find("#kontoer");
+        //hvis null?
+        String kontoer = kontoOversikt.getText();
+        
         String name = "first account";
         String amount = "12";
 
@@ -89,6 +105,7 @@ public class CashFlowControllerTest extends ApplicationTest{
 
         assertNotNull(lookup("#kontoOpprettet").queryText().getText());
         assertEquals("Kontoen er opprettet", (lookup("#kontoOpprettet").queryText().getText()));
+        assertEquals(kontoer + "\n" + "Sparekonto" + ": " + name + "\n" + "   Beløp: " + Double.parseDouble(amount), kontoOversikt.getText());
         
     }
     
@@ -97,97 +114,133 @@ public class CashFlowControllerTest extends ApplicationTest{
         return (T) lookup(query).queryAll().iterator().next();
     }
 
+
     @Test
     public void testMissingFields() {
-        //hvis du ikke skriver inn noe
-        clickOn(OPPRETTKONTO);
-        assertEquals("Velg en kontotype!", lookup("#feilmelding").queryText().getText());
-        //onClear();
+        TextArea kontoOversikt = find("#kontoer");
+        //hvis null?
+        String kontoer1 = kontoOversikt.getText();
 
-        //hvis du bare skriver inn beløp
-        clickOn("#settBelop").write("12");
+        TextField amount = find(SETTBELOP);
+        TextField name = find(NAVNKONTO);
+
+        //Test bare beløp
+        clickOn("#settBelop").write("34");
         clickOn("#opprettKonto");
         assertEquals("Velg en kontotype!", lookup("#feilmelding").queryText().getText());
-        //onClear();
 
         //hvis du bare skriver inn navn
+        amount.setText("");
         clickOn("#navnKonto").write("test");
         clickOn("#opprettKonto");
         assertEquals("Velg en kontotype!", lookup("#feilmelding").queryText().getText());
-        //onClear();
 
         //hvis du skriver inn navn og beløp 
+        name.setText("");
         clickOn("#navnKonto").write("test");
-        clickOn("#settBelop").write("12");
+        clickOn("#settBelop").write("35");
         clickOn("#opprettKonto");
         assertEquals("Velg en kontotype!", lookup("#feilmelding").queryText().getText());
-       //onClear();
 
         //hvis du skriver inn type
-        if(controller.navnKonto != null) {
-            controller.navnKonto.clear();
-        }
-        if(controller.settBelop != null) {
-            controller.settBelop.clear();;
-        }
-        
-        clickOn("#typeKonto");
+        amount.setText("");
+        name.setText("");
+        clickOn(TYPEKONTO);
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
+        clickOn(OPPRETTKONTO);
         assertEquals("Husk å fylle inn alle felt", lookup("#feilmelding").queryText().getText());
-        //onClear();
-
-        //hvis du skriver inn type og navn
-        clickOn("#navnKonto").write("test");
-        clickOn("#typeKonto");
-        type(KeyCode.DOWN);
-        type(KeyCode.ENTER);
-        assertEquals("Husk å fylle inn alle felt", lookup("#feilmelding").queryText().getText());
-        //onClear();
 
         //hvis du skriver inn type og beløp
-        controller.navnKonto.clear();
-        clickOn("#settBelop").write("12");
-        clickOn("#typeKonto");
-        type(KeyCode.DOWN);
-        type(KeyCode.ENTER);
+        clickOn("#settBelop").write("35");
+        clickOn("#opprettKonto");
         assertEquals("Husk å fylle inn alle felt", lookup("#feilmelding").queryText().getText());
-        //onClear();
+
+        //hvis du skriver inn type og navn
+        amount.setText("");
+        clickOn("#navnKonto").write("test");
+        clickOn("#opprettKonto");
+        assertEquals("Husk å fylle inn alle felt", lookup("#feilmelding").queryText().getText());
+
+        String kontoer2 = kontoOversikt.getText();
+        assertEquals(kontoer1, kontoer2);
+
     }
-/*
+
     @Test
     public void testWrongAccountName() {
-        String name = "account1";
-        String amount = "12";
-        clickOn("#navnKonto").write(name);
-        clickOn("#settBelop").write(amount);
-        clickOn("#opprettKonto");
+        //mangler null-håndtering og edge case
+        TextField name = find(NAVNKONTO);
 
-        //sjekker at kontoen ikke er lagt til i kontooversikten
-        
+        String name1 = "account1";
+        String name2 = null;
+        String name3 = "!.";
+        String name4 = "thelengthogthisstringistoolong";
 
-        //sjekker at riktig feilmelding er sendt ut
-        assertEquals("Du kan ikke bruke tall eller tegn i navnet", controller.feilmelding.getText());
+        clickOn("#settBelop").write("100");
+        clickOn(TYPEKONTO);
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+
+        //1
+        clickOn(NAVNKONTO).write(name1);
+        clickOn(OPPRETTKONTO);
+        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver", controller.feilmelding.getText());
+
+        //2 Håndtere hvis null
+        try {
+            clickOn(NAVNKONTO).write(name2);
+            fail("Skal ikke kunne sette navn lik null");
+        } catch (NullPointerException e) {
+
+        }
+
+        //3
+        name.setText("");
+        clickOn(NAVNKONTO).write(name3);
+        clickOn(OPPRETTKONTO);
+        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver", controller.feilmelding.getText());
+
+        //4
+        name.setText("");
+        clickOn(NAVNKONTO).write(name4);
+        clickOn(OPPRETTKONTO);
+        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver", controller.feilmelding.getText());
     }
 
     @Test
     public void testWrongAmount() {
-        String name = "account";
-        String amount = "-12";
-        clickOn("#navnKonto").write(name);
-        clickOn("#settBelop").write(amount);
-        clickOn("#opprettKonto");
+        TextField amount = find(SETTBELOP);
 
-        //vil sjekke at riktig feilmelding er sendt ut
+        String amount1 = "-12";
+        String amount2 = "String";
+        String amount3 = null;
+
+        clickOn(NAVNKONTO).write("Main Account");
+        clickOn(TYPEKONTO);
+        type(KeyCode.DOWN);
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+
+        //1
+        clickOn(SETTBELOP).write(amount1);
+        clickOn(OPPRETTKONTO);
         assertEquals("Beløpet må bestå av tall og kan ikke være mindre enn null", controller.feilmelding.getText());
-        assertEquals(" ", controller.kontoOpprettet.getText());
-    }*/
-/*
-	private void onClear() {
-		controller.navnKonto.clear();
-		controller.settBelop.clear();
-		controller.typeKonto.setValue(null);
-		controller.kontoOpprettet.setText("");
-        controller.feilmelding.setText("");
-    }*/
+
+        //2
+        amount.setText("");
+        clickOn(SETTBELOP).write(amount2);
+        clickOn(OPPRETTKONTO);
+        assertEquals("Beløpet må bestå av tall og kan ikke være mindre enn null", controller.feilmelding.getText());
+
+        //3
+        try {
+            clickOn(SETTBELOP).write(amount3);
+            fail("Skal ikke kunne sette beløp lik null");
+        } catch (NullPointerException e) {
+
+        }
+    }
+
+
 }
