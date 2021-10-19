@@ -156,12 +156,17 @@ private void load() {
 
 @FXML
 private void onNextPage() throws IOException {
-    Stage stage = (Stage) detaljerOgOverforinger.getScene().getWindow();
-    stage.close();
-    Stage primaryStage = new Stage();
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Details.fxml"));
-    Parent parent = fxmlLoader.load();
-    primaryStage.setScene(new Scene(parent));
-    primaryStage.show();
+    if (!user.getAccounts().isEmpty()) {
+        Stage stage = (Stage) detaljerOgOverforinger.getScene().getWindow();
+        stage.close();
+        Stage primaryStage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Details.fxml"));
+        Parent parent = fxmlLoader.load();
+        primaryStage.setScene(new Scene(parent));
+        primaryStage.show();
+    }
+    else {
+        feilmelding.setText("Opprett en konto for å kunne se kontodetaljer og overføringer!");
+    }
 }   
 }
