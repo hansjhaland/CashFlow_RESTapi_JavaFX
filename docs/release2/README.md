@@ -10,6 +10,20 @@ Brukerhistoriene for gruppeinnlevering ligger i [brukerhistorier](brukerhistorie
 
 ---
 
+# Hva som er gjort
+
+Vi har i denne iterasjonen:
+- utvidet kjernelogikken til å inkludere forskjellige typer bankkontoer, transaksjonshistorikk og lagring til disse.
+- laget en ny "detalje og overføringer"-side som inneholder transaksjonshistorikken og mulighet for å overfør mellom kontoer
+- laget en hjelpeklasse som skal stå for mye av verifiseringen i både kjernelogikken og kontroller. Tester har blitt satt opp for alle deler av koden utenom den nye "detalje og overføringer"-siden. 
+- utbedret og utvidet koden vår samtidig som at testene skulle verifisere endringene våre. 
+- modularisert prosjektet vårt
+- lagt til Checkstyle, og skal fikse feilene i 3. iterasjon
+- lagt til Spotbugs, og fikset feilene denne fant
+- 
+
+---
+
 # Designdokumentasjon
 Her er en skissering av appens design og fuksjonalitet til gruppeinnlevering 2, og forklaring av de forskjellige elementene på de to sidene
 ## Forside
