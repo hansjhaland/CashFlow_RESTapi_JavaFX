@@ -16,6 +16,7 @@ import core.AbstractAccount;
 import core.BSUAccount;
 import core.CheckingAccount;
 import core.SavingsAccount;
+import core.BankHelper;
 import javafx.scene.control.ChoiceBox;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,6 +33,7 @@ public class CashFlowController {
 
 private User user = new User(123456);
 private CashFlowPersistence cfp = new CashFlowPersistence();
+private BankHelper bankHelper = new BankHelper();
 
 public void initialize() {
     kontoer.setEditable(false);
@@ -44,7 +46,7 @@ private void setDropDownMenu() {
     typeKonto.getItems().clear();
     typeKonto.getItems().add("Brukskonto");
     typeKonto.getItems().add("Sparekonto");
-    if (!user.hasBSU()){
+    if (!bankHelper.hasBSU(user)){
         typeKonto.getItems().add("BSU-konto");
     }
 }
