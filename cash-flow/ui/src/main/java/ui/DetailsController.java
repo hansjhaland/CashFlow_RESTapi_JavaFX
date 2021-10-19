@@ -23,7 +23,9 @@ import java.util.Random;
 
 import core.User;
 import core.AbstractAccount;
+import core.BSUAccount;
 import core.CheckingAccount;
+import core.SavingsAccount;
 import core.Transaction;
 import core.BankHelper;
 
@@ -90,8 +92,18 @@ private void onTransfer() {
         if (transferAmount <= 0){
             feedback.setText("Overføringsbeløpet må være større enn 0.");
 
-        }else{
-            if (bankHelper.isBalanceValidWhenAdding(transferAmount * -1, account) && bankHelper.isBalanceValidWhenAdding(transferAmount * -1, accountToTransferTo)){
+        }
+        else if (account instanceof BSUAccount){
+            feedback.setText("Kan ikke overføre fra en BSU-konto");
+        }
+        else if (account == accountToTransferTo){
+            feedback.setText("Sendekonto kan ikke være lik mottakerkonto");
+        }
+        else if (account instanceof SavingsAccount && !((SavingsAccount) account).isWithdrawalOrTransferPossible()){
+            feedback.setText("Maksimalt antall uttak fra sparekonto nådd");
+        }
+        else{
+            if (bankHelper.isBalanceValidWhenAdding(-transferAmount, account) && bankHelper.isBalanceValidWhenAdding(transferAmount, accountToTransferTo)){
                 account.transfer(accountToTransferTo, transferAmount);
                 try {
                     fileHandler.save(user);
