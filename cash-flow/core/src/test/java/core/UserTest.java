@@ -71,7 +71,6 @@ public class UserTest {
         user.addAccount(testAccount);
         assertTrue(user.getAccounts().contains(testAccount), "Expected that the user owning the account is 'true', but was 'false'");
         assertEquals(user.getUserID(), testAccount.getOwnerID(), "Expected that the new owner of the account is the user but was: " + testAccount.getOwnerID());
-        assertFalse(otherUser.getAccounts().contains(testAccount), "Expected that the otherUser owning the account is 'false', but was 'true'");
     }
 
     @Test
