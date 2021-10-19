@@ -22,25 +22,19 @@ public abstract class AbstractAccount {
         helper.checkIfValidName(name);
         this.name = name;
 
-        this.owner = owner;
-
         helper.checkIfValidAccountNumber(accountNumber);
         if (owner != null){
             helper.checkIfAccountNumberIsTaken(accountNumber, owner);
-            owner.addAccount(this);
         }
+        
         this.accountNumber = accountNumber;
-
+        
+        setOwner(owner);
     }
 
     public AbstractAccount(String name, User owner) {
         helper.checkIfValidName(name);
         this.name = name;
-
-        this.owner = owner;
-        if (owner != null){
-            owner.addAccount(this);
-        }
 
         int availableAccountNumber = getNextAvailableAccountNumber(owner);
         if (availableAccountNumber == -1) {
@@ -48,6 +42,7 @@ public abstract class AbstractAccount {
         }
         accountNumber = availableAccountNumber;
         
+        setOwner(owner);
     }
 
     
@@ -138,7 +133,7 @@ public abstract class AbstractAccount {
             }
             return -1; //return -1 if all the account numbers are taken
         }
-        return new Random().nextInt(8999) + 1000; //if the user is null, return a random number between 1000 and 9999
+        return 1000; //if the user is null return 1000 
     }
 
     public boolean addToTransactionHistory(Transaction transaction) {
@@ -147,13 +142,6 @@ public abstract class AbstractAccount {
         }
         return false;
         
-    }
-
-    /**Only used when a user is adding this account that already has an owner.
-     * This method will then remove this account from the owners list of accounts. 
-     */
-    protected void removeOwnersOwnershipOfAccount() {
-        owner.removeAccount(this);
     }
 
     //==============================================================================================
@@ -199,11 +187,12 @@ public abstract class AbstractAccount {
         this.name = name;
     }
 
-    //dårlig innkapsling?
     public void setOwner(User owner) {
-        this.owner = owner;
         if (owner != null) {
             owner.addAccount(this);
+            User ownerCopy = new User(owner.getUserID());
+            ownerCopy.setName(owner.getName());
+            this.owner = ownerCopy;
         }
     }
 
