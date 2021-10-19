@@ -1,23 +1,12 @@
 package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.assertj.core.internal.bytebuddy.implementation.bind.annotation.Default;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
-import org.testfx.util.WaitForAsyncUtils;
-import org.loadui.testfx.GuiTest;
 
 
 import javafx.fxml.FXMLLoader;
@@ -27,18 +16,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.text.Text;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
-import json.CashFlowPersistence;
 
 
 public class CashFlowControllerTest extends ApplicationTest{
 
     //Nødvendig å reste hva som skjer ved klikk på knapp "neste side"?
-    //Har jeg testet verdi lik null riktig?
-    //mangler kanskje noen edge cases
     
     private CashFlowController controller;
     final String SETTBELOP = "#settBelop";
@@ -58,9 +42,6 @@ public class CashFlowControllerTest extends ApplicationTest{
     
   }
 
-    //trenger kanskje ikke denne
-    //private CashFlowPersistence cfp = new CashFlowPersistence();
-
     @BeforeEach
     public void setUpItems() {
         TextField amount = find(SETTBELOP);
@@ -69,8 +50,6 @@ public class CashFlowControllerTest extends ApplicationTest{
         name.setText("");
         ChoiceBox cb = find(TYPEKONTO);
         cb.getSelectionModel().clearSelection();
-        //controller = new CashFlowController();
-        //System.getProperties().put("testfx.robot", "glass");
     }
     
     @Test
