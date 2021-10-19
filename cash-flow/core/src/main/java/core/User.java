@@ -23,6 +23,7 @@ public class User {
     public User(int userID) {
         helper.checkIfValidUserID(userID);
         this.userID = userID;
+        name = "";
     }
 
     //==============================================================================================
@@ -38,9 +39,6 @@ public class User {
     public boolean addAccount(AbstractAccount account) {
         if (getAccountNumbers().contains(account.getAccountNumber())) {
             return false;
-        }
-        if (account.getOwnerID() != -1) { //this means that some other user already owns this account
-            account.removeOwnersOwnershipOfAccount();
         }
         accounts.add(account);
         account.setOwner(this);
@@ -118,9 +116,11 @@ public class User {
         String string = "Name: " + getName() + 
                       "\nUserID: " + getUserID() + 
                       "\nAccounts:";
+        StringBuffer sb = new StringBuffer();
+        sb.append(string);
         for (AbstractAccount account : getAccounts()) {
-            string += "\n" + account.toString();
+            sb.append("\n" + account.toString());
         }
-        return string;
+        return sb.toString();
     }
 }
