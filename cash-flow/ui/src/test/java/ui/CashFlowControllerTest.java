@@ -3,6 +3,7 @@ package ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -118,7 +119,6 @@ public class CashFlowControllerTest extends ApplicationTest{
     @Test
     public void testMissingFields() {
         TextArea kontoOversikt = find("#kontoer");
-        //hvis null?
         String kontoer1 = kontoOversikt.getText();
 
         TextField amount = find(SETTBELOP);
@@ -169,7 +169,6 @@ public class CashFlowControllerTest extends ApplicationTest{
 
     @Test
     public void testWrongAccountName() {
-        //mangler null-håndtering og edge case
         TextField name = find(NAVNKONTO);
 
         String name1 = "account1";
@@ -188,12 +187,9 @@ public class CashFlowControllerTest extends ApplicationTest{
         assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver", controller.feilmelding.getText());
 
         //2 Håndtere hvis null
-        try {
+        assertThrows(NullPointerException.class, () -> {
             clickOn(NAVNKONTO).write(name2);
-            fail("Skal ikke kunne sette navn lik null");
-        } catch (NullPointerException e) {
-
-        }
+        });
 
         //3
         name.setText("");
@@ -234,12 +230,9 @@ public class CashFlowControllerTest extends ApplicationTest{
         assertEquals("Beløpet må bestå av tall og kan ikke være mindre enn null", controller.feilmelding.getText());
 
         //3
-        try {
+        assertThrows(NullPointerException.class, () -> {
             clickOn(SETTBELOP).write(amount3);
-            fail("Skal ikke kunne sette beløp lik null");
-        } catch (NullPointerException e) {
-
-        }
+        });
     }
 
 
