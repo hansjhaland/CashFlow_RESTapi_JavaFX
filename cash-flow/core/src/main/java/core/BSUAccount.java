@@ -46,20 +46,18 @@ public class BSUAccount extends AbstractAccount {
      * @throws IllegalStateException if the deposit leads to the balance exceeding the cap of 25000
      */
     @Override
-    public boolean deposit(double amount) {
+    public void deposit(double amount) {
         checkIfValidDeposit(amount);
-        return super.deposit(amount);
+        super.deposit(amount);
     }
 
     /**
      * This method does nothing, because you cannot withdraw from a BSU account,
      * unless its used as deductable for a mortgage
      * @param amount the amount to be withdrawn
-     * @return {@code false} always returns false
      */
     @Override
-    public boolean withdraw(double amount) {
-        return false;
+    public void withdraw(double amount) {
     }
 
     /**
@@ -69,7 +67,6 @@ public class BSUAccount extends AbstractAccount {
      */
     @Override
     public void transfer(AbstractAccount recievingAccount, double amount) {
-        
     }
 
     private void checkIfValidDeposit(double amount) {
@@ -79,7 +76,7 @@ public class BSUAccount extends AbstractAccount {
     }
 
     private void checkIfUserDoesNotHaveBSU(User user) {
-        if (user != null && user.hasBSU()) {
+        if (user != null && helper.hasBSU(user)) {
             throw new IllegalStateException("A user can only own excactly one BSU-account");
         }
     }

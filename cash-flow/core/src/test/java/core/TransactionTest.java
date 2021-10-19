@@ -74,6 +74,15 @@ public class TransactionTest {
                     "An IllegalArgumentException should have been thrown");
     }
 
+    @Test
+    public void testConstructorForJson() {
+        Transaction transaction = new Transaction("payer", 1234, "recipient", 4321, 100);
+        assertEquals(TransactionType.TRANSFER, transaction.getType(), "Expected type to be 'TRANSFER', but was: " + transaction.getType());
+        transaction = new Transaction("payer", 1234, "", 0, 100);
+        assertEquals(TransactionType.WITHDRAWAL, transaction.getType(), "Expected type to be 'WITHDRAWAL', but was: " + transaction.getType());
+        transaction = new Transaction("", 0, "recipient", 4321, 100);
+        assertEquals(TransactionType.DEPOSIT, transaction.getType(), "Expected type to be 'DEPOSIT', but was: " + transaction.getType());
+    }
     
     @Test
     public void testTransferBetweenTwoAccounts() {

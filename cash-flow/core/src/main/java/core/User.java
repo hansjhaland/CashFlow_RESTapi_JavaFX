@@ -9,6 +9,8 @@ public class User {
     private final int userID;
     private Collection<AbstractAccount> accounts = new ArrayList<>();
 
+    private BankHelper helper = new BankHelper();
+
     //==============================================================================================
     // Contstructors
     //==============================================================================================
@@ -19,25 +21,8 @@ public class User {
      * @throws IllegalArgumentException if the UserID si not between 100000 and 999999
      */
     public User(int userID) {
-        checkIfValidUserID(userID);
+        helper.checkIfValidUserID(userID);
         this.userID = userID;
-    }
-    
-
-    //Er mulig man ikke trenger denne konstruktøren!
-    /**
-     * Initializes a new User-object. UserID must be between 100000 and 999999.
-     * Also adds the given accounts to the users list of accounts
-     * @param UserID the users identification number
-     * @param accounts the accounts to be added, given as a vararg
-     * @throws IllegalArgumentException if the UserID is not between 100000 and 999999
-     */
-    public User(int userID, AbstractAccount... accounts) {
-        checkIfValidUserID(userID);
-        this.userID = userID;
-        for (AbstractAccount account : accounts) {
-            addAccount(account);
-        }
     }
 
     //==============================================================================================
@@ -73,58 +58,6 @@ public class User {
             return true;
         }
         return false;
-    }
-
-    //==============================================================================================
-    // Methods to check arguments
-    //==============================================================================================
-
-    /**
-     * Checks if the UserID is between 100000 and 999999.
-     * @param userID the UserID to be checked
-     * @throws IllegalArguementException if the UserID isn't between 100000 and 999999
-     */
-    private void checkIfValidUserID(int userID) {
-        int numberOfDigits = (int)Math.log10(userID)+1;
-        if (numberOfDigits != 6) {
-            throw new IllegalArgumentException("UserID must be between 100000 and 999999, but had: " + numberOfDigits + " digits.");
-        }
-    }
-
-    protected void checkIfAccountNumberIsTaken(int accountNumber) {
-        for (int exisitingAccountNumber : getAccountNumbers()) {
-            if (exisitingAccountNumber == accountNumber) {
-                throw new IllegalStateException("The user already has an account with account number: " + accountNumber);
-            }
-        }
-    }
-
-    /**
-     * Checks if the name is less than 20 characters long and only consists of letters and spaces.
-     * @param name the name to be checked
-     * @return {@code true} if the name satisfies this rule
-     */
-    public static boolean isValidName(String name) {
-        if (name.length() > 20 || !isOnlyLettersAndSpaces(name)) {
-            return false;
-        }
-        return true;
-    }
-
-
-    private static boolean isOnlyLettersAndSpaces(String s) {
-        for(int i = 0; i < s.length(); i++){
-          char ch = s.charAt(i);
-          if (Character.isLetter(ch) || ch == ' ') {
-            continue;
-          }
-          return false;
-        }
-        return true;
-    }
-
-    public boolean hasBSU() {
-        return getAccounts().stream().anyMatch(account -> account instanceof BSUAccount);
     }
 
     //==============================================================================================
@@ -174,16 +107,20 @@ public class User {
      * only contain letters and spaces
      */
     public void setName(String name) {
-        if (!isValidName(name)) {
+        if (!helper.isValidName(name)) {
             throw new IllegalArgumentException("The name " + name.length() + " must be 20 characters or less and only contain letters and spaces");
         }
         this.name = name;
     }
 
-
-
-    public static void main(String[] args) {
-        
-        
+    @Override
+    public String toString() {
+        String string = "Name: " + getName() + 
+                      "\nUserID: " + getUserID() + 
+                      "\nAccounts:";
+        for (AbstractAccount account : getAccounts()) {
+            string += "\n" + account.toString();
+        }
+        return string;
     }
 }
