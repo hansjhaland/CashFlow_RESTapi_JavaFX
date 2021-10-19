@@ -25,19 +25,21 @@ import core.User;
 import core.AbstractAccount;
 import core.CheckingAccount;
 import core.Transaction;
+import core.BankHelper;
 
 public class DetailsController {
 
 @FXML private TextField navnKonto, settBelop, overførBeløp;
 @FXML private TextArea kontoer, kontoHistorikk;
 @FXML private Button opprettKonto, detaljerOgOverforinger, tilHovedside, overfør;
-@FXML private Text kontoOpprettet, feilmelding;
+@FXML private Text kontoOpprettet, feedback;
 @FXML private ChoiceBox velgKonto, overførKonto;
 
 private User user;
 private AbstractAccount account;
 private AbstractAccount accountToTransferTo;
 private FileHandler fileHandler = new FileHandler();
+private BankHelper bankHelper = new BankHelper();
 
 public void initialize() {
     try {
@@ -58,7 +60,7 @@ private void updateTransferHistoryView() {
     String string = "";
     if (account != null) {
         for (Transaction transaction : account.getTransactionHistory()) {
-            string += transaction.toString() + "\n";
+            string += "Til: " + transaction.getRecipient() + "\n" + "Fra: " + transaction.getPayer() + "\n" + "Beløp: " + transaction.getAmount() + "\n" + "\n";
         }
     }
     kontoHistorikk.setText(string);
@@ -84,18 +86,35 @@ private void onChooseAccount() {
 @FXML
 private void onTransfer() {
     if (account != null && accountToTransferTo != null) {
-        account.transfer(accountToTransferTo, Integer.valueOf(overførBeløp.getText()));
-        try {
-            fileHandler.save(user);
-        } catch (IllegalStateException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        double transferAmount = Double.valueOf(overførBeløp.getText());
+        if (transferAmount <= 0){
+            feedback.setText("Overføringsbeløpet må være større enn 0.");
+
+        }else{
+            if (bankHelper.isBalanceValidWhenAdding(transferAmount * -1, account) && bankHelper.isBalanceValidWhenAdding(transferAmount * -1, accountToTransferTo)){
+                account.transfer(accountToTransferTo, transferAmount);
+                try {
+                    fileHandler.save(user);
+                } catch (IllegalStateException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                updateTransferHistoryView();
+            }else{
+                feedback.setText(account.getName() + " har ikke nok penger på konto.");
+            
+            }
         }
-        updateTransferHistoryView();
+        
+    }else{
+        feedback.setText("Velg hvilken konto du vil overføre fra/til.");
     }
+    
+
+    
 }
 
 @FXML

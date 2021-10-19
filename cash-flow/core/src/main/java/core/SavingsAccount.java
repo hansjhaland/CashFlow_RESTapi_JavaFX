@@ -46,9 +46,9 @@ public class SavingsAccount extends AbstractAccount {
      * has been reached, which is 10
      */
     @Override
-    public boolean withdraw(double amount) {
+    public void withdraw(double amount) {
         checkIfWithdrawalOrTransferPossible();
-        return super.withdraw(amount);
+        super.withdraw(amount);
     }
     
     /**

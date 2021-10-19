@@ -12,19 +12,21 @@ public abstract class AbstractAccount {
     private User owner;
     private List<Transaction> transactionHistory = new ArrayList<>();
 
+    protected BankHelper helper = new BankHelper();
+
     //==============================================================================================
     // Constructors
     //==============================================================================================
 
     public AbstractAccount(String name, int accountNumber, User owner) {
-        checkIfValidName(name);
+        helper.checkIfValidName(name);
         this.name = name;
 
         this.owner = owner;
 
-        checkIfValidAccountNumber(accountNumber);
+        helper.checkIfValidAccountNumber(accountNumber);
         if (owner != null){
-            owner.checkIfAccountNumberIsTaken(accountNumber);
+            helper.checkIfAccountNumberIsTaken(accountNumber, owner);
             owner.addAccount(this);
         }
         this.accountNumber = accountNumber;
@@ -32,7 +34,7 @@ public abstract class AbstractAccount {
     }
 
     public AbstractAccount(String name, User owner) {
-        checkIfValidName(name);
+        helper.checkIfValidName(name);
         this.name = name;
 
         this.owner = owner;
@@ -60,7 +62,7 @@ public abstract class AbstractAccount {
      * @throws IllegalArgumentException if the given amount is negative
      */
     protected void initialDeposit(double amount) {
-        checkIfValidAmount(amount);
+        helper.checkIfValidAmount(amount);
         this.balance += amount;
     }
 
@@ -69,11 +71,10 @@ public abstract class AbstractAccount {
      * @param amount the amount to be deposited
      * @throws IllegalArgumentException if the given amount is negative
      */
-    public boolean deposit(double amount) {
-        checkIfValidAmount(amount);
+    public void deposit(double amount) {
+        helper.checkIfValidAmount(amount);
         this.balance += amount;
         addToTransactionHistory(new Transaction(null, this, amount));
-        return true;
     }
 
     /**
@@ -82,12 +83,11 @@ public abstract class AbstractAccount {
      * @throws IllegalArgumentException if the given amount is negative
      * @throws IllegalStateException if the withdrawal of the amount leads to the balance being negative
      */
-    public boolean withdraw(double amount) {
-        checkIfValidAmount(amount);
-        checkIfValidBalance(-amount);
+    public void withdraw(double amount) {
+        helper.checkIfValidAmount(amount);
+        helper.checkIfValidBalance(-amount, this);
         this.balance -= amount;
         addToTransactionHistory(new Transaction(this, null, amount));
-        return true;
     }
 
     /**
@@ -96,7 +96,7 @@ public abstract class AbstractAccount {
      * @param amount amount to be recieved
      */
     private void recieveFromOtherAccount(double amount) {
-        checkIfValidAmount(amount);
+        helper.checkIfValidAmount(amount);
         balance += amount;
     }
 
@@ -111,8 +111,8 @@ public abstract class AbstractAccount {
      * @throws IllegalStateException if the balance is less than 0 when the amount is added
      */
     public void transfer(AbstractAccount recievingAccount, double amount) {
-        checkIfValidAmount(amount);
-        checkIfValidBalance(-amount);
+        helper.checkIfValidAmount(amount);
+        helper.checkIfValidBalance(-amount, this);
         if (recievingAccount == null) {
             throw new IllegalArgumentException("The parameter 'recievingAccount' cannot be 'null'");
         }
@@ -155,70 +155,6 @@ public abstract class AbstractAccount {
     protected void removeOwnersOwnershipOfAccount() {
         owner.removeAccount(this);
     }
-    
-    //==============================================================================================
-    // Methods to check arguments
-    //==============================================================================================
-
-    /**
-     * Checks if the name is 20 characters or less. Checks if the name is only letters and spaces.
-     * @param name the name to be checked
-     * @throws IllegalArgumentException if the name is more than 20 characters long or does not only contain letters and spaces
-     */
-    private static void checkIfValidName(String name) {
-        if (!User.isValidName(name)) {
-            throw new IllegalArgumentException("The name " + name.length() + " must be 20 characters or less and only contain letters and spaces");
-        }
-    }
-    
-    /**
-     * Checks if the amount added sets the balance in an invalid state (less than 0). Amount can be negative if you are checking a withdrawal.
-     * @param amount the amount to be added to the balance
-     * @throws IllegalStateException if the balance is less than 0 when the amount is added
-     */
-    private void checkIfValidBalance(double amount) {
-        if (!isBalanceValidWhenAdding(amount)) {
-            throw new IllegalStateException("The balance of the account cannot be negative, and adding the amount made it negative");
-        }
-    }
-
-
-    private void checkIfValidAccountNumber(int accountNumber) {
-        if (accountNumber < 1000 || accountNumber > 9999) {
-            throw new IllegalArgumentException("Accountnumber must be between 1000 and 9999, but was: " + accountNumber);
-        }
-    }
-    
-    /**
-     * Checks if the amount is positive.
-     * @param amount the amount to be checked
-     * @throws IllegalArgumentException if the amount is negative
-     */
-    private void checkIfValidAmount(double amount) {
-        if (!isPositiveAmount(amount)) {
-            throw new IllegalArgumentException("The amount must be positive, but was: " + amount);
-        }
-    }
-
-    /**
-     * Checks if the amount is positive.
-     * @param amount the amount to check
-     * @return {@code true} if the amount is positive
-     */
-    public static boolean isPositiveAmount(double amount) {
-        return amount >= 0;
-    }
-
-    /**
-     * Checks if the amount added sets the balance in an invalid state (less than 0). 
-     * Amount can be negative if you are checking a withdrawal.
-     * @param amount the amount to be added
-     * @return {@code false} if the balance is set to be negative
-     */
-    public boolean isBalanceValidWhenAdding(double amount) {
-        double newBalance = balance + amount;
-        return newBalance >= 0;
-    }
 
     //==============================================================================================
     // Getters and setters
@@ -259,7 +195,7 @@ public abstract class AbstractAccount {
      * only contain letters and spaces
      */
     public void setName(String name) {
-        checkIfValidName(name);
+        helper.checkIfValidName(name);
         this.name = name;
     }
 
@@ -277,9 +213,5 @@ public abstract class AbstractAccount {
              "\nAccount number: " + getAccountNumber() + 
              "\nOwner (ID): " + owner.getName() + " (" + owner.getUserID() + ")" + 
              "\nBalance: " + getBalance();
-    }
-
-    public static void main(String[] args) {
-        
     }
 }

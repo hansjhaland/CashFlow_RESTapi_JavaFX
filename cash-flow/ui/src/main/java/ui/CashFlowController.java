@@ -10,20 +10,20 @@ import javafx.scene.text.Text;
 import json.CashFlowPersistence;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import core.User;
 import core.AbstractAccount;
+import core.BSUAccount;
 import core.CheckingAccount;
-
-import javafx.application.Application;
+import core.SavingsAccount;
+import core.BankHelper;
 import javafx.scene.control.ChoiceBox;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+
 
 public class CashFlowController {
     
@@ -33,42 +33,68 @@ public class CashFlowController {
     @FXML private Text kontoOpprettet, feilmelding;
     @FXML private ChoiceBox typeKonto;
 
-private static List<String> kontoOversikt = new ArrayList<String>();
 private User user = new User(123456);
 private CashFlowPersistence cfp = new CashFlowPersistence();
-private Random ran = new Random();
+private BankHelper bankHelper = new BankHelper();
 
 public void initialize() {
     kontoer.setEditable(false);
+    setDropDownMenu();
+    load();
     updateAccountView();
+}
+
+private void setDropDownMenu() {
+    typeKonto.getItems().clear();
+    typeKonto.getItems().add("Brukskonto");
+    typeKonto.getItems().add("Sparekonto");
+    if (!bankHelper.hasBSU(user)){
+        typeKonto.getItems().add("BSU-konto");
+    }
 }
 
 @FXML
 private void onCreateAccount() {
-    if (this.navnKonto.getText().isBlank() || this.settBelop.getText().isBlank()) {
+    if (typeKonto.getValue() == null){
+        feilmelding.setText("Velg en kontotype!");
+    }
+    else if (this.navnKonto.getText().isBlank() || this.settBelop.getText().isBlank()) {
         clear();
         feilmelding.setText("Husk å fylle inn alle felt");
     }
-
     else if (!onlyLetters(this.navnKonto.getText())){
         clear();
         feilmelding.setText("Du kan ikke bruke tall eller tegn i navnet");
     }
-
     else if (!this.settBelop.getText().matches("[0-9]+")){
         clear();
         feilmelding.setText("Beløpet må bestå av tall");
     }
-    
     else {
         clear();
-        kontoOpprettet.setText("Kontoen er opprettet");
-        kontoOversikt.add(navnKonto.getText() + ":" + settBelop.getText());
-        AbstractAccount account = new CheckingAccount(navnKonto.getText(), Double.valueOf(settBelop.getText()), user);
+        String type = (String) typeKonto.getValue();
+        String name = navnKonto.getText();
+        double balance = Double.parseDouble(settBelop.getText());
+        AbstractAccount account = getAccountFromType(type, name, balance);
         user.addAccount(account);
-        save();
         updateAccountView();
+        kontoOpprettet.setText("Kontoen er opprettet");
+        navnKonto.setText("");
+        settBelop.setText("");
+        save();
     } 
+}
+
+private AbstractAccount getAccountFromType(String type, String name, double balance){
+    switch (type){
+        case "Brukskonto":
+            return new CheckingAccount(name, balance, user);
+        case "Sparekonto":
+            return new SavingsAccount(name, balance, user);
+        case "BSU-konto":
+            return new BSUAccount(name, balance, user);
+    }
+    return null;
 }
 
 @FXML
@@ -92,18 +118,22 @@ private boolean onlyLetters(String s){
 @FXML
 private void updateAccountView(){
     kontoer.setText("");
-    load();
-    kontoOversikt.clear();
     for (AbstractAccount account : user.getAccounts()) {
-        String konto = account.getName() + ":" + account.getBalance();
-        kontoOversikt.add(konto);
+        String type = "";
+        if (account instanceof CheckingAccount){
+            type = "Brukskonto";
+        }
+        else if (account instanceof SavingsAccount){
+            type = "Sparekonto";
+        }
+        else if (account instanceof BSUAccount){
+            type = "BSU-konto";
+        }
+        String name = account.getName();
+        String balance = String.valueOf(account.getBalance());
+        kontoer.setText(kontoer.getText() + "\n" + type + ": " + name + "\n" + "   Beløp: " + balance);
     }
-    for(int i = 0; i < kontoOversikt.size(); i++){
-        String indeks = kontoOversikt.get(i);
-        String navn = indeks.split(":") [0];
-        String belop = indeks.split(":") [1];
-        kontoer.setText(kontoer.getText() + "\n" + "Konto: " + navn + "\n" + "   Beløp: " + belop);
-    }
+    setDropDownMenu();
 }
 
 private void save() {
@@ -130,12 +160,17 @@ private void load() {
 
 @FXML
 private void onNextPage() throws IOException {
-    Stage stage = (Stage) detaljerOgOverforinger.getScene().getWindow();
-    stage.close();
-    Stage primaryStage = new Stage();
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Details.fxml"));
-    Parent parent = fxmlLoader.load();
-    primaryStage.setScene(new Scene(parent));
-    primaryStage.show();
+    if (!user.getAccounts().isEmpty()) {
+        Stage stage = (Stage) detaljerOgOverforinger.getScene().getWindow();
+        stage.close();
+        Stage primaryStage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Details.fxml"));
+        Parent parent = fxmlLoader.load();
+        primaryStage.setScene(new Scene(parent));
+        primaryStage.show();
+    }
+    else {
+        feilmelding.setText("Opprett en konto for å kunne se kontodetaljer og overføringer!");
+    }
 }   
 }
