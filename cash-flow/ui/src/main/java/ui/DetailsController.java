@@ -2,7 +2,6 @@ package ui;
 
 
 import javafx.fxml.FXML;
-import javafx.application.Application;
 
 
 import javafx.scene.control.Button;
@@ -10,21 +9,16 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.text.Text;
-import json.CashFlowPersistence;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import core.User;
 import core.AbstractAccount;
 import core.BSUAccount;
-import core.CheckingAccount;
 import core.SavingsAccount;
 import core.Transaction;
 import core.BankHelper;
@@ -36,8 +30,8 @@ public class DetailsController {
 @FXML private Button opprettKonto, detaljerOgOverforinger, tilHovedside, overfør;
 @FXML private Text kontoOpprettet, feedback;
 @FXML private ChoiceBox velgKonto, overførKonto;
-
-private User user;
+ 
+private User user ;
 private AbstractAccount account;
 private AbstractAccount accountToTransferTo;
 private FileHandler fileHandler = new FileHandler();
@@ -47,13 +41,11 @@ public void initialize() {
     try {
         user = fileHandler.load();
     } catch (IllegalStateException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        feedback.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
     } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        feedback.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
     }
-
+    kontoHistorikk.setEditable(false);
     updateTransferHistoryView();
     updateChooseAccountView();
 }
@@ -108,11 +100,9 @@ private void onTransfer() {
                 try {
                     fileHandler.save(user);
                 } catch (IllegalStateException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    feedback.setText("Noe gikk galt! Kunne ikke lagre brukerdata.");
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    feedback.setText("Noe gikk galt! Kunne ikke lagre brukerdata.");
                 }
                 updateTransferHistoryView();
             }else{
