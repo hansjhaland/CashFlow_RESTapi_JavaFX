@@ -242,15 +242,15 @@ public class DetailsControllerTest extends ApplicationTest{
     @Test
     public void testTransferWithNegativeAmount() {
         clickOn(RECIPIENTACCOUNT);
+        type(KeyCode.DOWN);
+        type(KeyCode.DOWN);
         type(KeyCode.ENTER);
         clickOn(DETAILEDACCOUNT);
-        type(KeyCode.DOWN);
-        type(KeyCode.DOWN);
         type(KeyCode.ENTER);
         TextField amount = find(AMOUNT);
-        amount.setText("10");
+        amount.setText("-10");
         clickOn(TRANSFER);
-        assertEquals("Kan ikke overføre fra en BSU-konto", lookup(FEEDBACK)
+        assertEquals("Overføringsbeløpet må være større enn 0.", lookup(FEEDBACK)
                     .queryText().getText());
     }
 
