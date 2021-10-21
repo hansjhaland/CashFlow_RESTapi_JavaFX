@@ -5,11 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -46,6 +51,8 @@ public class DetailsControllerTest extends ApplicationTest{
     private SavingsAccount savingsAccount = new SavingsAccount("SA", 1000, 1001, user);
     private BSUAccount bsuAccount = new BSUAccount("BSUA", 1000, 1002, user);
 
+    private final static String testSaveFile = "SaveDataTest.json";
+
     @Override
     public void start(final Stage stage) throws Exception {
         //Ikke optimal opprettelse av bruker
@@ -55,17 +62,18 @@ public class DetailsControllerTest extends ApplicationTest{
 
         //Mangler å teste om formatet blir riktig
         try{
-            fileHandler.save(user);
+            fileHandler.save(user, testSaveFile);
         } catch (IllegalStateException e) {
-           fail(e);
+            fail(e);
         } catch (IOException e) {
-           fail(e);
+            fail(e);
         }
         final FXMLLoader loader = new FXMLLoader(getClass().getResource("Details_test.fxml"));
         final Parent root = loader.load();
         this.controller = loader.getController();
         stage.setScene(new Scene(root));
         stage.show();
+        controller.loadNewUser(testSaveFile);
         
     }
 
@@ -95,6 +103,13 @@ public class DetailsControllerTest extends ApplicationTest{
         recipientAccount.getSelectionModel().clearSelection();
         amount.setText("");
         feedback.setText("");
+    }
+
+    @AfterAll
+    public static void deleteTestJsonFile() {
+        Path testFilePath = Paths.get(System.getProperty("user.home"), testSaveFile);
+        File testFile = testFilePath.toFile();
+        testFile.delete();
     }
 
     /**
