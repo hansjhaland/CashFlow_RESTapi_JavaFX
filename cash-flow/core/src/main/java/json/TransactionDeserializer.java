@@ -52,7 +52,7 @@ public class TransactionDeserializer extends JsonDeserializer<Transaction>  {
                 payer = payerNode.asText();
             }
 
-            JsonNode payersAccountNumberNode = objectNode.get("payersAccountNumberNode");
+            JsonNode payersAccountNumberNode = objectNode.get("payersAccountNumber");
             if (payersAccountNumberNode instanceof IntNode){
                 payersAccountNumber = payersAccountNumberNode.asInt();
             }
@@ -62,7 +62,7 @@ public class TransactionDeserializer extends JsonDeserializer<Transaction>  {
                 recipient = recipientNode.asText();
             }
 
-            JsonNode recipientsAccountNumberNode = objectNode.get("recipientsAccountNumberNode");
+            JsonNode recipientsAccountNumberNode = objectNode.get("recipientsAccountNumber");
             if (recipientsAccountNumberNode instanceof IntNode){
                 recipientsAccountNumber = recipientsAccountNumberNode.asInt();
             }

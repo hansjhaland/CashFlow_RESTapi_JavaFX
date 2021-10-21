@@ -23,6 +23,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
+
 public class CashFlowController {
 
 @FXML TextField navnKonto, settBelop;
@@ -34,7 +36,6 @@ public class CashFlowController {
 private User user = new User(123456);
 private CashFlowPersistence cfp = new CashFlowPersistence();
 private BankHelper bankHelper = new BankHelper();
-
 
 public void initialize() {
     kontoer.setEditable(false);

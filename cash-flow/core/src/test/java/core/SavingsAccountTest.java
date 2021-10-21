@@ -29,16 +29,33 @@ public class SavingsAccountTest {
         AbstractAccount test = new SavingsAccount("Kontonavn", 100, 1234, user);
         test.withdraw(80);
         assertEquals(20, test.getBalance(), "Expected the balance to be '20', but was: " + test.getBalance());
+    }
 
-        //test withdrawing more than 10 times
-        for (int i = 0; i < 9; i++) { 
-            test.withdraw(1); //withdrawing 9 times so that number of withdrawals is 10
+    @Test
+    public void testTransferAndWithdrawMoreThanTenTimes() {
+        AbstractAccount test = new SavingsAccount("Kontonavn", 100, 1234, user);
+        AbstractAccount test2 = new SavingsAccount("Kontonavn", 100, 4321, user);
+
+        //test withdrawing 5 times
+        for (int i = 0; i < 5; i++) { 
+            test.withdraw(1); //withdrawing 5 times so that number of withdrawals is 5
         }
-        assertEquals(11, test.getBalance(), "Expected '11', but was: " + test.getBalance());
+        assertEquals(95, test.getBalance(), "Expected '95', but was: " + test.getBalance());
         
+        //test transfering 5 times
+        for (int i = 0; i < 5; i++) { 
+            test.transfer(test2, 1); //transfering 5 times so that number of transfers is 5
+        }
+        assertEquals(90, test.getBalance(), "Expected '90', but was: " + test.getBalance());
+
         //withdrawing for the 11th time should throw an exception
         assertThrows(IllegalStateException.class,
                     () -> test.withdraw(1),
+                    "An IllegalStateException should have been thrown");
+
+        //transfering for the 11th time should throw an exception
+        assertThrows(IllegalStateException.class,
+                    () -> test.transfer(test2, 1),
                     "An IllegalStateException should have been thrown");
     }
 
