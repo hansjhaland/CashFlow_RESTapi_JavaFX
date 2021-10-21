@@ -83,6 +83,8 @@ public class AccountDeserializer extends JsonDeserializer<AbstractAccount>  {
                 case "bsu":
                     account = new BSUAccount(name, balance, accountNumber, null);
                     break;
+                default:
+                    throw new IllegalStateException("Could not create account of existing type.");
             }
             JsonNode transactionHistoryNode = objectNode.get("transactionHistory");
             if (transactionHistoryNode instanceof ArrayNode) {
