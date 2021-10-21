@@ -80,8 +80,8 @@ public class CashFlowModuleTest {
     public void testAccountAndUserSerializersDeserializers() {
         User user1 = new User(123456);
         user1.setName("nameA");
-        AbstractAccount account1 = new CheckingAccount("acA", 200, 5555, user1);
-        AbstractAccount account2 = new CheckingAccount("acB", 100, 1234, user1);
+        new CheckingAccount("acA", 200, 5555, user1);
+        new CheckingAccount("acB", 100, 1234, user1);
         try{
             String json = mapper.writeValueAsString(user1);
             User user2 = mapper.readValue(json, User.class);

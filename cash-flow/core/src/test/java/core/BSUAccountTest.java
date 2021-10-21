@@ -18,7 +18,6 @@ public class BSUAccountTest {
         user.setName("user");
     }
     
-    @Disabled
     @Test
     public void testConstructor() {
         //test depositing more than 25 000

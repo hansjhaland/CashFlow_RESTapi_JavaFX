@@ -13,7 +13,7 @@ public class BSUAccount extends AbstractAccount {
      * @throws IllegalStateException if the initial balance is set to be less than 0 or more than 25000 or the user already owns a BSU-account
      */
     public BSUAccount(String name, double balance, int accountNumber, User owner) {
-        super(name, accountNumber, null);
+        super(name, accountNumber, owner);
         checkIfUserDoesNotHaveBSU(owner);
         setOwner(owner);
         checkIfValidDeposit(balance);
@@ -31,7 +31,7 @@ public class BSUAccount extends AbstractAccount {
      * @throws IllegalStateException if the initial balance is set to be less than 0 or more than 25000 or the user already owns a BSU-account
      */
     public BSUAccount(String name, double balance, User owner) {
-        super(name, null);
+        super(name, owner);
         checkIfUserDoesNotHaveBSU(owner);
         setOwner(owner);
         checkIfValidDeposit(balance);
@@ -76,8 +76,14 @@ public class BSUAccount extends AbstractAccount {
     }
 
     private void checkIfUserDoesNotHaveBSU(User user) {
-        if (user != null && helper.hasBSU(user)) {
-            throw new IllegalStateException("A user can only own excactly one BSU-account");
+        if (user != null) {
+            long numberOfBSU = user.getAccounts().stream()
+                                                 .filter(account -> account instanceof BSUAccount)
+                                                 .count();
+            if (numberOfBSU > 1) {
+                user.removeAccount(this);
+                throw new IllegalStateException("A user can only own excactly one BSU-account");
+            }
         }
     }
 

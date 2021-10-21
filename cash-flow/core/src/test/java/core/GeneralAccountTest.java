@@ -94,7 +94,7 @@ public class GeneralAccountTest {
         user.addAccount(test);
         AbstractAccount test2 = new CheckingAccount("testTwo", 100, user);
         assertEquals(1001, test2.getAccountNumber(), "Expected account number to be '1001', but was: " + test2.getAccountNumber());
-        AbstractAccount test3 = new CheckingAccount("testThree", 200, 1002, user);
+        new CheckingAccount("testThree", 200, 1002, user);
         AbstractAccount test4 = new CheckingAccount("testFour", 300, user);
         assertEquals(1003, test4.getAccountNumber(), "Expected account number to be '1003', but was: " + test4.getAccountNumber());
     }

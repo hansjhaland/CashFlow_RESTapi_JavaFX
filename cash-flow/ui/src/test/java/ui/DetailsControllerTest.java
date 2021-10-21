@@ -12,7 +12,6 @@ import org.testfx.framework.junit5.ApplicationTest;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -21,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import json.CashFlowPersistence;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.control.ChoiceBox;
@@ -45,24 +45,18 @@ public class DetailsControllerTest extends ApplicationTest{
     final String FEEDBACK = "#feedback";                  //Text
 
     private DetailsController controller;
-    private FileHandler fileHandler = new FileHandler();
+    private CashFlowPersistence cfp = new CashFlowPersistence();
     private User user = new User(123456);
-    private CheckingAccount checkingAccount = new CheckingAccount("ChA", 1000, 1000, user);
-    private SavingsAccount savingsAccount = new SavingsAccount("SA", 1000, 1001, user);
-    private BSUAccount bsuAccount = new BSUAccount("BSUA", 1000, 1002, user);
-
+    
     private final static String testSaveFile = "SaveDataTest.json";
-
+    
     @Override
     public void start(final Stage stage) throws Exception {
-        //Ikke optimal opprettelse av bruker
-        //Men DetailsController må lese en bruker i starten
-        //Burde kanskje vært i en midlertidig fil??
-        //Overskriver eksisterende brukere ved å kjøre testen???
-
-        //Mangler å teste om formatet blir riktig
+        new CheckingAccount("ChA", 1000, 1000, user);
+        new SavingsAccount("SA", 1000, 1001, user);
+        new BSUAccount("BSUA", 1000, 1002, user);
         try{
-            fileHandler.save(user, testSaveFile);
+            cfp.saveUser(user, testSaveFile);
         } catch (IllegalStateException e) {
             fail(e);
         } catch (IOException e) {
@@ -74,7 +68,6 @@ public class DetailsControllerTest extends ApplicationTest{
         stage.setScene(new Scene(root));
         stage.show();
         controller.loadNewUser(testSaveFile);
-        
     }
 
     @SuppressWarnings (value="unchecked")
@@ -84,19 +77,8 @@ public class DetailsControllerTest extends ApplicationTest{
 
     @BeforeEach
     public void setUpItems() {
-     /*    user = new User(123456);
-        checkingAccount = new CheckingAccount("ChA", 100, 1000, user);
-        savingsAccount = new SavingsAccount("SA", 1000, 1001, user);
-        bsuAccount = new BSUAccount("BSUA", 1000, 1002, user);
-        try{
-            fileHandler.save(user);
-        } catch (IllegalStateException e) {
-           fail(e);
-        } catch (IOException e) {
-           fail(e);
-        } */
-        ChoiceBox detailedAccount = find(DETAILEDACCOUNT);
-        ChoiceBox recipientAccount = find(RECIPIENTACCOUNT);
+        ChoiceBox<String> detailedAccount = find(DETAILEDACCOUNT);
+        ChoiceBox<String> recipientAccount = find(RECIPIENTACCOUNT);
         TextField amount = find(AMOUNT);
         Text feedback = find(FEEDBACK);
         detailedAccount.getSelectionModel().clearSelection();
@@ -127,12 +109,12 @@ public class DetailsControllerTest extends ApplicationTest{
     public void testChooseCheckingAccount(){
         clickOn(DETAILEDACCOUNT);
         type(KeyCode.ENTER);
-        ChoiceBox detailedAccount = find(DETAILEDACCOUNT);
+        ChoiceBox<String> detailedAccount = find(DETAILEDACCOUNT);
         String account1 = (String) detailedAccount.getValue();
         assertEquals("ChA: 1000", account1);
         clickOn(RECIPIENTACCOUNT);
         type(KeyCode.ENTER);
-        ChoiceBox recipientAccount = find(RECIPIENTACCOUNT);
+        ChoiceBox<String> recipientAccount = find(RECIPIENTACCOUNT);
         String account2 = (String) recipientAccount.getValue();
         assertEquals("ChA: 1000", account2);
     }
@@ -145,13 +127,13 @@ public class DetailsControllerTest extends ApplicationTest{
         clickOn(DETAILEDACCOUNT);
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
-        ChoiceBox detailedAccount = find(DETAILEDACCOUNT);
+        ChoiceBox<String> detailedAccount = find(DETAILEDACCOUNT);
         String account1 = (String) detailedAccount.getValue();
         assertEquals("SA: 1001", account1);
         clickOn(RECIPIENTACCOUNT);
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
-        ChoiceBox recipientAccount = find(RECIPIENTACCOUNT);
+        ChoiceBox<String> recipientAccount = find(RECIPIENTACCOUNT);
         String account2 = (String) recipientAccount.getValue();
         assertEquals("SA: 1001", account2);
     }
@@ -165,14 +147,14 @@ public class DetailsControllerTest extends ApplicationTest{
         type(KeyCode.DOWN);
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
-        ChoiceBox detailedAccount = find(DETAILEDACCOUNT);
+        ChoiceBox<String> detailedAccount = find(DETAILEDACCOUNT);
         String account1 = (String) detailedAccount.getValue();
         assertEquals("BSUA: 1002", account1);
         clickOn(RECIPIENTACCOUNT);
         type(KeyCode.DOWN);
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
-        ChoiceBox recipientAccount = find(RECIPIENTACCOUNT);
+        ChoiceBox<String> recipientAccount = find(RECIPIENTACCOUNT);
         String account2 = (String) recipientAccount.getValue();
         assertEquals("BSUA: 1002", account2);
     }

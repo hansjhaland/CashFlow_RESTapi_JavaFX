@@ -4,21 +4,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
-
+import core.User;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import json.CashFlowPersistence;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
-
 
 public class CashFlowControllerTest extends ApplicationTest{
 
@@ -31,6 +36,9 @@ public class CashFlowControllerTest extends ApplicationTest{
     final String TYPEKONTO = "#typeKonto";
     final String KONTOER = "#kontoer";
 
+    private final static String testSaveFile = "SaveDataTest.json";
+    private CashFlowPersistence cfp = new CashFlowPersistence();
+
 
     @Override
     public void start(final Stage stage) throws Exception {
@@ -39,6 +47,9 @@ public class CashFlowControllerTest extends ApplicationTest{
     this.controller = loader.getController();
     stage.setScene(new Scene(root));
     stage.show();
+    User user = new User(123456);
+    cfp.saveUser(user, testSaveFile);
+    controller.loadNewUser(testSaveFile);
     
   }
 
@@ -48,8 +59,15 @@ public class CashFlowControllerTest extends ApplicationTest{
         TextField name = find(NAVNKONTO);
         amount.setText("");
         name.setText("");
-        ChoiceBox cb = find(TYPEKONTO);
+        ChoiceBox<String> cb = find(TYPEKONTO);
         cb.getSelectionModel().clearSelection();
+    }
+
+    @AfterAll
+    public static void deleteTestJsonFile() {
+        Path testFilePath = Paths.get(System.getProperty("user.home"), testSaveFile);
+        File testFile = testFilePath.toFile();
+        testFile.delete();
     }
     
     @Test
