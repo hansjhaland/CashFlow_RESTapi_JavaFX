@@ -27,8 +27,8 @@ Klasser og filer som omhandler GUI ligger i **ui-modulen**
 - **CashFlowApp** som kjører applikasjonen
 - **CashFlow.FXML** som spesifiserer hvordan forsiden til applikasjonen skal se ut. Ligger i **resources-mappen**
 - **CashFlowController** som forbinder brukergrensesnittet med domenelogikken og persistens
-- **NY SIDE FXML ...**
-- **NY KONTROLLER ...**
+- **Details.FXML** som spesifiserer hvordan neste side til applikasjonen skal se ut. Ligger også i **resources-mappen**
+- **DetailsController** neste side som forbinder brukergrensesnittet med domenelogikken og persistens
 
 
 **MÅ OPPDATERES**
