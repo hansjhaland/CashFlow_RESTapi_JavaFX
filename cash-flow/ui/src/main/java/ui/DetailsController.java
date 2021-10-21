@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import json.CashFlowPersistence;
 
 import java.io.IOException;
 
@@ -29,19 +30,17 @@ public class DetailsController {
     @FXML private TextArea kontoer, kontoHistorikk;
     @FXML private Button opprettKonto, detaljerOgOverforinger, tilHovedside, overfør;
     @FXML private Text kontoOpprettet, feedback;
-    @FXML private ChoiceBox velgKonto, overførKonto;
+    @FXML private ChoiceBox<String> velgKonto, overførKonto;
     
     private User user ;
     private AbstractAccount account;
     private AbstractAccount accountToTransferTo;
-    private FileHandler fileHandler = new FileHandler();
+    private CashFlowPersistence cfp = new CashFlowPersistence();
     private BankHelper bankHelper = new BankHelper();
-
-    private String saveFile = "SaveData.json";
 
     public void initialize() {
         try {
-            user = fileHandler.load(saveFile);
+            user = cfp.loadUser("SaveData.json");
         } catch (IllegalStateException e) {
             feedback.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
         } catch (IOException e) {
@@ -57,15 +56,22 @@ public class DetailsController {
 
     private void updateTransferHistoryView() {
         String string = "";
+        StringBuffer sb = new StringBuffer();
         if (account != null) {
             for (Transaction transaction : account.getTransactionHistory()) {
-                string += "Til: " + transaction.getRecipient() + "\n" + "Fra: " + transaction.getPayer() + "\n" + "Beløp: " + transaction.getAmount() + "\n" + "\n";
+                string = "Til: " + transaction.getRecipient() + "\n" + "Fra: " + transaction.getPayer() + "\n" + "Beløp: " + transaction.getAmount() + "\n" + "\n";
+                sb.append(string);
             }
+            /* for (Transaction transaction : account.getTransactionHistory()) {
+                string += "Til: " + transaction.getRecipient() + "\n" + "Fra: " + transaction.getPayer() + "\n" + "Beløp: " + transaction.getAmount() + "\n" + "\n";
+            } */
         }
-        kontoHistorikk.setText(string);
+        kontoHistorikk.setText(sb.toString());
     }
 
     private void updateChooseAccountView() {
+        velgKonto.getItems().clear();
+        overførKonto.getItems().clear();
         for (AbstractAccount account : user.getAccounts()) {
             velgKonto.getItems().add(account.getName() + ": " + account.getAccountNumber());
             overførKonto.getItems().add(account.getName() + ": " + account.getAccountNumber());
@@ -75,7 +81,8 @@ public class DetailsController {
     @FXML
     private void onChooseAccount() {
         String valueText = (String) velgKonto.getValue();
-        int accountNumber = Integer.valueOf(valueText.split(": ")[1]);
+        String number = valueText.split(": ")[1];
+        int accountNumber = (number == null ? 1 : Integer.parseInt(number));
         account = user.getAccount(accountNumber);
         updateTransferHistoryView();
     }
@@ -85,7 +92,9 @@ public class DetailsController {
     @FXML
     private void onTransfer() {
         if (account != null && accountToTransferTo != null) {
-            double transferAmount = Double.valueOf(overførBeløp.getText());
+            //double transferAmount = Double.valueOf(overførBeløp.getText());
+            String amount = overførBeløp.getText();
+            double transferAmount = (amount == null ? 0 : Double.parseDouble(amount));
             if (transferAmount <= 0){
                 feedback.setText("Overføringsbeløpet må være større enn 0.");
 
@@ -102,13 +111,7 @@ public class DetailsController {
             else{
                 if (bankHelper.isBalanceValidWhenAdding(-transferAmount, account) && bankHelper.isBalanceValidWhenAdding(transferAmount, accountToTransferTo)){
                     account.transfer(accountToTransferTo, transferAmount);
-                    try {
-                        fileHandler.save(user);
-                    } catch (IllegalStateException e) {
-                        feedback.setText("Noe gikk galt! Kunne ikke lagre brukerdata.");
-                    } catch (IOException e) {
-                        feedback.setText("Noe gikk galt! Kunne ikke lagre brukerdata.");
-                    }
+                    save();
                     updateTransferHistoryView();
                 }else{
                     feedback.setText(account.getName() + " har ikke nok penger på konto.");
@@ -127,7 +130,8 @@ public class DetailsController {
     @FXML
     private void onChooseAccountToTransferTo() {
         String valueText = (String) overførKonto.getValue();
-        int accountNumber = Integer.valueOf(valueText.split(": ")[1]);
+        String number = valueText.split(": ")[1];
+        int accountNumber = (number == null ? 1 : Integer.parseInt(number));
         accountToTransferTo = user.getAccount(accountNumber);
     }
 
@@ -143,19 +147,29 @@ public class DetailsController {
     }
 
     public void loadNewUser(String saveFile) {
-        try {
-            user = fileHandler.load(saveFile);
-        } catch (IllegalStateException e) {
-            feedback.setText("Noe gikk galt");
-            e.printStackTrace();
-        } catch (IOException e) {
-            feedback.setText("Noe gikk galt");
-            e.printStackTrace();
-        }
-        this.saveFile = saveFile;
+        cfp.setSaveFilePath(saveFile);
+        load();
         updateChooseAccountView();
         updateTransferHistoryView();
     }
     
+    private void load() {
+        try {
+            user = cfp.loadUser();
+        } catch (IllegalStateException e) {
+            feedback.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
+        } catch (IOException e) {
+            feedback.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
+        }
+    }
 
+    private void save() {
+        try {
+            cfp.saveUser(user);
+        } catch (IllegalStateException e) {
+            feedback.setText("Noe gikk galt! Kunne ikke lagre brukerdata.");
+        } catch (IOException e) {
+            feedback.setText("Noe gikk galt! Kunne ikke lagre brukerdata.");
+        }
+    }
 }

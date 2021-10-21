@@ -31,7 +31,7 @@ public class CashFlowController {
 @FXML TextArea kontoer;
 @FXML Button opprettKonto, detaljerOgOverforinger;
 @FXML Text kontoOpprettet, feilmelding;
-@FXML ChoiceBox typeKonto;
+@FXML ChoiceBox<String> typeKonto;
 
 private User user = new User(123456);
 private CashFlowPersistence cfp = new CashFlowPersistence();
@@ -40,7 +40,13 @@ private BankHelper bankHelper = new BankHelper();
 public void initialize() {
     kontoer.setEditable(false);
     setDropDownMenu();
-    load();
+    try {
+        user = cfp.loadUser("SaveData.json");
+    } catch (IllegalStateException e) {
+        feilmelding.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
+    } catch (IOException e) {
+        feilmelding.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
+    }
     updateAccountView();
 }
 
@@ -93,7 +99,7 @@ public void onCreateAccount() {
 private boolean checkValidNameAmount(String name, String amount) {
     if (name == null && amount != null) {
         if (isNumeric(amount)) {
-            return AbstractAccount.isPositiveAmount(Double.parseDouble(amount));
+            return bankHelper.isPositiveAmount(Double.parseDouble(amount));
         }
         else {
             return false;
@@ -101,7 +107,7 @@ private boolean checkValidNameAmount(String name, String amount) {
         
     }
     else if (name != null && amount == null) {
-        return User.isValidName(name);
+        return bankHelper.isValidName(name);
     }
    else {
        return false;
@@ -159,7 +165,6 @@ private void updateAccountView(){
 }
 
 private void save() {
-    cfp.setSaveFilePath("SaveData.json");
     try {
         cfp.saveUser(user);
     } catch (IllegalStateException e) {
@@ -170,7 +175,6 @@ private void save() {
 }
 
 private void load() {
-    cfp.setSaveFilePath("SaveData.json");
     try {
         user = cfp.loadUser();
     } catch (IllegalStateException e) {
@@ -178,6 +182,12 @@ private void load() {
     } catch (IOException e) {
         feilmelding.setText("Bankkontoene ble ikke funnet.");
     }
+}
+
+public void loadNewUser(String saveFile) {
+    cfp.setSaveFilePath(saveFile);
+    load();
+    updateAccountView();
 }
 
 @FXML

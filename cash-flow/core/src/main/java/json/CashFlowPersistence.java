@@ -87,6 +87,14 @@ public class CashFlowPersistence {
         }
     }
 
+    public User loadUser(String saveFile) throws IOException, IllegalStateException {
+        setSaveFilePath(saveFile);
+        checkSaveFilePath(saveFilePath);
+        try (Reader reader = new FileReader(saveFilePath.toFile(), StandardCharsets.UTF_8)) {
+            return readUser(reader);
+        }
+    }
+
     /**
      * Method for storing a User object to in a JSON file. 
      * @param user User object to be stored.
@@ -94,6 +102,14 @@ public class CashFlowPersistence {
      * @throws IllegalStateException if file path is null.
      */
     public void saveUser(User user) throws IOException, IllegalStateException {
+        checkSaveFilePath(saveFilePath);
+        try (Writer writer = new FileWriter(saveFilePath.toFile(), StandardCharsets.UTF_8)) {
+            writeUser(user, writer);
+        }
+    }
+
+    public void saveUser(User user, String saveFile) throws IOException, IllegalStateException {
+        setSaveFilePath(saveFile);
         checkSaveFilePath(saveFilePath);
         try (Writer writer = new FileWriter(saveFilePath.toFile(), StandardCharsets.UTF_8)) {
             writeUser(user, writer);
