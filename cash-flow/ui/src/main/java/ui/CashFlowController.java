@@ -24,16 +24,17 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class CashFlowController {
-    
-    @FXML private TextField navnKonto, settBelop;
-    @FXML private TextArea kontoer;
-    @FXML private Button opprettKonto, detaljerOgOverforinger;
-    @FXML private Text kontoOpprettet, feilmelding;
-    @FXML private ChoiceBox typeKonto;
+
+@FXML TextField navnKonto, settBelop;
+@FXML TextArea kontoer;
+@FXML Button opprettKonto, detaljerOgOverforinger;
+@FXML Text kontoOpprettet, feilmelding;
+@FXML ChoiceBox typeKonto;
 
 private User user = new User(123456);
 private CashFlowPersistence cfp = new CashFlowPersistence();
 private BankHelper bankHelper = new BankHelper();
+
 
 public void initialize() {
     kontoer.setEditable(false);
@@ -52,26 +53,31 @@ private void setDropDownMenu() {
 }
 
 @FXML
-private void onCreateAccount() {
+public void onCreateAccount() {
+    String name = navnKonto.getText();
+    String amount = settBelop.getText();
     if (typeKonto.getValue() == null){
         feilmelding.setText("Velg en kontotype!");
     }
-    else if (this.navnKonto.getText().isBlank() || this.settBelop.getText().isBlank()) {
+    else if (name.isBlank() || amount.isBlank()) {
         clear();
         feilmelding.setText("Husk å fylle inn alle felt");
     }
-    else if (!onlyLetters(this.navnKonto.getText())){
+
+    else if (checkValidNameAmount(name, null) == false) {
         clear();
-        feilmelding.setText("Du kan ikke bruke tall eller tegn i navnet");
+        feilmelding.setText("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver");
     }
-    else if (!this.settBelop.getText().matches("[0-9]+")){
+    
+    else if (checkValidNameAmount(null, amount) == false) {
         clear();
-        feilmelding.setText("Beløpet må bestå av tall");
+        feilmelding.setText("Beløpet må bestå av tall og kan ikke være mindre enn null");
     }
+
+    
     else {
         clear();
         String type = (String) typeKonto.getValue();
-        String name = navnKonto.getText();
         double balance = Double.parseDouble(settBelop.getText());
         AbstractAccount account = getAccountFromType(type, name, balance);
         user.addAccount(account);
@@ -81,6 +87,24 @@ private void onCreateAccount() {
         settBelop.setText("");
         save();
     } 
+}
+
+private boolean checkValidNameAmount(String name, String amount) {
+    if (name == null && amount != null) {
+        if (isNumeric(amount)) {
+            return AbstractAccount.isPositiveAmount(Double.parseDouble(amount));
+        }
+        else {
+            return false;
+        }
+        
+    }
+    else if (name != null && amount == null) {
+        return User.isValidName(name);
+    }
+   else {
+       return false;
+   }
 }
 
 private AbstractAccount getAccountFromType(String type, String name, double balance){
@@ -102,16 +126,15 @@ private void clear() {
 }
 
 @FXML
-private boolean onlyLetters(String s){
-    for(int i = 0; i < s.length(); i++){
-        char ch = s.charAt(i);
-        if (Character.isLetter(ch) || ch == ' ') {
-            continue;        
-        }
+private boolean isNumeric(String s){
+    try {
+        Double.parseDouble(s);
+        return true;
+    } catch (NumberFormatException e) {
         return false;
     }
-    return true;
 }
+
 
 @FXML
 private void updateAccountView(){
@@ -171,4 +194,5 @@ private void onNextPage() throws IOException {
         feilmelding.setText("Opprett en konto for å kunne se kontodetaljer og overføringer!");
     }
 }   
+
 }

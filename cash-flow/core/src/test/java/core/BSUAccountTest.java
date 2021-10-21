@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class BSUAccountTest {
@@ -17,6 +18,7 @@ public class BSUAccountTest {
         user.setName("user");
     }
     
+    @Disabled
     @Test
     public void testConstructor() {
         //test depositing more than 25 000
