@@ -37,11 +37,11 @@ import core.BSUAccount;
 public class DetailsControllerTest extends ApplicationTest{
     
    
-    final String TRANSACTIONHISTORY = "#kontoHistorikk";  //TextArea
-    final String DETAILEDACCOUNT = "#velgKonto";          //ChoiceBox
-    final String RECIPIENTACCOUNT = "#overførKonto";      //ChoiceBox
-    final String AMOUNT = "#overførBeløp";                //TextField
-    final String TRANSFER = "#overfør";                   //Button
+    final String TRANSACTIONHISTORY = "#accountHistory";  //TextArea
+    final String DETAILEDACCOUNT = "#chooseAccount";          //ChoiceBox
+    final String RECIPIENTACCOUNT = "#transferAccount";      //ChoiceBox
+    final String AMOUNT = "#transferAmount";                //TextField
+    final String TRANSFER = "#transfer";                   //Button
     final String FEEDBACK = "#feedback";                  //Text
 
     private DetailsController controller;

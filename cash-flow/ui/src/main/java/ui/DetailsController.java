@@ -26,11 +26,11 @@ import core.BankHelper;
 
 public class DetailsController {
 
-    @FXML private TextField navnKonto, settBelop, overførBeløp;
-    @FXML private TextArea kontoer, kontoHistorikk;
-    @FXML private Button opprettKonto, detaljerOgOverforinger, tilHovedside, overfør;
-    @FXML private Text kontoOpprettet, feedback;
-    @FXML private ChoiceBox<String> velgKonto, overførKonto;
+    @FXML private TextField nameAccount, setAmount, transferAmount;
+    @FXML private TextArea accounts, accountHistory;
+    @FXML private Button createAccount, detailsAndTransfers, toMainPage, transfer;
+    @FXML private Text accountCreated, feedback;
+    @FXML private ChoiceBox<String> chooseAccount, transferAccount;
     
     private User user ;
     private AbstractAccount account;
@@ -49,7 +49,7 @@ public class DetailsController {
         if (user == null) {
             user = new User(123456);
         }
-        kontoHistorikk.setEditable(false);
+        accountHistory.setEditable(false);
         updateTransferHistoryView();
         updateChooseAccountView();
     }
@@ -66,21 +66,21 @@ public class DetailsController {
                 string += "Til: " + transaction.getRecipient() + "\n" + "Fra: " + transaction.getPayer() + "\n" + "Beløp: " + transaction.getAmount() + "\n" + "\n";
             } */
         }
-        kontoHistorikk.setText(sb.toString());
+        accountHistory.setText(sb.toString());
     }
 
     private void updateChooseAccountView() {
-        velgKonto.getItems().clear();
-        overførKonto.getItems().clear();
+        chooseAccount.getItems().clear();
+        transferAccount.getItems().clear();
         for (AbstractAccount account : user.getAccounts()) {
-            velgKonto.getItems().add(account.getName() + ": " + account.getAccountNumber());
-            overførKonto.getItems().add(account.getName() + ": " + account.getAccountNumber());
+            chooseAccount.getItems().add(account.getName() + ": " + account.getAccountNumber());
+            transferAccount.getItems().add(account.getName() + ": " + account.getAccountNumber());
         }
     }
 
     @FXML
     private void onChooseAccount() {
-        String valueText = (String) velgKonto.getValue();
+        String valueText = (String) chooseAccount.getValue();
         String number = valueText.split(": ")[1];
         int accountNumber = (number == null ? 1 : Integer.parseInt(number));
         account = user.getAccount(accountNumber);
@@ -93,7 +93,7 @@ public class DetailsController {
     private void onTransfer() {
         if (account != null && accountToTransferTo != null) {
             //double transferAmount = Double.valueOf(overførBeløp.getText());
-            String amount = overførBeløp.getText();
+            String amount = transferAmount.getText();
             double transferAmount = (amount == null ? 0 : Double.parseDouble(amount));
             if (transferAmount <= 0){
                 feedback.setText("Overføringsbeløpet må være større enn 0.");
@@ -129,7 +129,7 @@ public class DetailsController {
 
     @FXML
     private void onChooseAccountToTransferTo() {
-        String valueText = (String) overførKonto.getValue();
+        String valueText = (String) transferAccount.getValue();
         String number = valueText.split(": ")[1];
         int accountNumber = (number == null ? 1 : Integer.parseInt(number));
         accountToTransferTo = user.getAccount(accountNumber);
@@ -137,7 +137,7 @@ public class DetailsController {
 
     @FXML
     private void onPreviousPage() throws IOException {
-        Stage stage = (Stage) tilHovedside.getScene().getWindow();
+        Stage stage = (Stage) toMainPage.getScene().getWindow();
         stage.close();
         Stage primaryStage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CashFlow.fxml"));
