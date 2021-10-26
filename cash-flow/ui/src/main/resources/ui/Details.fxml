@@ -25,14 +25,14 @@
          <font>
             <Font size="18.0" />
          </font></Text>
-      <TextArea fx:id="kontoHistorikk" layoutX="34.0" layoutY="164.0" prefHeight="119.0" prefWidth="275.0" />
-      <ChoiceBox fx:id="velgKonto" layoutX="34.0" layoutY="100.0" onAction="#onChooseAccount" prefHeight="27.0" prefWidth="163.0" />
+      <TextArea fx:id="accountHistory" layoutX="34.0" layoutY="164.0" prefHeight="119.0" prefWidth="275.0" />
+      <ChoiceBox fx:id="chooseAccount" layoutX="34.0" layoutY="100.0" onAction="#onChooseAccount" prefHeight="27.0" prefWidth="163.0" />
       <Text layoutX="34.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Overfør" wrappingWidth="163.0">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <ChoiceBox fx:id="overførKonto" layoutX="36.0" layoutY="353.0" onAction="#onChooseAccountToTransferTo" prefHeight="27.0" prefWidth="120.0" />
+      <ChoiceBox fx:id="transferAccount" layoutX="36.0" layoutY="353.0" onAction="#onChooseAccountToTransferTo" prefHeight="27.0" prefWidth="120.0" />
       <Text layoutX="36.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Til konto" wrappingWidth="72.970703125">
          <font>
             <Font size="14.0" />
@@ -43,9 +43,9 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <TextField fx:id="overførBeløp" alignment="CENTER_RIGHT" layoutX="180.0" layoutY="353.0" prefHeight="27.0" prefWidth="120.0" promptText="0.00" />
-      <Button fx:id="tilHovedside" layoutX="311.0" layoutY="423.0" mnemonicParsing="false" onAction="#onPreviousPage" text="Tilbake" />
-      <Button fx:id="overfør" layoutX="36.0" layoutY="390.0" mnemonicParsing="false" onAction="#onTransfer" prefHeight="27.0" prefWidth="73.0" text="Overfør" />
+      <TextField fx:id="transferAmount" alignment="CENTER_RIGHT" layoutX="180.0" layoutY="353.0" prefHeight="27.0" prefWidth="120.0" promptText="0.00" />
+      <Button fx:id="toMainPage" layoutX="311.0" layoutY="423.0" mnemonicParsing="false" onAction="#onPreviousPage" text="Tilbake" />
+      <Button fx:id="transfer" layoutX="36.0" layoutY="390.0" mnemonicParsing="false" onAction="#onTransfer" prefHeight="27.0" prefWidth="73.0" text="Overfør" />
       <Text fx:id="feedback" fill="#f50303" layoutX="34.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="186.0" />
    </children>
 </AnchorPane>

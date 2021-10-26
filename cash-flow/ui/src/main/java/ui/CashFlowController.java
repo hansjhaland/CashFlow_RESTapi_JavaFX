@@ -27,71 +27,71 @@ import javafx.stage.Stage;
 
 public class CashFlowController {
 
-@FXML TextField navnKonto, settBelop;
-@FXML TextArea kontoer;
-@FXML Button opprettKonto, detaljerOgOverforinger;
-@FXML Text kontoOpprettet, feilmelding;
-@FXML ChoiceBox<String> typeKonto;
+@FXML TextField nameAccount, setAmount;
+@FXML TextArea accounts;
+@FXML Button createAccount, detailsAndTransfers;
+@FXML Text accountCreated, errorMessage;
+@FXML ChoiceBox<String> accountType;
 
 private User user = new User(123456);
 private CashFlowPersistence cfp = new CashFlowPersistence();
 private BankHelper bankHelper = new BankHelper();
 
 public void initialize() {
-    kontoer.setEditable(false);
+    accounts.setEditable(false);
     setDropDownMenu();
     try {
         user = cfp.loadUser("SaveData.json");
     } catch (IllegalStateException e) {
-        feilmelding.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
+        errorMessage.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
     } catch (IOException e) {
-        feilmelding.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
+        errorMessage.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
     }
     updateAccountView();
 }
 
 private void setDropDownMenu() {
-    typeKonto.getItems().clear();
-    typeKonto.getItems().add("Brukskonto");
-    typeKonto.getItems().add("Sparekonto");
+    accountType.getItems().clear();
+    accountType.getItems().add("Brukskonto");
+    accountType.getItems().add("Sparekonto");
     if (!bankHelper.hasBSU(user)){
-        typeKonto.getItems().add("BSU-konto");
+        accountType.getItems().add("BSU-konto");
     }
 }
 
 @FXML
 public void onCreateAccount() {
-    String name = navnKonto.getText();
-    String amount = settBelop.getText();
-    if (typeKonto.getValue() == null){
-        feilmelding.setText("Velg en kontotype!");
+    String name = nameAccount.getText();
+    String amount = setAmount.getText();
+    if (accountType.getValue() == null){
+        errorMessage.setText("Velg en kontotype!");
     }
     else if (name.isBlank() || amount.isBlank()) {
         clear();
-        feilmelding.setText("Husk å fylle inn alle felt");
+        errorMessage.setText("Husk å fylle inn alle felt");
     }
 
     else if (checkValidNameAmount(name, null) == false) {
         clear();
-        feilmelding.setText("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver");
+        errorMessage.setText("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver");
     }
     
     else if (checkValidNameAmount(null, amount) == false) {
         clear();
-        feilmelding.setText("Beløpet må bestå av tall og kan ikke være mindre enn null");
+        errorMessage.setText("Beløpet må bestå av tall og kan ikke være mindre enn null");
     }
 
     
     else {
         clear();
-        String type = (String) typeKonto.getValue();
-        double balance = Double.parseDouble(settBelop.getText());
+        String type = (String) accountType.getValue();
+        double balance = Double.parseDouble(setAmount.getText());
         AbstractAccount account = getAccountFromType(type, name, balance);
         user.addAccount(account);
         updateAccountView();
-        kontoOpprettet.setText("Kontoen er opprettet");
-        navnKonto.setText("");
-        settBelop.setText("");
+        accountCreated.setText("Kontoen er opprettet");
+        nameAccount.setText("");
+        nameAccount.setText("");
         save();
     } 
 }
@@ -128,8 +128,8 @@ private AbstractAccount getAccountFromType(String type, String name, double bala
 
 @FXML
 private void clear() {
-    kontoOpprettet.setText("");
-    feilmelding.setText("");
+    accountCreated.setText("");
+    errorMessage.setText("");
 }
 
 @FXML
@@ -145,7 +145,7 @@ private boolean isNumeric(String s){
 
 @FXML
 private void updateAccountView(){
-    kontoer.setText("");
+    accounts.setText("");
     for (AbstractAccount account : user.getAccounts()) {
         String type = "";
         if (account instanceof CheckingAccount){
@@ -159,7 +159,7 @@ private void updateAccountView(){
         }
         String name = account.getName();
         String balance = String.valueOf(account.getBalance());
-        kontoer.setText(kontoer.getText() + "\n" + type + ": " + name + "\n" + "   Beløp: " + balance);
+        accounts.setText(accounts.getText() + "\n" + type + ": " + name + "\n" + "   Beløp: " + balance);
     }
     setDropDownMenu();
 }
@@ -168,9 +168,9 @@ private void save() {
     try {
         cfp.saveUser(user);
     } catch (IllegalStateException e) {
-        feilmelding.setText("Bankkontoene ble ikke lagret.");
+        errorMessage.setText("Bankkontoene ble ikke lagret.");
     } catch (IOException e) {
-        feilmelding.setText("Bankkontoene ble ikke lagret.");
+        errorMessage.setText("Bankkontoene ble ikke lagret.");
     }
 }
 
@@ -178,9 +178,9 @@ private void load() {
     try {
         user = cfp.loadUser();
     } catch (IllegalStateException e) {
-        feilmelding.setText("Bankkontoene ble ikke funnet.");
+        errorMessage.setText("Bankkontoene ble ikke funnet.");
     } catch (IOException e) {
-        feilmelding.setText("Bankkontoene ble ikke funnet.");
+        errorMessage.setText("Bankkontoene ble ikke funnet.");
     }
 }
 
@@ -193,7 +193,7 @@ public void loadNewUser(String saveFile) {
 @FXML
 private void onNextPage() throws IOException {
     if (!user.getAccounts().isEmpty()) {
-        Stage stage = (Stage) detaljerOgOverforinger.getScene().getWindow();
+        Stage stage = (Stage) detailsAndTransfers.getScene().getWindow();
         stage.close();
         Stage primaryStage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Details.fxml"));
@@ -202,7 +202,7 @@ private void onNextPage() throws IOException {
         primaryStage.show();
     }
     else {
-        feilmelding.setText("Opprett en konto for å kunne se kontodetaljer og overføringer!");
+        errorMessage.setText("Opprett en konto for å kunne se kontodetaljer og overføringer!");
     }
 }   
 
