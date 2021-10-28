@@ -94,7 +94,6 @@ public class DetailsController {
                 if(user.removeAccount(account)){
                     deleteMessage.setText("Konto slettet.");
                     save();
-                    //updateTransferHistoryView();
                 } 
             }else{
                 deleteMessage.setText("Du må ha saldo 0 eller overføre pengene til en annen konto");
