@@ -28,11 +28,11 @@ public class DetailsController {
 
     @FXML private TextField nameAccount, setAmount, transferAmount;
     @FXML private TextArea accounts, accountHistory;
-    @FXML private Button createAccount, detailsAndTransfers, toMainPage, transfer;
-    @FXML private Text accountCreated, feedback;
+    @FXML private Button createAccount, detailsAndTransfers, toMainPage, transfer, deleteButton;
+    @FXML private Text accountCreated, feedback, deleteMessage;
     @FXML private ChoiceBox<String> chooseAccount, transferAccount;
     
-    private User user ;
+    private User user;
     private AbstractAccount account;
     private AbstractAccount accountToTransferTo;
     private CashFlowPersistence cfp = new CashFlowPersistence();
@@ -87,10 +87,30 @@ public class DetailsController {
         updateTransferHistoryView();
     }
 
+    @FXML
+    private void onDeleteAccount() {
+        if(account != null){
+            if(account.getBalance() == 0.0){
+                if(user.removeAccount(account)){
+                    deleteMessage.setText("Konto slettet.");
+                    save();
+                    //updateTransferHistoryView();
+                } 
+            }else{
+                deleteMessage.setText("Du må ha saldo 0 eller overføre pengene til en annen konto");
+            }
+        }else{
+            deleteMessage.setText("Du må velge en konto først.");
+        }
+
+    }
+    
+
 
 
     @FXML
     private void onTransfer() {
+        feedback.setText("");
         if (account != null && accountToTransferTo != null) {
             //double transferAmount = Double.valueOf(overførBeløp.getText());
             String amount = transferAmount.getText();
@@ -111,6 +131,7 @@ public class DetailsController {
             else{
                 if (bankHelper.isBalanceValidWhenAdding(-transferAmount, account) && bankHelper.isBalanceValidWhenAdding(transferAmount, accountToTransferTo)){
                     account.transfer(accountToTransferTo, transferAmount);
+                    feedback.setText("Overføring godkjent");
                     save();
                     updateTransferHistoryView();
                 }else{
