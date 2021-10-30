@@ -30,6 +30,7 @@ import javafx.scene.text.*;
 import core.User;
 import core.CheckingAccount;
 import core.SavingsAccount;
+import core.AbstractAccount;
 import core.BSUAccount;
 
 
@@ -42,7 +43,9 @@ public class DetailsControllerTest extends ApplicationTest{
     final String RECIPIENTACCOUNT = "#transferAccount";      //ChoiceBox
     final String AMOUNT = "#transferAmount";                //TextField
     final String TRANSFER = "#transfer";                   //Button
-    final String FEEDBACK = "#feedback";                  //Text
+    final String FEEDBACK = "#feedback";                   //Text
+    final String DELETEBUTTON = "#deleteButton";             //Button
+    final String DELETEMESSAGE = "#deleteMessage";           //Text
 
     private DetailsController controller;
     private CashFlowPersistence cfp = new CashFlowPersistence();
@@ -287,6 +290,38 @@ public class DetailsControllerTest extends ApplicationTest{
         clickOn(TRANSFER);
         assertEquals("ChA har ikke nok penger på konto.", lookup(FEEDBACK)
                     .queryText().getText());
+    }
+
+    @Test
+    public void testDeleteAccountWithoutChoosingAccount() {
+        clickOn(DELETEBUTTON);
+        assertEquals("Du må velge en konto først.", lookup(DELETEMESSAGE)
+            .queryText().getText());
+    }
+
+    @Test
+    public void testDeleteAccountWithMoney() {
+        clickOn(DETAILEDACCOUNT);
+        type(KeyCode.ENTER);
+        clickOn(DELETEBUTTON);
+        assertEquals("Du må ha saldo 0 eller overføre pengene til en annen konto", lookup(DELETEMESSAGE)
+            .queryText().getText());
+    }
+
+    @Test
+    public void testValidDeleteAccount() {
+        clickOn(DETAILEDACCOUNT);
+        type(KeyCode.ENTER);
+        clickOn(RECIPIENTACCOUNT);
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+        TextField amount = find(AMOUNT);
+        amount.setText("1000");
+        clickOn(TRANSFER);
+
+        clickOn(DELETEBUTTON);
+        assertEquals("Konto slettet.", lookup(DELETEMESSAGE)
+            .queryText().getText());
     }
 
 }
