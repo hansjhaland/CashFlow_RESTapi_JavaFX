@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 
 
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
@@ -29,7 +30,7 @@ public class DetailsController {
     @FXML private TextField nameAccount, setAmount, transferAmount;
     @FXML private TextArea accounts, accountHistory;
     @FXML private Button createAccount, detailsAndTransfers, toMainPage, transfer, deleteButton;
-    @FXML private Text accountCreated, feedback, deleteMessage;
+    @FXML private Text accountCreated, feedback;
     @FXML private ChoiceBox<String> chooseAccount, transferAccount;
     
     private User user;
@@ -52,6 +53,7 @@ public class DetailsController {
         accountHistory.setEditable(false);
         updateTransferHistoryView();
         updateChooseAccountView();
+        
     }
 
     private void updateTransferHistoryView() {
@@ -92,14 +94,18 @@ public class DetailsController {
         if(account != null){
             if(account.getBalance() == 0.0){
                 if(user.removeAccount(account)){
-                    deleteMessage.setText("Konto slettet.");
+                    feedback.setText("Konto slettet.");
                     save();
+                    updateChooseAccountView();
+                    accountHistory.setText("");
+                    //chooseAccount.setValue();
+                    
                 } 
             }else{
-                deleteMessage.setText("Du må ha saldo 0 eller overføre pengene til en annen konto");
+                feedback.setText("Du må ha saldo 0 eller overføre pengene til en annen konto.");
             }
         }else{
-            deleteMessage.setText("Du må velge en konto først.");
+            feedback.setText("Du må velge en konto først.");
         }
 
     }
