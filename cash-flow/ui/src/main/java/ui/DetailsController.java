@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 
 
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
@@ -28,11 +29,11 @@ public class DetailsController {
 
     @FXML private TextField nameAccount, setAmount, transferAmount;
     @FXML private TextArea accounts, accountHistory;
-    @FXML private Button createAccount, detailsAndTransfers, toMainPage, transfer;
+    @FXML private Button createAccount, detailsAndTransfers, toMainPage, transfer, deleteButton;
     @FXML private Text accountCreated, feedback;
     @FXML private ChoiceBox<String> chooseAccount, transferAccount;
     
-    private User user ;
+    private User user;
     private AbstractAccount account;
     private AbstractAccount accountToTransferTo;
     private CashFlowPersistence cfp = new CashFlowPersistence();
@@ -52,6 +53,7 @@ public class DetailsController {
         accountHistory.setEditable(false);
         updateTransferHistoryView();
         updateChooseAccountView();
+        
     }
 
     private void updateTransferHistoryView() {
@@ -81,16 +83,42 @@ public class DetailsController {
     @FXML
     private void onChooseAccount() {
         String valueText = (String) chooseAccount.getValue();
-        String number = valueText.split(": ")[1];
-        int accountNumber = (number == null ? 1 : Integer.parseInt(number));
-        account = user.getAccount(accountNumber);
+        if (valueText == null || valueText.equals("")) {
+            account = null;
+        }
+        else {
+            String number = valueText.split(": ")[1];
+            int accountNumber = (number == null ? 1 : Integer.parseInt(number));
+            account = user.getAccount(accountNumber);
+        }
         updateTransferHistoryView();
     }
+
+    @FXML
+    private void onDeleteAccount() {
+        if(account != null){
+            if(account.getBalance() == 0.0){
+                if(user.removeAccount(account)){
+                    feedback.setText("Konto slettet.");
+                    save();
+                    chooseAccount.setValue("");
+                    updateChooseAccountView();
+                } 
+            }else{
+                feedback.setText("Du må ha saldo 0 eller overføre pengene til en annen konto.");
+            }
+        }else{
+            feedback.setText("Du må velge en konto først.");
+        }
+
+    }
+    
 
 
 
     @FXML
     private void onTransfer() {
+        feedback.setText("");
         if (account != null && accountToTransferTo != null) {
             //double transferAmount = Double.valueOf(overførBeløp.getText());
             String amount = transferAmount.getText();
@@ -111,6 +139,7 @@ public class DetailsController {
             else{
                 if (bankHelper.isBalanceValidWhenAdding(-transferAmount, account) && bankHelper.isBalanceValidWhenAdding(transferAmount, accountToTransferTo)){
                     account.transfer(accountToTransferTo, transferAmount);
+                    feedback.setText("Overføring godkjent");
                     save();
                     updateTransferHistoryView();
                 }else{
@@ -130,9 +159,14 @@ public class DetailsController {
     @FXML
     private void onChooseAccountToTransferTo() {
         String valueText = (String) transferAccount.getValue();
-        String number = valueText.split(": ")[1];
-        int accountNumber = (number == null ? 1 : Integer.parseInt(number));
-        accountToTransferTo = user.getAccount(accountNumber);
+        if (valueText == null || valueText.equals("")) {
+            accountToTransferTo = null;
+        }
+        else {
+            String number = valueText.split(": ")[1];
+            int accountNumber = (number == null ? 1 : Integer.parseInt(number));
+            accountToTransferTo = user.getAccount(accountNumber);
+        }
     }
 
     @FXML

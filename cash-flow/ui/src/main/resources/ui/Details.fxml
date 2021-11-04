@@ -17,7 +17,7 @@
             <Font size="36.0" />
          </font>
       </Text>
-      <Text layoutX="36.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Velg konto">
+      <Text layoutX="34.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Velg konto">
          <font>
             <Font size="14.0" />
          </font></Text>
@@ -25,8 +25,8 @@
          <font>
             <Font size="18.0" />
          </font></Text>
-      <TextArea fx:id="accountHistory" layoutX="34.0" layoutY="164.0" prefHeight="119.0" prefWidth="275.0" />
-      <ChoiceBox fx:id="chooseAccount" layoutX="34.0" layoutY="100.0" onAction="#onChooseAccount" prefHeight="27.0" prefWidth="163.0" />
+      <TextArea fx:id="accountHistory" layoutX="34.0" layoutY="164.0" prefHeight="119.0" prefWidth="263.0" />
+      <ChoiceBox fx:id="chooseAccount" layoutX="34.0" layoutY="101.0" onAction="#onChooseAccount" prefHeight="27.0" prefWidth="263.0" />
       <Text layoutX="34.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Overfør" wrappingWidth="163.0">
          <font>
             <Font size="18.0" />
@@ -46,6 +46,7 @@
       <TextField fx:id="transferAmount" alignment="CENTER_RIGHT" layoutX="180.0" layoutY="353.0" prefHeight="27.0" prefWidth="120.0" promptText="0.00" />
       <Button fx:id="toMainPage" layoutX="311.0" layoutY="423.0" mnemonicParsing="false" onAction="#onPreviousPage" text="Tilbake" />
       <Button fx:id="transfer" layoutX="36.0" layoutY="390.0" mnemonicParsing="false" onAction="#onTransfer" prefHeight="27.0" prefWidth="73.0" text="Overfør" />
-      <Text fx:id="feedback" fill="#f50303" layoutX="34.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="186.0" />
+      <Text fx:id="feedback" fill="#1b1a1a" layoutX="34.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="186.0" />
+      <Button fx:id="deleteButton" layoutX="298.0" layoutY="101.0" mnemonicParsing="false" onAction="#onDeleteAccount" prefHeight="27.0" prefWidth="84.0" text="Slette konto" />
    </children>
 </AnchorPane>
