@@ -81,7 +81,7 @@ public class DetailsController {
     @FXML
     private void onChooseAccount() {
         String valueText = (String) chooseAccount.getValue();
-        if (valueText == "") {
+        if (valueText == "" || valueText == null) {
             account = null;
         }
         else {
@@ -157,9 +157,14 @@ public class DetailsController {
     @FXML
     private void onChooseAccountToTransferTo() {
         String valueText = (String) transferAccount.getValue();
-        String number = valueText.split(": ")[1];
-        int accountNumber = (number == null ? 1 : Integer.parseInt(number));
-        accountToTransferTo = user.getAccount(accountNumber);
+        if (valueText == null || valueText == "") {
+            accountToTransferTo = null;
+        }
+        else {
+            String number = valueText.split(": ")[1];
+            int accountNumber = (number == null ? 1 : Integer.parseInt(number));
+            accountToTransferTo = user.getAccount(accountNumber);
+        }
     }
 
     @FXML
