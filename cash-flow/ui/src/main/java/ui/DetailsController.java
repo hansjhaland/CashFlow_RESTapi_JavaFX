@@ -81,9 +81,14 @@ public class DetailsController {
     @FXML
     private void onChooseAccount() {
         String valueText = (String) chooseAccount.getValue();
-        String number = valueText.split(": ")[1];
-        int accountNumber = (number == null ? 1 : Integer.parseInt(number));
-        account = user.getAccount(accountNumber);
+        if (valueText == "") {
+            account = null;
+        }
+        else {
+            String number = valueText.split(": ")[1];
+            int accountNumber = (number == null ? 1 : Integer.parseInt(number));
+            account = user.getAccount(accountNumber);
+        }
         updateTransferHistoryView();
     }
 
@@ -94,6 +99,8 @@ public class DetailsController {
                 if(user.removeAccount(account)){
                     deleteMessage.setText("Konto slettet.");
                     save();
+                    chooseAccount.setValue("");
+                    updateChooseAccountView();
                 } 
             }else{
                 deleteMessage.setText("Du må ha saldo 0 eller overføre pengene til en annen konto");
