@@ -84,7 +84,7 @@
 
     <profiles>
         <profile>
-            <id>documentapp</id>
+            <id>remoteapp</id>
             <build>
                 <plugins>
                     <plugin>
