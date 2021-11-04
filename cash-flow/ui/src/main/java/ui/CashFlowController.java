@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 import json.CashFlowPersistence;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import core.User;
 import core.AbstractAccount;
@@ -158,7 +159,8 @@ private void updateAccountView(){
             type = "BSU-konto";
         }
         String name = account.getName();
-        String balance = String.valueOf(account.getBalance());
+        DecimalFormat df = new DecimalFormat("#.##");
+        String balance = df.format(account.getBalance());
         accounts.setText(accounts.getText() + "\n" + type + ": " + name + "\n" + "   Beløp: " + balance);
     }
     setDropDownMenu();
