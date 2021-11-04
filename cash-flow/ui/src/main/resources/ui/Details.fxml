@@ -16,33 +16,33 @@
       <Label layoutX="249.0" layoutY="171.0" />
       <Text fill="#070707" layoutX="11.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CashFlow" textAlignment="CENTER" underline="true" wrappingWidth="363.78857421875">
          <font>
-            <Font size="36.0" />
+            <Font name="Times New Roman" size="36.0" />
          </font>
       </Text>
       <Text layoutX="36.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Velg konto">
          <font>
-            <Font size="14.0" />
+            <Font name="Times New Roman" size="15.0" />
          </font></Text>
-      <Text layoutX="34.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kontohistorikk" wrappingWidth="120.3681640625">
+      <Text layoutX="34.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kontohistorikk" wrappingWidth="120.3681640625">
          <font>
-            <Font size="18.0" />
+            <Font name="Times New Roman" size="18.0" />
          </font></Text>
       <TextArea fx:id="accountHistory" layoutX="34.0" layoutY="164.0" prefHeight="119.0" prefWidth="275.0" />
-      <ChoiceBox fx:id="chooseAccount" layoutX="34.0" layoutY="100.0" onAction="#onChooseAccount" prefHeight="27.0" prefWidth="163.0" />
+      <ChoiceBox fx:id="chooseAccount" layoutX="34.0" layoutY="98.0" onAction="#onChooseAccount" prefHeight="27.0" prefWidth="163.0" />
       <Text layoutX="34.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Overfør" wrappingWidth="163.0">
          <font>
-            <Font size="18.0" />
+            <Font name="Times New Roman" size="18.0" />
          </font>
       </Text>
       <ChoiceBox fx:id="transferAccount" layoutX="36.0" layoutY="353.0" onAction="#onChooseAccountToTransferTo" prefHeight="27.0" prefWidth="120.0" />
       <Text layoutX="36.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Til konto" wrappingWidth="72.970703125">
          <font>
-            <Font size="14.0" />
+            <Font size="15.0" />
          </font>
       </Text>
       <Text layoutX="180.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Beløp">
          <font>
-            <Font size="14.0" />
+            <Font size="15.0" />
          </font>
       </Text>
       <TextField fx:id="transferAmount" alignment="CENTER_RIGHT" layoutX="180.0" layoutY="353.0" prefHeight="27.0" prefWidth="120.0" promptText="0.00" />
