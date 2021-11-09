@@ -10,10 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import core.User;
 import core.AbstractAccount;
-import core.CashFlowPersistence;
 
 
-@Path(UserRestServive.USER_REST_SERVICE_PATH)
+
+@Path(UserRestService.USER_REST_SERVICE_PATH)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserRestService {
     

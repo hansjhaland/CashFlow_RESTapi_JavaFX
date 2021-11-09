@@ -5,7 +5,11 @@ import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.Consumes;
-
+import jakarta.ws.rs.core.MediaType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import core.User;
+import core.AbstractAccount;
 @Produces(MediaType.APPLICATION_JSON)
 public class AccountResource {
     
@@ -28,6 +32,7 @@ public class AccountResource {
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public AbstractAccount getAccount() {
         checkIfAccountExists();
         LOG.debug("getAccount()", accountNumber);
@@ -39,8 +44,7 @@ public class AccountResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public void putAccount(AbstractAccount account){
         LOG.debug("putAccount()", account);
-        return 
-    }
+    } 
 
     @DELETE
     public boolean removeAccount(){
