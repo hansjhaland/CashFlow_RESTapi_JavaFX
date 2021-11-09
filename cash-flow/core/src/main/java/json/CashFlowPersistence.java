@@ -116,4 +116,9 @@ public class CashFlowPersistence {
         }
     }
 
+    public static ObjectMapper createObjectMapper() {
+        return new ObjectMapper()
+        .registerModule(new CashFlowModule());
+    }
+
 }
