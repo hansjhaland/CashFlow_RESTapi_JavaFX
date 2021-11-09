@@ -11,7 +11,10 @@ import org.glassfish.jersey.server.ResourceConfig;
 import core.User;
 import json.CashFlowPersistence;
 import core.AbstractAccount;
+import core.CheckingAccount;
+import core.SavingsAccount;
 import restapi.UserRestService;
+
 public class CashFlowConfig extends ResourceConfig{
     
     private User user;
@@ -32,12 +35,24 @@ public class CashFlowConfig extends ResourceConfig{
         });
     }
 
+    public CashFlowConfig() {
+        createDefaultUser();
+    }
+
     public User getUser(){
         return user;
     }
 
     private void setUser(User user) {
         this.user = user;
+    }
+
+    public void createDefaultUser() {
+        User defaultUser = new User(888888888);
+        AbstractAccount account1 = new CheckingAccount("Checking", 100, 2345, defaultUser);
+        AbstractAccount account2 = new SavingsAccount("Savings", 100, 5432, defaultUser);
+        setUser(defaultUser);
+        cfp = new CashFlowPersistence();
     }
 
 }
