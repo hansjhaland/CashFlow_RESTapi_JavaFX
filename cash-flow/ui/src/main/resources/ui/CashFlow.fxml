@@ -23,8 +23,8 @@
          </font></Text>
       <TextField fx:id="nameAccount" layoutX="20.0" layoutY="175.0" promptText="Navn på konto" />
       <TextField fx:id="setAmount" layoutX="20.0" layoutY="225.0" promptText="Sett inn valgt beløp" />
-      <Text fx:id="accountCreated" layoutX="19.0" layoutY="416.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="209.5" />
-      <Text fx:id="errorMessage" fill="#171717" layoutX="8.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="186.0" />
+      <Text fx:id="accountCreated" layoutX="9.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="186.0" />
+      <Text fx:id="errorMessage" fill="#171717" layoutX="8.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="186.0" />
       <Text layoutX="193.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kontooversikt">
          <font>
             <Font name="Times New Roman" size="17.0" />
@@ -36,7 +36,7 @@
             <Font size="12.0" />
          </font>
       </Button>
-      <ChoiceBox fx:id="accountType" layoutX="19.0" layoutY="131.0" prefHeight="27.0" prefWidth="163.0" />
+      <ChoiceBox fx:id="accountType" layoutX="19.0" layoutY="131.0" onAction="#onAccountType" prefHeight="27.0" prefWidth="163.0" />
       <Text layoutX="20.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Velg kontotype" wrappingWidth="120.23388671875" />
    </children>
 </AnchorPane>
