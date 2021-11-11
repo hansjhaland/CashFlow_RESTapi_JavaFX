@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.CashFlowController">
+    <fx:define>
+        <String fx:id="endpointUri" fx:value="http://localhost:8999/user/"/>
+    </fx:define>
+    <!-- Virker som at den ikke får tak i CashFlow.fxml -->
+    <children>
+        <fx:include source="CashFlow.fxml"/>
+    </children>
+</VBox>

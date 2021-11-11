@@ -18,11 +18,11 @@ import restapi.UserRestService;
 public class CashFlowConfig extends ResourceConfig{
     
     private User user;
-    private CashFlowPersistence cfp;
+    //private CashFlowPersistence cfp;
 
     public CashFlowConfig(User user) {
         setUser(user);
-        cfp = new CashFlowPersistence();
+        //cfp = new CashFlowPersistence();
         register(UserRestService.class);
         register(UserObjectMapperProvider.class);
         register(JacksonFeature.class);
@@ -30,7 +30,7 @@ public class CashFlowConfig extends ResourceConfig{
             @Override
             protected void configure() {
                 bind(CashFlowConfig.this.user);
-                bind(CashFlowConfig.this.cfp);
+               // bind(CashFlowConfig.this.cfp);
             }
         });
     }
