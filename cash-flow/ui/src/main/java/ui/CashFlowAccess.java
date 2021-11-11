@@ -10,19 +10,35 @@ public interface CashFlowAccess {
      * 
      * @param accountNumber the account's account number
      */
-    void getAccount(int accountNumber);
+    public AbstractAccount getAccount(int accountNumber);
 
     /**
      * Adds an AbstractAccount to the underlying user.
      * 
      * @param account the account
      */
-    void addAccount(AbstractAccount account);
+    public void addAccount(AbstractAccount account);
 
+    /**
+     * Deletes an account from the underlying user's account list
+     * 
+     * @param account the account to be deleted
+     */
+    public void deleteAccount(int accountNumber);
 
+    /**
+     * Adds an transaction to both accouts' transaction history
+     * 
+     * @param payer paying account
+     * @param reciever recieving account
+     */
+    public void transfer(AbstractAccount payer, AbstractAccount reciever);
+    
     /**
      * Save account
      */
-    void saveAccount();
+    public void saveAccount();
+
+    
 
 }
