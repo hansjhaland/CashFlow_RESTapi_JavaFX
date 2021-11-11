@@ -23,29 +23,29 @@
          <font>
             <Font name="Times New Roman" size="15.0" />
          </font></Text>
-      <Text layoutX="34.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kontohistorikk" wrappingWidth="120.3681640625">
+      <Text layoutX="35.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kontohistorikk" wrappingWidth="120.3681640625">
          <font>
             <Font name="Times New Roman" size="18.0" />
          </font></Text>
-      <TextArea fx:id="accountHistory" layoutX="34.0" layoutY="164.0" prefHeight="119.0" prefWidth="263.0" />
+      <TextArea fx:id="accountHistory" layoutX="34.0" layoutY="206.0" prefHeight="119.0" prefWidth="263.0" />
       <ChoiceBox fx:id="chooseAccount" layoutX="34.0" layoutY="101.0" onAction="#onChooseAccount" prefHeight="27.0" prefWidth="263.0" />
-      <Text layoutX="34.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Overfør" wrappingWidth="163.0">
+      <Text layoutX="33.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Overfør" wrappingWidth="163.0">
          <font>
             <Font name="Times New Roman" size="18.0" />
          </font>
       </Text>
-      <ChoiceBox fx:id="transferAccount" layoutX="36.0" layoutY="353.0" onAction="#onChooseAccountToTransferTo" prefHeight="27.0" prefWidth="120.0" />
-      <Text layoutX="36.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Til konto" wrappingWidth="72.970703125">
+      <ChoiceBox fx:id="transferAccount" layoutX="35.0" layoutY="387.0" onAction="#onChooseAccountToTransferTo" prefHeight="27.0" prefWidth="120.0" />
+      <Text layoutX="35.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Til konto" wrappingWidth="72.970703125">
          <font>
             <Font size="15.0" />
          </font>
       </Text>
-      <Text layoutX="180.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Beløp">
+      <Text layoutX="179.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Beløp">
          <font>
             <Font size="15.0" />
          </font>
       </Text>
-      <TextField fx:id="transferAmount" alignment="CENTER_RIGHT" layoutX="180.0" layoutY="353.0" prefHeight="27.0" prefWidth="120.0" promptText="0.00" />
+      <TextField fx:id="transferAmount" alignment="CENTER_RIGHT" layoutX="179.0" layoutY="387.0" prefHeight="27.0" prefWidth="120.0" promptText="0.00" />
       <Button fx:id="toMainPage" layoutX="34.0" layoutY="22.0" mnemonicParsing="false" onAction="#onPreviousPage">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
@@ -54,8 +54,14 @@
                </image>
             </ImageView>
          </graphic></Button>
-      <Button fx:id="transfer" layoutX="36.0" layoutY="390.0" mnemonicParsing="false" onAction="#onTransfer" prefHeight="27.0" prefWidth="73.0" text="Overfør" />
-      <Text fx:id="feedback" fill="#1b1a1a" layoutX="34.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="186.0" />
+      <Button fx:id="transfer" layoutX="35.0" layoutY="424.0" mnemonicParsing="false" onAction="#onTransfer" prefHeight="27.0" prefWidth="73.0" text="Overfør" />
+      <Text fx:id="feedback" fill="#1b1a1a" layoutX="137.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="186.0" />
       <Button fx:id="deleteButton" layoutX="298.0" layoutY="101.0" mnemonicParsing="false" onAction="#onDeleteAccount" prefHeight="27.0" prefWidth="84.0" text="Slette konto" />
+      <Text fx:id="textBalance" layoutX="38.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Saldo: " wrappingWidth="60.0">
+         <font>
+            <Font name="Times New Roman" size="15.0" />
+         </font>
+      </Text>
+      <TextField fx:id="setBalance" layoutX="85.0" layoutY="140.0" onAction="#onChooseAccount" prefHeight="27.0" prefWidth="107.0" style="-fx-background-color: #bebebe;" />
    </children>
 </AnchorPane>

@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 
 
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
@@ -17,6 +16,7 @@ import javafx.stage.Stage;
 import json.CashFlowPersistence;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import core.User;
 import core.AbstractAccount;
@@ -24,13 +24,14 @@ import core.BSUAccount;
 import core.SavingsAccount;
 import core.Transaction;
 import core.BankHelper;
+import core.CheckingAccount;
 
 public class DetailsController {
 
-    @FXML private TextField nameAccount, setAmount, transferAmount;
+    @FXML private TextField nameAccount, setAmount, transferAmount, setBalance;
     @FXML private TextArea accounts, accountHistory;
     @FXML private Button createAccount, detailsAndTransfers, toMainPage, transfer, deleteButton;
-    @FXML private Text accountCreated, feedback;
+    @FXML private Text accountCreated, feedback, textBalance;
     @FXML private ChoiceBox<String> chooseAccount, transferAccount;
     
     private User user;
@@ -40,6 +41,7 @@ public class DetailsController {
     private BankHelper bankHelper = new BankHelper();
 
     public void initialize() {
+        setBalance.setEditable(false);
         try {
             user = cfp.loadUser("SaveData.json");
         } catch (IllegalStateException e) {
@@ -75,8 +77,18 @@ public class DetailsController {
         chooseAccount.getItems().clear();
         transferAccount.getItems().clear();
         for (AbstractAccount account : user.getAccounts()) {
-            chooseAccount.getItems().add(account.getName() + ": " + account.getAccountNumber());
-            transferAccount.getItems().add(account.getName() + ": " + account.getAccountNumber());
+            String type = "";
+                if (account instanceof CheckingAccount){
+                    type = "Brukskonto";
+                }
+                else if (account instanceof SavingsAccount){
+                    type = "Sparekonto";
+                }
+                else if (account instanceof BSUAccount){
+                    type = "BSU-konto";
+                }
+            chooseAccount.getItems().add(type + "; " + account.getName() + ", kontonummer: " + account.getAccountNumber());
+            transferAccount.getItems().add(type + "; " + account.getName() + ": " + account.getAccountNumber());
         }
     }
 
@@ -90,6 +102,12 @@ public class DetailsController {
             String number = valueText.split(": ")[1];
             int accountNumber = (number == null ? 1 : Integer.parseInt(number));
             account = user.getAccount(accountNumber);
+
+            DecimalFormat df = new DecimalFormat("#.##");
+            String balance = df.format(account.getBalance());
+            
+            setBalance.setText(balance + " kr");
+
         }
         updateTransferHistoryView();
     }
