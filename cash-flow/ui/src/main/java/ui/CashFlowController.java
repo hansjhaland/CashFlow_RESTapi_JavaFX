@@ -51,12 +51,7 @@ public class CashFlowController {
     private ObjectMapper objectMapper = CashFlowPersistence.createObjectMapper();
 
     private User getUser(){
-        try{
-            URI = new URI(uri);
-        } catch (URISyntaxException e){
-            System.out.println(e);
-        }
-        if (user == null) {
+        if (true) {
             HttpRequest request = HttpRequest.newBuilder(URI)
                 .header("Accept", "application/json")
                 .GET()
@@ -77,6 +72,7 @@ public class CashFlowController {
     }
 
     private void addAccount(AbstractAccount account){
+        user.addAccount(account);
         try {
             String json = objectMapper.writeValueAsString(account);
             HttpRequest request = HttpRequest.newBuilder(accountUri(account.getAccountNumber()))
@@ -97,6 +93,11 @@ public class CashFlowController {
     }
 
     public void initialize() {
+        try{
+            URI = new URI(uri);
+        } catch (URISyntaxException e){
+            System.out.println(e);
+        }
         accounts.setEditable(false);
         setDropDownMenu();
         try {
@@ -106,6 +107,8 @@ public class CashFlowController {
         } catch (IOException e) {
             errorMessage.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
         }
+        user = getUser();
+        save();
         updateAccountView();
     }
 
@@ -146,7 +149,7 @@ public class CashFlowController {
             String type = (String) accountType.getValue();
             double balance = Double.parseDouble(setAmount.getText());
             AbstractAccount account = getAccountFromType(type, name, balance);
-            user.addAccount(account);
+            addAccount(account);
             updateAccountView();
             accountCreated.setText("Kontoen er opprettet");
             nameAccount.setText("");

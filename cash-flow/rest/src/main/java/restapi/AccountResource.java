@@ -5,11 +5,15 @@ import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import json.CashFlowPersistence;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import core.User;
 import core.AbstractAccount;
+
 @Produces(MediaType.APPLICATION_JSON)
 public class AccountResource {
     
@@ -18,6 +22,9 @@ public class AccountResource {
     private final User user;
     private final String accountNumber;
     private final AbstractAccount account;
+
+    @Context
+    private CashFlowPersistence cfp;
 
     public AccountResource(User user, String accountNumber, AbstractAccount account){
         this.user = user;
@@ -42,8 +49,9 @@ public class AccountResource {
     //?????
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void putAccount(AbstractAccount account){
-        LOG.debug("putAccount()", account);
+    public boolean putAccount(AbstractAccount account){
+        LOG.debug("putAccount(): ", account.toString());
+        return user.addAccount(account);
     } 
 
     @DELETE

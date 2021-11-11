@@ -1,5 +1,6 @@
 module cashflow.ui {
 
+    requires com.fasterxml.jackson.databind;
     requires java.net.http;
     requires cashflow.core;
 

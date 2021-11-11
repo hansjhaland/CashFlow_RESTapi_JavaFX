@@ -1,4 +1,4 @@
-module casflow.rest {
+module cashflow.rest {
     requires jakarta.ws.rs;
 
     requires jersey.common;

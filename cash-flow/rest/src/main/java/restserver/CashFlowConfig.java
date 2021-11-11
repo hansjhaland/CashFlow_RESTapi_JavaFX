@@ -36,7 +36,7 @@ public class CashFlowConfig extends ResourceConfig{
     }
 
     public CashFlowConfig() {
-        createDefaultUser();
+        this(createDefaultUser());
     }
 
     public User getUser(){
@@ -47,12 +47,11 @@ public class CashFlowConfig extends ResourceConfig{
         this.user = user;
     }
 
-    public void createDefaultUser() {
-        User defaultUser = new User(888888888);
-        AbstractAccount account1 = new CheckingAccount("Checking", 100, 2345, defaultUser);
-        AbstractAccount account2 = new SavingsAccount("Savings", 100, 5432, defaultUser);
-        setUser(defaultUser);
-        cfp = new CashFlowPersistence();
+    private static User createDefaultUser() {
+        User defaultUser = new User(654321);
+        new CheckingAccount("Checking", 100, 2345, defaultUser);
+        new SavingsAccount("Savings", 100, 5432, defaultUser);
+        return defaultUser;
     }
 
 }
