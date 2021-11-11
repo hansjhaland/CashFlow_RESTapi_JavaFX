@@ -72,7 +72,7 @@ public class CashFlowController {
     }
 
     private void addAccount(AbstractAccount account){
-        user.addAccount(account);
+        // user.addAccount(account);
         try {
             String json = objectMapper.writeValueAsString(account);
             HttpRequest request = HttpRequest.newBuilder(accountUri(account.getAccountNumber()))
@@ -85,6 +85,7 @@ public class CashFlowController {
             String responseString = response.body();
             Boolean added = objectMapper.readValue(responseString, Boolean.class);
             if (added != null) {
+                System.out.println("Det funker!\na\na\na\na\na\na\na");
                 user.addAccount(account);
             }
         } catch (IOException | InterruptedException e){
