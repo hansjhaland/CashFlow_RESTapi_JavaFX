@@ -62,6 +62,7 @@ private void setDropDownMenu() {
 
 @FXML
 public void onAccountType(){
+    errorMessage.setText("");
     String valueText = "";
     valueText = (String) accountType.getValue();
     if (valueText.equals("Brukskonto")){
