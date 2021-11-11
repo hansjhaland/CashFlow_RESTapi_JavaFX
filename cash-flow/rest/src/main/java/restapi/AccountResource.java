@@ -50,7 +50,7 @@ public class AccountResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean putAccount(AbstractAccount account){
-        LOG.debug("putAccount(): ", account.toString());
+        LOG.debug("putAccount(): ", account.getAccountNumber());
         return user.addAccount(account);
     } 
 
