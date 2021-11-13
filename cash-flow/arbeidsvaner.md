@@ -28,5 +28,20 @@ Gjennom møtene ser vi gjennom hverandres kode og kommer med innspill. Gruppemel
 Klasser testes etter logikken er skrevet.
 
 
+# Git-konvensjoner
+### Issues og Branches
+Issues navngis utifra hvilken oppgave som skal løses. Utifra issues lager vi branches som får sitt eget nummer (etterfølgende tall fra forrige branch nummer), der navnet på den branchen er korrosponderende med issuen.
+Hver brukerhistorie har fått sitt eget nummer og utifra dem har vi laget UserStory-label. På den måten dersom det er en issue som bygger seg på en brukerhistorie, vil den få samme Userstory-label som brukerhistorien sin.
 
+I tillegg labler vi hver issue med en milestone der hver milestone er en innlevering.
+Vi bruker også andre labler som hvilke type oppgave issuen er, som bug, design, feature, refactoring og test.
+Hvordan vi skiller en issue fra hverandre når det kommer til hvilke som skal bli gjennomført først, er ved å lable dem med hvilken type priority de er, om de er 1 eller 2.
 
+### Commit meldinger
+Commit meldinger skrives på norsk og skal gi en kort sammendrag av det som har blitt implementert, løst eller fikset på i branchen. Skal være oversiktelig for de andre på gruppen og seg selv.
+
+### Merge request
+Dersom man er ferdig med en branch og har fungerende testere, skal man lage en merge request til branchen. Når vi møtes går alle på gruppen over koden og trykker på "Approve"-knappen dersom de sier seg enig i løsningen. Dersom de ikke er fornøyde skal dette kommenteres i merge requesten og tas opp med resten av gruppen. Eventuelle endringer kan oppstå da.
+
+### Issue Boards
+Vi bruker issue boards til å ha en fin og ryddig oversikt av alle issues som er aktive og hvordan gruppen ligger an. På møtene går vi i tillegg over dette boardet og ser hvordan vi ligger an i forhold til innleveringen og hva som på oppdateres dersom det ikke er gjort.
