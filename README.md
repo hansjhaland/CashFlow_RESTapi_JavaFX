@@ -31,7 +31,6 @@ Klasser og filer som omhandler GUI ligger i **ui-modulen**
 - **DetailsController** neste side som forbinder brukergrensesnittet med domenelogikken og persistens
 
 
-**MÅ OPPDATERES**
 
 ## Testing
 
