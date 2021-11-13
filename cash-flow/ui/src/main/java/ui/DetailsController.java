@@ -39,6 +39,10 @@ public class DetailsController {
     private CashFlowPersistence cfp = new CashFlowPersistence();
     private BankHelper bankHelper = new BankHelper();
 
+    /**
+     * Initializes which fields that can be edited
+     * Initializes an errormessage
+     */
     public void initialize() {
         try {
             user = cfp.loadUser("SaveData.json");
@@ -56,6 +60,7 @@ public class DetailsController {
         
     }
 
+
     private void updateTransferHistoryView() {
         String string = "";
         StringBuffer sb = new StringBuffer();
@@ -72,6 +77,7 @@ public class DetailsController {
     }
 
     private void updateChooseAccountView() {
+        //updates the pageview when changes occur
         chooseAccount.getItems().clear();
         transferAccount.getItems().clear();
         for (AbstractAccount account : user.getAccounts()) {
@@ -82,6 +88,7 @@ public class DetailsController {
 
     @FXML
     private void onChooseAccount() {
+        //Method for what happens when choosing an account
         String valueText = (String) chooseAccount.getValue();
         if (valueText == null || valueText.equals("")) {
             account = null;
@@ -96,6 +103,7 @@ public class DetailsController {
 
     @FXML
     private void onDeleteAccount() {
+        //deletes account when cklicking on the "delete" button
         if(account != null){
             if(account.getBalance() == 0.0){
                 if(user.removeAccount(account)){
@@ -113,11 +121,9 @@ public class DetailsController {
 
     }
     
-
-
-
     @FXML
     private void onTransfer() {
+        //Transferes selected amount to the selected account if the rules are followed
         feedback.setText("");
         if (account != null && accountToTransferTo != null) {
             //double transferAmount = Double.valueOf(overførBeløp.getText());
@@ -158,6 +164,7 @@ public class DetailsController {
 
     @FXML
     private void onChooseAccountToTransferTo() {
+        //Selecting the account to transfer the selected amount to
         String valueText = (String) transferAccount.getValue();
         if (valueText == null || valueText.equals("")) {
             accountToTransferTo = null;
@@ -171,6 +178,7 @@ public class DetailsController {
 
     @FXML
     private void onPreviousPage() throws IOException {
+        //Goes back to the previous page
         Stage stage = (Stage) toMainPage.getScene().getWindow();
         stage.close();
         Stage primaryStage = new Stage();

@@ -39,9 +39,9 @@ public class CashFlowControllerTest extends ApplicationTest{
     private final static String testSaveFile = "SaveDataTest.json";
     private CashFlowPersistence cfp = new CashFlowPersistence();
 
-
     @Override
     public void start(final Stage stage) throws Exception {
+    //Starts the App
     final FXMLLoader loader = new FXMLLoader(getClass().getResource("CashFlow_test.fxml"));
     final Parent root = loader.load();
     this.controller = loader.getController();
@@ -55,6 +55,7 @@ public class CashFlowControllerTest extends ApplicationTest{
 
     @BeforeEach
     public void setUpItems() {
+        //Before each test
         TextField amount = find(SETAMOUNT);
         TextField name = find(NAMEACCOUNT);
         amount.setText("");
@@ -63,6 +64,9 @@ public class CashFlowControllerTest extends ApplicationTest{
         cb.getSelectionModel().clearSelection();
     }
 
+    /**
+     * 
+     */
     @AfterAll
     public static void deleteTestJsonFile() {
         Path testFilePath = Paths.get(System.getProperty("user.home"), testSaveFile);
@@ -70,19 +74,28 @@ public class CashFlowControllerTest extends ApplicationTest{
         testFile.delete();
     }
     
+    /**
+     * Tests that the controller is loaded
+     */
     @Test
     public void testController() {
         assertNotNull(this.controller);
         
     }
 
+    /**
+     * Tests that you get a reaction when button is clicked on
+     */
     @Test
     public void testClickOn() {
         clickOn(CREATEACCOUNT);
         assertEquals("Velg en kontotype!", lookup("#errorMessage").queryText().getText());
     }
     
-    
+    /**
+     * Tests that when you follow all the rules when you choose name,
+     * amount and account, you create an account
+     */
     @Test
     public void testNewCorrectAccount() {
         TextArea accountOverview = find(ACCOUNTS);
@@ -112,7 +125,10 @@ public class CashFlowControllerTest extends ApplicationTest{
         return (T) lookup(query).queryAll().iterator().next();
     }
 
-
+    /**
+     * Tests that when you can not create an account when you have
+     * missing fields
+     */
     @Test
     public void testMissingFields() {
         TextArea kontoOversikt = find(ACCOUNTS);
@@ -121,25 +137,25 @@ public class CashFlowControllerTest extends ApplicationTest{
         TextField amount = find(SETAMOUNT);
         TextField name = find(NAMEACCOUNT);
 
-        //Test bare beløp
+        //if you write value
         clickOn(SETAMOUNT).write("34");
         clickOn(CREATEACCOUNT);
         assertEquals("Velg en kontotype!", lookup("#errorMessage").queryText().getText());
 
-        //hvis du bare skriver inn navn
+        //if you write name
         amount.setText("");
         clickOn(NAMEACCOUNT).write("test");
         clickOn(CREATEACCOUNT);
         assertEquals("Velg en kontotype!", lookup("#errorMessage").queryText().getText());
 
-        //hvis du skriver inn navn og beløp 
+        //if you write name and value
         name.setText("");
         clickOn(NAMEACCOUNT).write("test");
         clickOn(SETAMOUNT).write("35");
         clickOn(CREATEACCOUNT);
         assertEquals("Velg en kontotype!", lookup("#errorMessage").queryText().getText());
 
-        //hvis du skriver inn type
+        //if you write type
         amount.setText("");
         name.setText("");
         clickOn(ACCOUNTTYPE);
@@ -148,12 +164,12 @@ public class CashFlowControllerTest extends ApplicationTest{
         clickOn(CREATEACCOUNT);
         assertEquals("Husk å fylle inn alle felt", lookup("#errorMessage").queryText().getText());
 
-        //hvis du skriver inn type og beløp
+        //if you write type and value
         clickOn(SETAMOUNT).write("35");
         clickOn(CREATEACCOUNT);
         assertEquals("Husk å fylle inn alle felt", lookup("#errorMessage").queryText().getText());
 
-        //hvis du skriver inn type og navn
+        //if you write type and name
         amount.setText("");
         clickOn(NAMEACCOUNT).write("test");
         clickOn(CREATEACCOUNT);
@@ -164,6 +180,10 @@ public class CashFlowControllerTest extends ApplicationTest{
 
     }
 
+    /**
+     * Testing that you can not create an account and get the correct error message
+     * when you write the wrong account name
+     */
     @Test
     public void testWrongAccountName() {
         TextField name = find(NAMEACCOUNT);
@@ -183,7 +203,7 @@ public class CashFlowControllerTest extends ApplicationTest{
         clickOn(CREATEACCOUNT);
         assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver", controller.errorMessage.getText());
 
-        //2 Håndtere hvis null
+        //2
         assertThrows(NullPointerException.class, () -> {
             clickOn(NAMEACCOUNT).write(name2);
         });
@@ -201,6 +221,10 @@ public class CashFlowControllerTest extends ApplicationTest{
         assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver", controller.errorMessage.getText());
     }
 
+    /**
+     * Testing that you can not create an account and get the correct error message
+     * when you write an amount not following the rules
+     */
     @Test
     public void testWrongAmount() {
         TextField amount = find(SETAMOUNT);

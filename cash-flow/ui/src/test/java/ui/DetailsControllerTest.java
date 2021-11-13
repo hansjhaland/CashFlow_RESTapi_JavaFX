@@ -292,6 +292,10 @@ public class DetailsControllerTest extends ApplicationTest{
                     .queryText().getText());
     }
 
+    /**
+     * Tests that deleting an account without choosing account
+     * is impossible
+     */
     @Test
     public void testDeleteAccountWithoutChoosingAccount() {
         clickOn(DELETEBUTTON);
@@ -299,6 +303,10 @@ public class DetailsControllerTest extends ApplicationTest{
             .queryText().getText());
     }
 
+    /**
+     * Tests that deleting an account with money
+     * is impossible
+     */
     @Test
     public void testDeleteAccountWithMoney() {
         clickOn(DETAILEDACCOUNT);
@@ -308,6 +316,10 @@ public class DetailsControllerTest extends ApplicationTest{
             .queryText().getText());
     }
 
+    /**
+     * Tests that deleting an account with no money
+     * is possible
+     */
     @Test
     public void testValidDeleteAccount() {
         clickOn(DETAILEDACCOUNT);

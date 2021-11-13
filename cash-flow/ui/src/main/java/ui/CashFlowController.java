@@ -24,7 +24,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
+/** 
+ * Controller for creating an account
+ */
 
 public class CashFlowController {
 
@@ -51,6 +53,9 @@ public void initialize() {
     updateAccountView();
 }
 
+/**
+ * Sets the drop-down menu for the accounts you can choose between
+ */
 private void setDropDownMenu() {
     accountType.getItems().clear();
     accountType.getItems().add("Brukskonto");
@@ -60,6 +65,9 @@ private void setDropDownMenu() {
     }
 }
 
+/**
+ * Method for creating account.
+ */
 @FXML
 public void onCreateAccount() {
     String name = nameAccount.getText();
@@ -88,6 +96,8 @@ public void onCreateAccount() {
         String type = (String) accountType.getValue();
         double balance = Double.parseDouble(setAmount.getText());
         AbstractAccount account = getAccountFromType(type, name, balance);
+        clear();
+        errorMessage.setText("Nå ble ikke kontotypen satt rett. Prøv på nytt");
         user.addAccount(account);
         updateAccountView();
         accountCreated.setText("Kontoen er opprettet");
@@ -97,6 +107,13 @@ public void onCreateAccount() {
     } 
 }
 
+
+/**
+ * Method for checking if the accountname is valid.
+ * @param name the name to be checked
+ * @param amount the amount to be checked
+ * @return {@code true} if the name and amount satisfies the rules
+ */
 private boolean checkValidNameAmount(String name, String amount) {
     if (name == null && amount != null) {
         if (isNumeric(amount)) {
@@ -115,6 +132,13 @@ private boolean checkValidNameAmount(String name, String amount) {
    }
 }
 
+/**
+ * Checks which account type is chosen
+ * @param type the chosen account type
+ * @param name the chosen account name
+ * @param balance the chosen balance
+ * @return {@code null} if the account type is not found
+ */
 private AbstractAccount getAccountFromType(String type, String name, double balance){
     switch (type){
         case "Brukskonto":
@@ -129,23 +153,29 @@ private AbstractAccount getAccountFromType(String type, String name, double bala
 
 @FXML
 private void clear() {
+    //Clears all comments on the page
     accountCreated.setText("");
     errorMessage.setText("");
 }
 
+/**
+ * Checks if the chosen amount is a numeric number
+ * @param amount the written amount
+ * @return {@code true} if the amount is numeric
+ */
 @FXML
-private boolean isNumeric(String s){
+private boolean isNumeric(String amount){
     try {
-        Double.parseDouble(s);
+        Double.parseDouble(amount);
         return true;
     } catch (NumberFormatException e) {
         return false;
     }
 }
 
-
 @FXML
 private void updateAccountView(){
+    //Method for updating the accountview after changes
     accounts.setText("");
     for (AbstractAccount account : user.getAccounts()) {
         String type = "";
@@ -167,6 +197,7 @@ private void updateAccountView(){
 }
 
 private void save() {
+    //Saves the new user
     try {
         cfp.saveUser(user);
     } catch (IllegalStateException e) {
@@ -177,6 +208,7 @@ private void save() {
 }
 
 private void load() {
+    //checks if the user accounts is found
     try {
         user = cfp.loadUser();
     } catch (IllegalStateException e) {
@@ -194,6 +226,7 @@ public void loadNewUser(String saveFile) {
 
 @FXML
 private void onNextPage() throws IOException {
+    //Method for accessing the next page
     if (!user.getAccounts().isEmpty()) {
         Stage stage = (Stage) detailsAndTransfers.getScene().getWindow();
         stage.close();
