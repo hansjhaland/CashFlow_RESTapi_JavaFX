@@ -4,8 +4,5 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.AppController">
-    <fx:define>
-        <String fx:id="baseUri" fx:value="http://localhost:8999/user/"/>
-    </fx:define>
     <fx:include fx:id="mainPage" source="CashFlow.fxml"/>
 </VBox>
