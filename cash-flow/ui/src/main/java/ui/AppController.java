@@ -1,9 +1,15 @@
 package ui;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import core.AbstractAccount;
+import core.CheckingAccount;
+import core.SavingsAccount;
+import core.User;
 import javafx.fxml.FXML;
+import json.CashFlowPersistence;
 
 public class AppController {
 
@@ -13,7 +19,28 @@ public class AppController {
     @FXML
     CashFlowController mainPageController;
 
-    CashFlowAccess cashFlowAccess;
+    private CashFlowAccess cashFlowAccess;
+
+    private CashFlowPersistence cfp;
+
+    private User getInitialUser() {
+        User initialUser = null;
+        if (cfp != null) {
+            try {
+                initialUser = cfp.loadUser(DirectAccess.SAVEFILE);
+            } catch (IOException e) {
+                System.err.println("Fikk ikke lest inn lagret bruker");
+            }
+        }
+        if (initialUser == null) {
+            initialUser = new User(123456);
+            AbstractAccount account1 = new CheckingAccount("Brukskonto", 250.0, initialUser);
+            AbstractAccount account2 = new SavingsAccount("Sparekonto", 1000.0, initialUser);
+            initialUser.addAccount(account1);
+            initialUser.addAccount(account2);
+        }
+        return initialUser;
+    }
 
     @FXML
     public void initialize() {
@@ -25,8 +52,16 @@ public class AppController {
             }
         }
         if (cashFlowAccess == null) {
-            cashFlowAccess = new DirectAccess();
+            cfp = new CashFlowPersistence();
+            if (cfp.doesFileExist(DirectAccess.SAVEFILE)) {
+                cashFlowAccess = new DirectAccess(getInitialUser());
+            }
         }
-        mainPageController.cashFlowAccess = cashFlowAccess;
+        System.out.println("\na\na\na\na\na\na\na\na\na\na\na\na");
+        //baseUri blir null
+        System.out.println(baseUri);
+        System.out.println(cashFlowAccess);
+        mainPageController.setCashFlowAccess(cashFlowAccess);
+        mainPageController.setUser(cashFlowAccess.getUser());
     }
 }
