@@ -209,7 +209,8 @@ public class CashFlowController {
             Stage stage = (Stage) detailsAndTransfers.getScene().getWindow();
             stage.close();
             Stage primaryStage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Details.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+                .getResource(cashFlowAccess instanceof DirectAccess ? "LocalDetails.fxml" : "RemoteDetails.fxml"));
             Parent parent = fxmlLoader.load();
             primaryStage.setScene(new Scene(parent));
             primaryStage.show();

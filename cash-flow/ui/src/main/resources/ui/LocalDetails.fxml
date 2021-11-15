@@ -6,7 +6,7 @@
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.AppController">
     <fx:define>
         <String fx:id="remote" fx:value="false"/>
-        <String fx:id="page" fx:value="main"/>
+        <String fx:id="page" fx:value="details"/>
     </fx:define>
-    <fx:include fx:id="mainPage" source="CashFlow.fxml"/>
+    <fx:include fx:id="details" source="Details.fxml"/>
 </VBox>
