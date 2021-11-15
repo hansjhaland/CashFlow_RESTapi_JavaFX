@@ -57,10 +57,6 @@ public class AppController {
                 cashFlowAccess = new DirectAccess(getInitialUser());
             }
         }
-        System.out.println("\na\na\na\na\na\na\na\na\na\na\na\na");
-        //baseUri blir null
-        System.out.println(baseUri);
-        System.out.println(cashFlowAccess);
         mainPageController.setCashFlowAccess(cashFlowAccess);
         mainPageController.setUser(cashFlowAccess.getUser());
     }

@@ -11,15 +11,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import core.User;
 
-
-
 public class CashFlowPersistence {
 
     private ObjectMapper mapper;
     private Path saveFilePath = null;
 
     /**
-     * Constructor for a CashFlowPersistence object that sets the mapper field and registers a CashFlowModule to the mapper.
+     * Constructor for a CashFlowPersistence object that sets the mapper field and
+     * registers a CashFlowModule to the mapper.
      */
     public CashFlowPersistence() {
         mapper = new ObjectMapper();
@@ -28,6 +27,7 @@ public class CashFlowPersistence {
 
     /**
      * Method for reading a User object with deserialization.
+     * 
      * @param reader a Reader object.
      * @throws IOException if I/O problem when processing JSON content.
      * @return a user object constructed with deserialization.
@@ -38,7 +38,8 @@ public class CashFlowPersistence {
 
     /**
      * Method for writing a User object with serialization.
-     * @param user a User object to be serialized.
+     * 
+     * @param user   a User object to be serialized.
      * @param writer a Writer object.
      * @throws IOException if I/O problem when processing JSON content.
      */
@@ -48,23 +49,26 @@ public class CashFlowPersistence {
 
     /**
      * Method for setting the saveFilePath field given a file name.
+     * 
      * @param saveFile name of the JSON file.
      */
     public void setSaveFilePath(String saveFile) {
         this.saveFilePath = Paths.get(System.getProperty("user.home"), saveFile);
     }
 
-    /** 
+    /**
      * Method for setting the saveFilePath field given a file path.
+     * 
      * @param path path of the JSON file.
-    */
-    public void setSaveFilePath(Path path){
+     */
+    public void setSaveFilePath(Path path) {
         checkSaveFilePath(path);
         this.saveFilePath = path;
     }
 
     /**
      * Validation method for deciding whether file exists or not.
+     * 
      * @param saveFilePath file path to be checked
      * @throws IllegalStateException if file path is null.
      */
@@ -76,8 +80,9 @@ public class CashFlowPersistence {
 
     /**
      * Method for constructing a User object from data stored in JSON file.
+     * 
      * @return a User object read from file.
-     * @throws IOException if I/O problem occured.
+     * @throws IOException           if I/O problem occured.
      * @throws IllegalStateException if file path is null.
      */
     public User loadUser() throws IOException, IllegalStateException {
@@ -96,9 +101,10 @@ public class CashFlowPersistence {
     }
 
     /**
-     * Method for storing a User object to in a JSON file. 
+     * Method for storing a User object to a JSON file.
+     * 
      * @param user User object to be stored.
-     * @throws IOException if I/O problem occured.
+     * @throws IOException           if I/O problem occured.
      * @throws IllegalStateException if file path is null.
      */
     public void saveUser(User user) throws IOException, IllegalStateException {
@@ -117,8 +123,14 @@ public class CashFlowPersistence {
     }
 
     public static ObjectMapper createObjectMapper() {
-        return new ObjectMapper()
-        .registerModule(new CashFlowModule());
+        return new ObjectMapper().registerModule(new CashFlowModule());
+    }
+
+    public boolean doesFileExist(String saveFileName) {
+        if (saveFileName != null) {
+            return Paths.get(System.getProperty("user.home"), saveFileName).toFile().exists();
+        }
+        return false;
     }
 
 }

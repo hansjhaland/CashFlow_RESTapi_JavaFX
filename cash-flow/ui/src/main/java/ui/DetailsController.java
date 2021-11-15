@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 
 
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
@@ -174,7 +173,7 @@ public class DetailsController {
         Stage stage = (Stage) toMainPage.getScene().getWindow();
         stage.close();
         Stage primaryStage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CashFlow.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LocalCashFlow.fxml"));
         Parent parent = fxmlLoader.load();
         primaryStage.setScene(new Scene(parent));
         primaryStage.show();

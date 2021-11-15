@@ -1,9 +1,18 @@
 package ui;
 
+import java.io.IOException;
+
 import core.AbstractAccount;
+import core.User;
 
 public interface CashFlowAccess {
 
+    /**
+     * Gets a user from relevant source.
+     * 
+     * @return a user 
+     */
+    public User getUser();
 
     /**
      * Gets account with given account number
@@ -32,13 +41,23 @@ public interface CashFlowAccess {
      * @param payer paying account
      * @param reciever recieving account
      */
-    public void transfer(AbstractAccount payer, AbstractAccount reciever);
-    
-    /**
-     * Save account
-     */
-    public void saveAccount();
+    public void transfer(AbstractAccount payer, AbstractAccount reciever, double amount);
 
-    
+    /**
+     * Gets a user object from file if it exists.
+     * 
+     * @throws IllegalStateException
+     * @throws IOException
+     * @return user from file if it exists. Default user otherwise.
+     */
+    public User loadInitialUser() throws IllegalStateException, IOException;
+
+    /**
+     * Save user to file as JSON object.
+     * 
+     * @throws IllegalStateException
+     * @throws IOException
+     */
+    public void saveUser() throws IllegalStateException, IOException;
 
 }
