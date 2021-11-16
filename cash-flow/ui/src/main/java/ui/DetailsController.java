@@ -35,15 +35,13 @@ public class DetailsController {
     @FXML
     private ChoiceBox<String> chooseAccount, transferAccount;
 
-    User user;
+    private User user;
     private AbstractAccount account;
     private AbstractAccount accountToTransferTo;
     private CashFlowPersistence cfp = new CashFlowPersistence();
-    private BankHelper bankHelper = new BankHelper();
-    CashFlowAccess cashFlowAccess;
+    private CashFlowAccess cashFlowAccess;
 
     public void setCashFlowAccess(CashFlowAccess cashFlowAccess) {
-        System.out.println(cashFlowAccess);
         if (cashFlowAccess != null) {
             this.cashFlowAccess = cashFlowAccess;
             this.user = cashFlowAccess.getUser();
@@ -90,7 +88,6 @@ public class DetailsController {
             account = cashFlowAccess.getAccount(accountNumber);
         }
         updateTransferHistoryView();
-        System.out.println(cashFlowAccess);
     }
 
     @FXML
@@ -116,22 +113,21 @@ public class DetailsController {
     private void onTransfer() {
         feedback.setText("");
         if (account != null && accountToTransferTo != null) {
-            // double transferAmount = Double.valueOf(overførBeløp.getText());
             String amount = transferAmount.getText();
             double transferAmount = (amount == null ? 0 : Double.parseDouble(amount));
             if (transferAmount <= 0) {
                 feedback.setText("Overføringsbeløpet må være større enn 0.");
 
             } else if (account instanceof BSUAccount) {
-                feedback.setText("Kan ikke overføre fra en BSU-konto");
+                feedback.setText("Kan ikke overføre fra en BSU-konto.");
             } else if (account == accountToTransferTo) {
-                feedback.setText("Sendekonto kan ikke være lik mottakerkonto");
+                feedback.setText("Sendekonto kan ikke være lik mottakerkonto.");
             } else if (account instanceof SavingsAccount
                     && !((SavingsAccount) account).isWithdrawalOrTransferPossible()) {
-                feedback.setText("Maksimalt antall uttak fra sparekonto nådd");
+                feedback.setText("Maksimalt antall uttak fra sparekonto nådd.");
             } else {
-                if (bankHelper.isBalanceValidWhenAdding(-transferAmount, account)
-                        && bankHelper.isBalanceValidWhenAdding(transferAmount, accountToTransferTo)) {
+                if (BankHelper.isBalanceValidWhenAdding(-transferAmount, account)
+                        && BankHelper.isBalanceValidWhenAdding(transferAmount, accountToTransferTo)) {
                     cashFlowAccess.transfer(account, accountToTransferTo, transferAmount);
                     feedback.setText("Overføring godkjent");
                     save();

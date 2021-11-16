@@ -10,12 +10,15 @@ public class DirectAccess implements CashFlowAccess {
 
     private User user;
     private CashFlowPersistence cfp;
-    public final static String SAVEFILE = "SaveData.json";
+    public final static String LOCALSAVEFILE = "SaveData.json";
+    public final static String TESTSAVEFILE = "SaveDataTest.json";
+    private String saveFile;
 
-    public DirectAccess(User user) {
+    public DirectAccess(User user, String saveFile) {
+        this.saveFile = saveFile;
         this.user = user;
         this.cfp = new CashFlowPersistence();
-        cfp.setSaveFilePath(SAVEFILE);
+        cfp.setSaveFilePath(saveFile);
     }
 
     public User getUser(){
@@ -37,7 +40,7 @@ public class DirectAccess implements CashFlowAccess {
 
     @Override
     public void saveUser() throws IllegalStateException, IOException {
-        cfp.saveUser(user, SAVEFILE);
+        cfp.saveUser(user, saveFile);
     }
 
     @Override
@@ -55,8 +58,8 @@ public class DirectAccess implements CashFlowAccess {
 
     @Override
     public User loadInitialUser() throws IllegalStateException, IOException {
-        if (cfp.doesFileExist(SAVEFILE)){
-            return cfp.loadUser(SAVEFILE);
+        if (cfp.doesFileExist(saveFile)){
+            return cfp.loadUser(saveFile);
         }
         return new User(123456);
     }

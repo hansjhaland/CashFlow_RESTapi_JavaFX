@@ -10,6 +10,8 @@ import json.CashFlowPersistence;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import core.User;
 import core.AbstractAccount;
@@ -38,15 +40,11 @@ public class CashFlowController {
 
     private User user = new User(123456);
     private CashFlowPersistence cfp = new CashFlowPersistence();
-    private BankHelper bankHelper = new BankHelper();
-
-    // private String uri = "http://localhost:8999/user/";
 
     private CashFlowAccess cashFlowAccess;
-    
 
     public void setCashFlowAccess(CashFlowAccess cashFlowAccess) {
-        if (cashFlowAccess != null ) {
+        if (cashFlowAccess != null) {
             this.cashFlowAccess = cashFlowAccess;
             this.user = cashFlowAccess.getUser();
             System.out.println(cashFlowAccess);
@@ -56,9 +54,7 @@ public class CashFlowController {
 
     @FXML
     public void initialize() {
-        System.out.println("\nb\nb\nb\nb\nb\nb\nb\nb\nb\nb\nb\nb\nb\nb\nb");
-        System.out.println(cashFlowAccess);
-        if (cashFlowAccess != null){
+        if (cashFlowAccess != null) {
             accounts.setEditable(false);
             setDropDownMenu();
             save();
@@ -70,7 +66,7 @@ public class CashFlowController {
         accountType.getItems().clear();
         accountType.getItems().add("Brukskonto");
         accountType.getItems().add("Sparekonto");
-        if (!bankHelper.hasBSU(user)) {
+        if (!BankHelper.hasBSU(user)) {
             accountType.getItems().add("BSU-konto");
         }
     }
@@ -113,13 +109,13 @@ public class CashFlowController {
     private boolean checkValidNameAmount(String name, String amount) {
         if (name == null && amount != null) {
             if (isNumeric(amount)) {
-                return bankHelper.isPositiveAmount(Double.parseDouble(amount));
+                return BankHelper.isPositiveAmount(Double.parseDouble(amount));
             } else {
                 return false;
             }
 
         } else if (name != null && amount == null) {
-            return bankHelper.isValidName(name);
+            return BankHelper.isValidName(name);
         } else {
             return false;
         }
@@ -166,7 +162,7 @@ public class CashFlowController {
                 type = "BSU-konto";
             }
             String name = account.getName();
-            DecimalFormat df = new DecimalFormat("#.##");
+            DecimalFormat df = new DecimalFormat("##.0", new DecimalFormatSymbols(Locale.UK));
             String balance = df.format(account.getBalance());
             accounts.setText(accounts.getText() + "\n" + type + ": " + name + "\n" + "   Beløp: " + balance);
         }
@@ -206,7 +202,7 @@ public class CashFlowController {
             stage.close();
             Stage primaryStage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-                .getResource(cashFlowAccess instanceof DirectAccess ? "LocalDetails.fxml" : "RemoteDetails.fxml"));
+                    .getResource(cashFlowAccess instanceof DirectAccess ? "LocalDetails.fxml" : "RemoteDetails.fxml"));
             Parent parent = fxmlLoader.load();
             primaryStage.setScene(new Scene(parent));
             primaryStage.show();

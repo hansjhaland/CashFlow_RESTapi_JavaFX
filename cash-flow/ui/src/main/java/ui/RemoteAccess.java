@@ -17,7 +17,7 @@ public class RemoteAccess implements CashFlowAccess {
     private ObjectMapper objectMapper;
     private User user;
     private CashFlowPersistence cfp;
-    public final static String SERVERSAVEFILE = "Server-SaveData.json";
+    public static final String SERVERSAVEFILE = "Server-SaveData.json";
 
     public RemoteAccess(URI endpointBaseUri) {
         this.endpointBaseUri = endpointBaseUri;
@@ -72,7 +72,6 @@ public class RemoteAccess implements CashFlowAccess {
     }
 
     private void putAccount(AbstractAccount account) {
-        user.addAccount(account);
         try {
             String json = objectMapper.writeValueAsString(account);
             HttpRequest request = HttpRequest.newBuilder(accountUri(account.getAccountNumber()))
@@ -127,7 +126,7 @@ public class RemoteAccess implements CashFlowAccess {
 
     @Override
     public User loadInitialUser() throws IllegalStateException, IOException {
-        if (cfp.doesFileExist(SERVERSAVEFILE)){
+        if (cfp.doesFileExist(SERVERSAVEFILE)) {
             return cfp.loadUser(SERVERSAVEFILE);
         }
         return new User(123456);

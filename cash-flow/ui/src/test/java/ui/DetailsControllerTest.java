@@ -30,35 +30,31 @@ import javafx.scene.text.*;
 import core.User;
 import core.CheckingAccount;
 import core.SavingsAccount;
-import core.AbstractAccount;
 import core.BSUAccount;
 
+public class DetailsControllerTest extends ApplicationTest {
 
-
-public class DetailsControllerTest extends ApplicationTest{
-    
-   
-    final String TRANSACTIONHISTORY = "#accountHistory";  //TextArea
-    final String DETAILEDACCOUNT = "#chooseAccount";          //ChoiceBox
-    final String RECIPIENTACCOUNT = "#transferAccount";      //ChoiceBox
-    final String AMOUNT = "#transferAmount";                //TextField
-    final String TRANSFER = "#transfer";                   //Button
-    final String FEEDBACK = "#feedback";                   //Text
-    final String DELETEBUTTON = "#deleteButton";             //Button
-    final String DELETEMESSAGE = "#deleteMessage";           //Text
+    final String TRANSACTIONHISTORY = "#accountHistory"; // TextArea
+    final String DETAILEDACCOUNT = "#chooseAccount"; // ChoiceBox
+    final String RECIPIENTACCOUNT = "#transferAccount"; // ChoiceBox
+    final String AMOUNT = "#transferAmount"; // TextField
+    final String TRANSFER = "#transfer"; // Button
+    final String FEEDBACK = "#feedback"; // Text
+    final String DELETEBUTTON = "#deleteButton"; // Button
+    final String DELETEMESSAGE = "#deleteMessage"; // Text
 
     private DetailsController controller;
     private CashFlowPersistence cfp = new CashFlowPersistence();
     private User user = new User(123456);
-    
+
     private final static String testSaveFile = "SaveDataTest.json";
-    
+
     @Override
     public void start(final Stage stage) throws Exception {
         new CheckingAccount("ChA", 1000, 1000, user);
         new SavingsAccount("SA", 1000, 1001, user);
         new BSUAccount("BSUA", 1000, 1002, user);
-        try{
+        try {
             cfp.saveUser(user, testSaveFile);
         } catch (IllegalStateException e) {
             fail(e);
@@ -70,10 +66,12 @@ public class DetailsControllerTest extends ApplicationTest{
         this.controller = loader.getController();
         stage.setScene(new Scene(root));
         stage.show();
+        DirectAccess directAccess = new DirectAccess(user, DirectAccess.TESTSAVEFILE);
+        controller.setCashFlowAccess(directAccess);
         controller.loadNewUser(testSaveFile);
     }
 
-    @SuppressWarnings (value="unchecked")
+    @SuppressWarnings(value = "unchecked")
     private <T extends Node> T find(final String query) {
         return (T) lookup(query).queryAll().iterator().next();
     }
@@ -109,7 +107,7 @@ public class DetailsControllerTest extends ApplicationTest{
      * Tests that a checking account is chosen when expected.
      */
     @Test
-    public void testChooseCheckingAccount(){
+    public void testChooseCheckingAccount() {
         clickOn(DETAILEDACCOUNT);
         type(KeyCode.ENTER);
         ChoiceBox<String> detailedAccount = find(DETAILEDACCOUNT);
@@ -126,7 +124,7 @@ public class DetailsControllerTest extends ApplicationTest{
      * Test that a savings account is chosen when expected.
      */
     @Test
-    public void testChooseSavingsAccount(){
+    public void testChooseSavingsAccount() {
         clickOn(DETAILEDACCOUNT);
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
@@ -145,7 +143,7 @@ public class DetailsControllerTest extends ApplicationTest{
      * Tests that a BSU account is chosen when expected.
      */
     @Test
-    public void testChooseBSUAccount(){
+    public void testChooseBSUAccount() {
         clickOn(DETAILEDACCOUNT);
         type(KeyCode.DOWN);
         type(KeyCode.DOWN);
@@ -163,49 +161,45 @@ public class DetailsControllerTest extends ApplicationTest{
     }
 
     /**
-     * Tests that clicking the transfer button without selecting any accounts
+     * Tests that clicking the transfer button without selecting any accounts gives
+     * the proper error message.
+     */
+    @Test
+    public void testTransferWithoutAnyAccounts() {
+        clickOn(TRANSFER);
+        assertEquals("Velg hvilken konto du vil overføre fra/til.", lookup(FEEDBACK).queryText().getText());
+    }
+
+    /**
+     * Tests that clicking the transfer button without selecting a detailed account
      * gives the proper error message.
      */
     @Test
-    public void testTransferWithoutAnyAccounts(){
-        clickOn(TRANSFER);
-        assertEquals("Velg hvilken konto du vil overføre fra/til.", lookup(FEEDBACK)
-                    .queryText().getText());
-    }
-
-    /**
-     * Tests that clicking the transfer button without selecting
-     * a detailed account gives the proper error message.
-     */
-    @Test
-    public void testTransferWithoutDetailedAccount(){
+    public void testTransferWithoutDetailedAccount() {
         clickOn(RECIPIENTACCOUNT);
         type(KeyCode.ENTER);
         clickOn(TRANSFER);
-        assertEquals("Velg hvilken konto du vil overføre fra/til.", lookup(FEEDBACK)
-                    .queryText().getText());
+        assertEquals("Velg hvilken konto du vil overføre fra/til.", lookup(FEEDBACK).queryText().getText());
     }
 
     /**
-     * Tests that clicking the transfer button without selecting
-     * a recipient account gives the proper error message.
+     * Tests that clicking the transfer button without selecting a recipient account
+     * gives the proper error message.
      */
     @Test
-    public void testTransferWithoutRecipientAccount(){
+    public void testTransferWithoutRecipientAccount() {
         clickOn(DETAILEDACCOUNT);
         type(KeyCode.ENTER);
         clickOn(TRANSFER);
-        assertEquals("Velg hvilken konto du vil overføre fra/til.", lookup(FEEDBACK)
-                    .queryText().getText());
+        assertEquals("Velg hvilken konto du vil overføre fra/til.", lookup(FEEDBACK).queryText().getText());
     }
 
     /**
-     * Tests that clicking the transfer button after selecting
-     * the same account as payer and recipient gives the
-     * proper error message.
+     * Tests that clicking the transfer button after selecting the same account as
+     * payer and recipient gives the proper error message.
      */
-    @Test 
-    public void testTransferWithSameAccounts(){
+    @Test
+    public void testTransferWithSameAccounts() {
         clickOn(RECIPIENTACCOUNT);
         type(KeyCode.ENTER);
         clickOn(DETAILEDACCOUNT);
@@ -213,15 +207,14 @@ public class DetailsControllerTest extends ApplicationTest{
         TextField amount = find(AMOUNT);
         amount.setText("10");
         clickOn(TRANSFER);
-        assertEquals("Sendekonto kan ikke være lik mottakerkonto", lookup(FEEDBACK)
-                    .queryText().getText());
+        assertEquals("Sendekonto kan ikke være lik mottakerkonto.", lookup(FEEDBACK).queryText().getText());
     }
 
     /**
      * Tests that no error message is given when a valid transfer is executed.
      */
-    @Test 
-    public void testValidTransfer(){
+    @Test
+    public void testValidTransfer() {
         clickOn(RECIPIENTACCOUNT);
         type(KeyCode.ENTER);
         clickOn(DETAILEDACCOUNT);
@@ -236,8 +229,7 @@ public class DetailsControllerTest extends ApplicationTest{
     }
 
     /**
-     * Tests that a transfer with negative amount gives
-     * proper error message.
+     * Tests that a transfer with negative amount gives proper error message.
      */
     @Test
     public void testTransferWithNegativeAmount() {
@@ -250,36 +242,33 @@ public class DetailsControllerTest extends ApplicationTest{
         TextField amount = find(AMOUNT);
         amount.setText("-10");
         clickOn(TRANSFER);
-        assertEquals("Overføringsbeløpet må være større enn 0.", lookup(FEEDBACK)
-                    .queryText().getText());
+        assertEquals("Overføringsbeløpet må være større enn 0.", lookup(FEEDBACK).queryText().getText());
     }
 
     /**
-     * Tests that withdrawing from a savings account more than
-     * ten times is impossible.
+     * Tests that withdrawing from a savings account more than ten times is
+     * impossible.
      */
     @Test
-    public void testExceedingMaxNumberOfWithdrawalsSavingsAccount(){
+    public void testExceedingMaxNumberOfWithdrawalsSavingsAccount() {
         clickOn(DETAILEDACCOUNT);
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
         clickOn(RECIPIENTACCOUNT);
         type(KeyCode.ENTER);
         TextField amount = find(AMOUNT);
-        for (int i = 0; i < 12; i++){
+        for (int i = 0; i < 12; i++) {
             amount.setText("10");
             clickOn(TRANSFER);
         }
-        assertEquals("Maksimalt antall uttak fra sparekonto nådd", lookup(FEEDBACK)
-                    .queryText().getText());
+        assertEquals("Maksimalt antall uttak fra sparekonto nådd.", lookup(FEEDBACK).queryText().getText());
     }
 
     /**
-     * Tests that a transfer with amount exceeding account balance
-     * is impossible.
+     * Tests that a transfer with amount exceeding account balance is impossible.
      */
     @Test
-    public void testTransferMoreThanAccountBalance(){
+    public void testTransferMoreThanAccountBalance() {
         clickOn(DETAILEDACCOUNT);
         type(KeyCode.ENTER);
         clickOn(RECIPIENTACCOUNT);
@@ -288,15 +277,13 @@ public class DetailsControllerTest extends ApplicationTest{
         TextField amount = find(AMOUNT);
         amount.setText("10000");
         clickOn(TRANSFER);
-        assertEquals("ChA har ikke nok penger på konto.", lookup(FEEDBACK)
-                    .queryText().getText());
+        assertEquals("ChA har ikke nok penger på konto.", lookup(FEEDBACK).queryText().getText());
     }
 
     @Test
     public void testDeleteAccountWithoutChoosingAccount() {
         clickOn(DELETEBUTTON);
-        assertEquals("Du må velge en konto først.", lookup(DELETEMESSAGE)
-            .queryText().getText());
+        assertEquals("Du må velge en konto først.", lookup(FEEDBACK).queryText().getText());
     }
 
     @Test
@@ -304,8 +291,8 @@ public class DetailsControllerTest extends ApplicationTest{
         clickOn(DETAILEDACCOUNT);
         type(KeyCode.ENTER);
         clickOn(DELETEBUTTON);
-        assertEquals("Du må ha saldo 0 eller overføre pengene til en annen konto", lookup(DELETEMESSAGE)
-            .queryText().getText());
+        assertEquals("Du må ha saldo 0 eller overføre pengene til en annen konto.",
+                lookup(FEEDBACK).queryText().getText());
     }
 
     @Test
@@ -320,8 +307,7 @@ public class DetailsControllerTest extends ApplicationTest{
         clickOn(TRANSFER);
 
         clickOn(DELETEBUTTON);
-        assertEquals("Konto slettet.", lookup(DELETEMESSAGE)
-            .queryText().getText());
+        assertEquals("Konto slettet.", lookup(FEEDBACK).queryText().getText());
     }
 
 }
