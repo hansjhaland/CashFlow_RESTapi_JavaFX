@@ -52,29 +52,14 @@ public class AppController {
 
     @FXML
     public void initialize() {
-        /* if (baseUri != null) {
-            try {
-                cashFlowAccess = new RemoteAccess(new URI(baseUri));
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
-        if (cashFlowAccess == null) {
-            cfp = new CashFlowPersistence();
-            if (cfp.doesFileExist(DirectAccess.SAVEFILE)) {
-                cashFlowAccess = new DirectAccess(getInitialUser());
-            }
-        } */
         cfp = new CashFlowPersistence();
         cashFlowAccess = new DirectAccess(getInitialUser());
         if (remote.equals("false")) {
             if (page.equals("main")) {
                 mainPageController.setCashFlowAccess(cashFlowAccess);
-                mainPageController.setUser(cashFlowAccess.getUser());
             }
             else if (page.equals("details")) {
-                detailsController.cashFlowAccess = cashFlowAccess;
-                detailsController.user = cashFlowAccess.getUser();
+                detailsController.setCashFlowAccess(cashFlowAccess);
             }
         }
         else if (remote.equals("true")) {
@@ -85,11 +70,9 @@ public class AppController {
             }
             if (page.equals("main")) {
                 mainPageController.setCashFlowAccess(cashFlowAccess);
-                mainPageController.setUser(cashFlowAccess.getUser());
             }
             else if (page.equals("details")) {
-                detailsController.cashFlowAccess = cashFlowAccess;
-                detailsController.user = cashFlowAccess.getUser();
+                detailsController.setCashFlowAccess(cashFlowAccess);
             }
         }
     }

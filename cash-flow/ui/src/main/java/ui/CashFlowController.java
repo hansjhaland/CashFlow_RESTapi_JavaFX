@@ -46,7 +46,12 @@ public class CashFlowController {
     
 
     public void setCashFlowAccess(CashFlowAccess cashFlowAccess) {
-        this.cashFlowAccess = cashFlowAccess;
+        if (cashFlowAccess != null ) {
+            this.cashFlowAccess = cashFlowAccess;
+            this.user = cashFlowAccess.getUser();
+            System.out.println(cashFlowAccess);
+            updateAccountView();
+        }
     }
 
     @FXML
@@ -56,18 +61,9 @@ public class CashFlowController {
         if (cashFlowAccess != null){
             accounts.setEditable(false);
             setDropDownMenu();
-            user = cashFlowAccess.getUser();
             save();
             updateAccountView();
         }
-    }
-
-    public void setUser(User user) {
-        if (user != null) {
-            this.user = user;
-        }
-        updateAccountView();
-        System.out.println(cashFlowAccess);
     }
 
     private void setDropDownMenu() {
