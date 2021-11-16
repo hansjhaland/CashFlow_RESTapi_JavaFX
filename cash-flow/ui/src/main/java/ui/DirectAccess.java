@@ -46,10 +46,11 @@ public class DirectAccess implements CashFlowAccess {
     }
 
     @Override
-    public void deleteAccount(int accountNumber) {
+    public boolean deleteAccount(int accountNumber) {
         if (user != null) {
-            user.removeAccount(getAccount(accountNumber));
+            return user.removeAccount(getAccount(accountNumber));
         }
+        return false;
     }
 
     @Override

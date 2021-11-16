@@ -33,7 +33,7 @@ public interface CashFlowAccess {
      * 
      * @param account the account to be deleted
      */
-    public void deleteAccount(int accountNumber);
+    public boolean deleteAccount(int accountNumber);
 
     /**
      * Adds an transaction to both accouts' transaction history
