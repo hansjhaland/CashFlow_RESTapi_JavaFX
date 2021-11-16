@@ -32,11 +32,12 @@ public class DetailsController {
     @FXML private Text accountCreated, feedback;
     @FXML private ChoiceBox<String> chooseAccount, transferAccount;
     
-    private User user;
+    User user;
     private AbstractAccount account;
     private AbstractAccount accountToTransferTo;
     private CashFlowPersistence cfp = new CashFlowPersistence();
     private BankHelper bankHelper = new BankHelper();
+    CashFlowAccess cashFlowAccess;
 
     public void initialize() {
         try {
@@ -51,8 +52,7 @@ public class DetailsController {
         }
         accountHistory.setEditable(false);
         updateTransferHistoryView();
-        updateChooseAccountView();
-        
+        updateChooseAccountView();        
     }
 
     private void updateTransferHistoryView() {
@@ -91,6 +91,7 @@ public class DetailsController {
             account = user.getAccount(accountNumber);
         }
         updateTransferHistoryView();
+        System.out.println(cashFlowAccess);
     }
 
     @FXML
@@ -173,7 +174,8 @@ public class DetailsController {
         Stage stage = (Stage) toMainPage.getScene().getWindow();
         stage.close();
         Stage primaryStage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LocalCashFlow.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+                .getResource(cashFlowAccess instanceof DirectAccess ? "LocalCashFlow.fxml" : "RemoteCashFlow.fxml"));
         Parent parent = fxmlLoader.load();
         primaryStage.setScene(new Scene(parent));
         primaryStage.show();

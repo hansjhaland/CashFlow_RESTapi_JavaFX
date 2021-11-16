@@ -13,9 +13,17 @@ import json.CashFlowPersistence;
 
 public class AppController {
 
-    @FXML
-    String baseUri;
+    String baseUri = "http://localhost:8999/user/";
 
+    @FXML
+    String remote;
+
+    @FXML
+    String page;
+
+    
+    @FXML
+    DetailsController detailsController;
     @FXML
     CashFlowController mainPageController;
 
@@ -44,7 +52,7 @@ public class AppController {
 
     @FXML
     public void initialize() {
-        if (baseUri != null) {
+        /* if (baseUri != null) {
             try {
                 cashFlowAccess = new RemoteAccess(new URI(baseUri));
             } catch (URISyntaxException e) {
@@ -56,8 +64,33 @@ public class AppController {
             if (cfp.doesFileExist(DirectAccess.SAVEFILE)) {
                 cashFlowAccess = new DirectAccess(getInitialUser());
             }
+        } */
+        cfp = new CashFlowPersistence();
+        cashFlowAccess = new DirectAccess(getInitialUser());
+        if (remote.equals("false")) {
+            if (page.equals("main")) {
+                mainPageController.setCashFlowAccess(cashFlowAccess);
+                mainPageController.setUser(cashFlowAccess.getUser());
+            }
+            else if (page.equals("details")) {
+                detailsController.cashFlowAccess = cashFlowAccess;
+                detailsController.user = cashFlowAccess.getUser();
+            }
         }
-        mainPageController.setCashFlowAccess(cashFlowAccess);
-        mainPageController.setUser(cashFlowAccess.getUser());
+        else if (remote.equals("true")) {
+            try {
+                cashFlowAccess = new RemoteAccess(new URI(baseUri));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            if (page.equals("main")) {
+                mainPageController.setCashFlowAccess(cashFlowAccess);
+                mainPageController.setUser(cashFlowAccess.getUser());
+            }
+            else if (page.equals("details")) {
+                detailsController.cashFlowAccess = cashFlowAccess;
+                detailsController.user = cashFlowAccess.getUser();
+            }
+        }
     }
 }
