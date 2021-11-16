@@ -68,7 +68,6 @@ public class DetailsControllerTest extends ApplicationTest {
         stage.show();
         DirectAccess directAccess = new DirectAccess(user, DirectAccess.TESTSAVEFILE);
         controller.setCashFlowAccess(directAccess);
-        controller.loadNewUser(testSaveFile);
     }
 
     @SuppressWarnings(value = "unchecked")

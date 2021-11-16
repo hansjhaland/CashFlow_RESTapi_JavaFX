@@ -50,8 +50,6 @@ public class CashFlowControllerTest extends ApplicationTest {
         cfp.saveUser(user, testSaveFile);
         DirectAccess directAccess = new DirectAccess(user, DirectAccess.TESTSAVEFILE);
         controller.setCashFlowAccess(directAccess);
-        controller.loadNewUser(testSaveFile);
-
     }
 
     @BeforeEach

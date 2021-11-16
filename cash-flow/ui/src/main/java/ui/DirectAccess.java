@@ -6,6 +6,9 @@ import core.AbstractAccount;
 import core.User;
 import json.CashFlowPersistence;
 
+/**
+ * Allows controller classes to load data from and save data to a local file.
+ */
 public class DirectAccess implements CashFlowAccess {
 
     private User user;
@@ -21,15 +24,29 @@ public class DirectAccess implements CashFlowAccess {
         cfp.setSaveFilePath(saveFile);
     }
 
-    public User getUser(){
+    /**
+     * Getter for user field.
+     * 
+     * @return a user
+     */
+    public User getUser() {
         return user;
     }
 
+    /**
+     * Gets an acount from the user's account list based on its account number.
+     * 
+     * @return the corresponding account if it exists in user's account list.
+     *         Otherwise null.
+     */
     @Override
     public AbstractAccount getAccount(int accountNumber) {
         return user.getAccount(accountNumber);
     }
 
+    /**
+     * Adds an account to user's account list.
+     */
     @Override
     public void addAccount(AbstractAccount account) {
         if (user != null) {
@@ -38,16 +55,33 @@ public class DirectAccess implements CashFlowAccess {
 
     }
 
+    /**
+     * Saves user to local save file.
+     */
     @Override
     public void saveUser() throws IllegalStateException, IOException {
         cfp.saveUser(user, saveFile);
     }
 
+    /**
+     * Creates a transfer between two accounts.
+     * 
+     * @param payer    the paying account
+     * @param reciever the recieving account
+     * @param amount   the amount to be transfered
+     */
     @Override
     public void transfer(AbstractAccount payer, AbstractAccount reciever, double amount) {
         payer.transfer(reciever, amount);
     }
 
+    /**
+     * Deletes the account with the corresponding account number.
+     * 
+     * @param accountNumber the account number
+     * @return true if account is deleted. false if account is not deleted or the
+     *         user is null.
+     */
     @Override
     public boolean deleteAccount(int accountNumber) {
         if (user != null) {
@@ -56,9 +90,14 @@ public class DirectAccess implements CashFlowAccess {
         return false;
     }
 
+    /**
+     * Loads a user from file if the file exists. Returns a default user otherwise.
+     * 
+     * @return a user from file if the file exists. A default user otherwise.
+     */
     @Override
     public User loadInitialUser() throws IllegalStateException, IOException {
-        if (cfp.doesFileExist(saveFile)){
+        if (cfp.doesFileExist(saveFile)) {
             return cfp.loadUser(saveFile);
         }
         return new User(123456);
