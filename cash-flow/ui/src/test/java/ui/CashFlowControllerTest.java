@@ -25,10 +25,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 
-public class CashFlowControllerTest extends ApplicationTest{
+public class CashFlowControllerTest extends ApplicationTest {
 
-    //Nødvendig å reste hva som skjer ved klikk på knapp "neste side"?
-    
+    // Nødvendig å reste hva som skjer ved klikk på knapp "neste side"?
+
     private CashFlowController controller;
     final String SETAMOUNT = "#setAmount";
     final String NAMEACCOUNT = "#nameAccount";
@@ -39,19 +39,20 @@ public class CashFlowControllerTest extends ApplicationTest{
     private final static String testSaveFile = "SaveDataTest.json";
     private CashFlowPersistence cfp = new CashFlowPersistence();
 
-
     @Override
     public void start(final Stage stage) throws Exception {
-    final FXMLLoader loader = new FXMLLoader(getClass().getResource("CashFlow_test.fxml"));
-    final Parent root = loader.load();
-    this.controller = loader.getController();
-    stage.setScene(new Scene(root));
-    stage.show();
-    User user = new User(123456);
-    cfp.saveUser(user, testSaveFile);
-    controller.loadNewUser(testSaveFile);
-    
-  }
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("CashFlow_test.fxml"));
+        final Parent root = loader.load();
+        this.controller = loader.getController();
+        stage.setScene(new Scene(root));
+        stage.show();
+        User user = new User(123456);
+        cfp.saveUser(user, testSaveFile);
+        DirectAccess directAccess = new DirectAccess(user, DirectAccess.TESTSAVEFILE);
+        controller.setCashFlowAccess(directAccess);
+        controller.loadNewUser(testSaveFile);
+
+    }
 
     @BeforeEach
     public void setUpItems() {
@@ -69,11 +70,11 @@ public class CashFlowControllerTest extends ApplicationTest{
         File testFile = testFilePath.toFile();
         testFile.delete();
     }
-    
+
     @Test
     public void testController() {
         assertNotNull(this.controller);
-        
+
     }
 
     @Test
@@ -81,14 +82,13 @@ public class CashFlowControllerTest extends ApplicationTest{
         clickOn(CREATEACCOUNT);
         assertEquals("Velg en kontotype!", lookup("#errorMessage").queryText().getText());
     }
-    
-    
+
     @Test
     public void testNewCorrectAccount() {
         TextArea accountOverview = find(ACCOUNTS);
-        //hvis null?
+        // hvis null?
         String accounts = accountOverview.getText();
-        
+
         String name = "first account";
         String amount = "12";
 
@@ -103,15 +103,15 @@ public class CashFlowControllerTest extends ApplicationTest{
 
         assertNotNull(lookup("#accountCreated").queryText().getText());
         assertEquals("Kontoen er opprettet", (lookup("#accountCreated").queryText().getText()));
-        assertEquals(accounts + "\n" + "Sparekonto" + ": " + name + "\n" + "   Beløp: " + Double.parseDouble(amount), accountOverview.getText());
-        
+        assertEquals(accounts + "\n" + "Sparekonto" + ": " + name + "\n" + "   Beløp: " + Double.parseDouble(amount),
+                accountOverview.getText());
+
     }
-    
-    @SuppressWarnings (value="unchecked")
+
+    @SuppressWarnings(value = "unchecked")
     private <T extends Node> T find(final String query) {
         return (T) lookup(query).queryAll().iterator().next();
     }
-
 
     @Test
     public void testMissingFields() {
@@ -121,25 +121,25 @@ public class CashFlowControllerTest extends ApplicationTest{
         TextField amount = find(SETAMOUNT);
         TextField name = find(NAMEACCOUNT);
 
-        //Test bare beløp
+        // Test bare beløp
         clickOn(SETAMOUNT).write("34");
         clickOn(CREATEACCOUNT);
         assertEquals("Velg en kontotype!", lookup("#errorMessage").queryText().getText());
 
-        //hvis du bare skriver inn navn
+        // hvis du bare skriver inn navn
         amount.setText("");
         clickOn(NAMEACCOUNT).write("test");
         clickOn(CREATEACCOUNT);
         assertEquals("Velg en kontotype!", lookup("#errorMessage").queryText().getText());
 
-        //hvis du skriver inn navn og beløp 
+        // hvis du skriver inn navn og beløp
         name.setText("");
         clickOn(NAMEACCOUNT).write("test");
         clickOn(SETAMOUNT).write("35");
         clickOn(CREATEACCOUNT);
         assertEquals("Velg en kontotype!", lookup("#errorMessage").queryText().getText());
 
-        //hvis du skriver inn type
+        // hvis du skriver inn type
         amount.setText("");
         name.setText("");
         clickOn(ACCOUNTTYPE);
@@ -148,12 +148,12 @@ public class CashFlowControllerTest extends ApplicationTest{
         clickOn(CREATEACCOUNT);
         assertEquals("Husk å fylle inn alle felt", lookup("#errorMessage").queryText().getText());
 
-        //hvis du skriver inn type og beløp
+        // hvis du skriver inn type og beløp
         clickOn(SETAMOUNT).write("35");
         clickOn(CREATEACCOUNT);
         assertEquals("Husk å fylle inn alle felt", lookup("#errorMessage").queryText().getText());
 
-        //hvis du skriver inn type og navn
+        // hvis du skriver inn type og navn
         amount.setText("");
         clickOn(NAMEACCOUNT).write("test");
         clickOn(CREATEACCOUNT);
@@ -178,27 +178,30 @@ public class CashFlowControllerTest extends ApplicationTest{
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
 
-        //1
+        // 1
         clickOn(NAMEACCOUNT).write(name1);
         clickOn(CREATEACCOUNT);
-        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver", controller.errorMessage.getText());
+        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver",
+                controller.errorMessage.getText());
 
-        //2 Håndtere hvis null
+        // 2 Håndtere hvis null
         assertThrows(NullPointerException.class, () -> {
             clickOn(NAMEACCOUNT).write(name2);
         });
 
-        //3
+        // 3
         name.setText("");
         clickOn(NAMEACCOUNT).write(name3);
         clickOn(CREATEACCOUNT);
-        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver", controller.errorMessage.getText());
+        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver",
+                controller.errorMessage.getText());
 
-        //4
+        // 4
         name.setText("");
         clickOn(NAMEACCOUNT).write(name4);
         clickOn(CREATEACCOUNT);
-        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver", controller.errorMessage.getText());
+        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver",
+                controller.errorMessage.getText());
     }
 
     @Test
@@ -215,22 +218,21 @@ public class CashFlowControllerTest extends ApplicationTest{
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
 
-        //1
+        // 1
         clickOn(SETAMOUNT).write(amount1);
         clickOn(CREATEACCOUNT);
         assertEquals("Beløpet må bestå av tall og kan ikke være mindre enn null", controller.errorMessage.getText());
 
-        //2
+        // 2
         amount.setText("");
         clickOn(SETAMOUNT).write(amount2);
         clickOn(CREATEACCOUNT);
         assertEquals("Beløpet må bestå av tall og kan ikke være mindre enn null", controller.errorMessage.getText());
 
-        //3
+        // 3
         assertThrows(NullPointerException.class, () -> {
             clickOn(SETAMOUNT).write(amount3);
         });
     }
-
 
 }
