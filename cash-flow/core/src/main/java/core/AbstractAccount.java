@@ -11,19 +11,17 @@ public abstract class AbstractAccount {
     private User owner;
     private List<Transaction> transactionHistory = new ArrayList<>();
 
-    protected BankHelper helper = new BankHelper();
-
     //==============================================================================================
     // Constructors
     //==============================================================================================
 
     public AbstractAccount(String name, int accountNumber, User owner) {
-        helper.checkIfValidName(name);
+        BankHelper.checkIfValidName(name);
         this.name = name;
 
-        helper.checkIfValidAccountNumber(accountNumber);
+        BankHelper.checkIfValidAccountNumber(accountNumber);
         if (owner != null){
-            helper.checkIfAccountNumberIsTaken(accountNumber, owner);
+            BankHelper.checkIfAccountNumberIsTaken(accountNumber, owner);
         }
         
         this.accountNumber = accountNumber;
@@ -32,7 +30,7 @@ public abstract class AbstractAccount {
     }
 
     public AbstractAccount(String name, User owner) {
-        helper.checkIfValidName(name);
+        BankHelper.checkIfValidName(name);
         this.name = name;
 
         int availableAccountNumber = getNextAvailableAccountNumber(owner);
@@ -56,7 +54,7 @@ public abstract class AbstractAccount {
      * @throws IllegalArgumentException if the given amount is negative
      */
     protected void initialDeposit(double amount) {
-        helper.checkIfValidAmount(amount);
+        BankHelper.checkIfValidAmount(amount);
         this.balance += amount;
     }
 
@@ -66,7 +64,7 @@ public abstract class AbstractAccount {
      * @throws IllegalArgumentException if the given amount is negative
      */
     public void deposit(double amount) {
-        helper.checkIfValidAmount(amount);
+        BankHelper.checkIfValidAmount(amount);
         this.balance += amount;
         addToTransactionHistory(new Transaction(null, this, amount));
     }
@@ -78,8 +76,8 @@ public abstract class AbstractAccount {
      * @throws IllegalStateException if the withdrawal of the amount leads to the balance being negative
      */
     public void withdraw(double amount) {
-        helper.checkIfValidAmount(amount);
-        helper.checkIfValidBalance(-amount, this);
+        BankHelper.checkIfValidAmount(amount);
+        BankHelper.checkIfValidBalance(-amount, this);
         this.balance -= amount;
         addToTransactionHistory(new Transaction(this, null, amount));
     }
@@ -90,7 +88,7 @@ public abstract class AbstractAccount {
      * @param amount amount to be recieved
      */
     private void recieveFromOtherAccount(double amount) {
-        helper.checkIfValidAmount(amount);
+        BankHelper.checkIfValidAmount(amount);
         balance += amount;
     }
 
@@ -105,8 +103,8 @@ public abstract class AbstractAccount {
      * @throws IllegalStateException if the balance is less than 0 when the amount is added
      */
     public void transfer(AbstractAccount recievingAccount, double amount) {
-        helper.checkIfValidAmount(amount);
-        helper.checkIfValidBalance(-amount, this);
+        BankHelper.checkIfValidAmount(amount);
+        BankHelper.checkIfValidBalance(-amount, this);
         if (recievingAccount == null) {
             throw new IllegalArgumentException("The parameter 'recievingAccount' cannot be 'null'");
         }
@@ -182,7 +180,7 @@ public abstract class AbstractAccount {
      * only contain letters and spaces
      */
     public void setName(String name) {
-        helper.checkIfValidName(name);
+        BankHelper.checkIfValidName(name);
         this.name = name;
     }
 
