@@ -11,11 +11,11 @@ import java.io.IOException;
 /**
  * JavaFX App
  */
-public class CashFlowApp extends Application {
+public class RemoteCashFlowApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("LocalCashFlow.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("RemoteCashFlow.fxml"));
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
         stage.show();

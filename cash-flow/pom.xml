@@ -109,7 +109,7 @@
                     <configuration>
                         <xmlOutput>false</xmlOutput>
                         <htmlOutput>true</htmlOutput>
-                        <!--<excludeFilterFile>config/spotbugs/exclude.xml</excludeFilterFile>-->
+                        <excludeFilterFile>config/spotbugs/exclude.xml</excludeFilterFile>
                     </configuration>
                     <executions>
                         <execution>
@@ -151,5 +151,6 @@
     <modules>
         <module>core</module>
         <module>ui</module>
+        <module>rest</module>
     </modules>
 </project>
