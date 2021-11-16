@@ -96,7 +96,7 @@ public class RemoteAccess implements CashFlowAccess {
     }
 
     @Override
-    public void deleteAccount(int accountNumber) {
+    public boolean deleteAccount(int accountNumber) {
         try {
             HttpRequest request = HttpRequest.newBuilder(accountUri(accountNumber)).header("Accept", "application/json")
                     .DELETE().build();
@@ -105,8 +105,9 @@ public class RemoteAccess implements CashFlowAccess {
             String responseString = response.body();
             Boolean removed = objectMapper.readValue(responseString, Boolean.class);
             if (removed != null) {
-                user.removeAccount(user.getAccount(accountNumber));
+                return user.removeAccount(user.getAccount(accountNumber));
             }
+            return false;
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
