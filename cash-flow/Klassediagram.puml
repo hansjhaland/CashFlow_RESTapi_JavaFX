@@ -5,7 +5,7 @@ abstract class AbstractAccount {
     - double balance;
     - final int accountNumber;
     - User owner;
-    - List<Transaction> transactionHistory
+    - List<Transaction> transactionHistory;
     
     + AbstractAccount(String name, int accountNumber, User owner)
     + AbstractAccount(String name, User owner)
@@ -56,7 +56,7 @@ class BSUAccount {
 class User {
     - String name;
     - final int userID;
-    - Collection<AbstractAccount> accounts
+    - Collection<AbstractAccount> accounts;
     
     + User(int userID)
     
