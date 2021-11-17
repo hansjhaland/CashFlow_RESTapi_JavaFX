@@ -1,30 +1,55 @@
 @startuml
 
+component core {
+	package cashflow.core
+	package cashflow.json
+}
 
+cashflow.core ..> cashflow.json
 component jackson {
 }
 
-component core {
-	package casflow.core
-	package casflow.json
+cashflow.json ..> jackson
+
+component fxui {
+	package cashflow.ui
+
 }
 
-casflow.core ..> casflow.json
-casflow.json ..> jackson
-
-component ui {
-	package casflow.ui
-}
-
-casflow.ui ..> casflow.core
-casflow.ui ..> casflow.json
+cashflow.ui ..> cashflow.core
+cashflow.ui ..> cashflow.json
 
 component javafx {
 	component fxml {
 	}
 }
 
-ui ..> javafx
-ui ..> fxml
+fxui ..> javafx
+fxui ..> fxml
+
+component jaxrs {
+}
+
+component rest {
+	package cashflow.restapi
+	package cashflow.restserver
+}
+
+rest ..> jaxrs
+
+cashflow.restapi ..> cashflow.core
+
+cashflow.restserver ..> cashflow.core
+cashflow.restserver ..> cashflow.json
+cashflow.restserver ..> cashflow.restapi
+
+component jersey {
+}
+
+component grizzly2 {
+}
+
+rest ..> jersey
+rest ..> grizzly2
 
 @enduml
