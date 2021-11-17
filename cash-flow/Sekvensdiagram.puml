@@ -1,0 +1,9 @@
+actor User
+User -> "~#createAccount: Button" as createAccount: click
+createAccount -> CashFlowController: onCreateAccount
+CashFlowController -> Core: addAccount
+CashFlowController <- Core: responce
+CashFlowController -> RestAPI: addAccount(PUT-request)
+RestAPI -> Core: responce
+CashFlowController -> Core: user.addAccount
+CashFlowController -> User: setText
