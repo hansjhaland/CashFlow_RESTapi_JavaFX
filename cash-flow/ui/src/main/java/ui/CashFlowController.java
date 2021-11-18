@@ -37,7 +37,7 @@ public class CashFlowController {
     @FXML
     ChoiceBox<String> accountType;
 
-    private User user = new User(123456);
+    private User user;
 
     private CashFlowAccess cashFlowAccess;
 
@@ -47,6 +47,10 @@ public class CashFlowController {
             this.user = cashFlowAccess.getUser();
             updateAccountView();
         }
+    }
+
+    public CashFlowAccess getCashFlowAccess() {
+        return this.cashFlowAccess;
     }
 
     @FXML

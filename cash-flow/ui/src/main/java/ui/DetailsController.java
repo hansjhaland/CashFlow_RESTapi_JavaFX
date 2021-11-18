@@ -48,6 +48,10 @@ public class DetailsController {
         }
     }
 
+    public CashFlowAccess getCashFlowAccess() {
+        return this.cashFlowAccess;
+    }
+
     @FXML
     public void initialize() {
         accountHistory.setEditable(false);

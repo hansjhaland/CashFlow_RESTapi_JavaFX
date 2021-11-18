@@ -309,4 +309,12 @@ public class DetailsControllerTest extends ApplicationTest {
         assertEquals("Konto slettet.", lookup(FEEDBACK).queryText().getText());
     }
 
+    /**
+     * Tests that the cashFlowAccess field is an instance of DirectAccess.
+     */
+    @Test
+    public void testCorrectCashFlowAccessInstance() {
+        assertTrue(controller.getCashFlowAccess() instanceof DirectAccess);
+    }
+
 }

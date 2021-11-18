@@ -3,6 +3,7 @@ package ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -26,8 +27,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 
 public class CashFlowControllerTest extends ApplicationTest {
-
-    // Nødvendig å reste hva som skjer ved klikk på knapp "neste side"?
 
     private CashFlowController controller;
     final String SETAMOUNT = "#setAmount";
@@ -231,6 +230,14 @@ public class CashFlowControllerTest extends ApplicationTest {
         assertThrows(NullPointerException.class, () -> {
             clickOn(SETAMOUNT).write(amount3);
         });
+    }
+
+    /**
+     * Tests that the cashFlowAccess field is an instance of DirectAccess.
+     */
+    @Test
+    public void testCorrectCashFlowAccessInstance() {
+        assertTrue(controller.getCashFlowAccess() instanceof DirectAccess);
     }
 
 }
