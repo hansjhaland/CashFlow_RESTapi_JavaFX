@@ -5,4 +5,4 @@ Det vil også være mulig å se kontohistorikken til alle kontoene.
 
 ![Her er illustrasjon av forsiden av appen](../docs/release3/img/forsideRelease3.png)
 
-![Her er illustrasjon av detaljer og overføring](../docs/release3/img/detaljerOverforingerRelease3.png)
+![Her er illustrasjon av detaljer og overføring](../docs/release3/img/detaljerOgOverforingerRelease3.png)
