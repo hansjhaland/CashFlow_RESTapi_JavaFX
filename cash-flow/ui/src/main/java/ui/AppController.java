@@ -12,7 +12,7 @@ import json.CashFlowPersistence;
 
 public class AppController {
 
-    String baseUri = "http://localhost:8999/user/";
+    private final String baseUri = "http://localhost:8999/user/";
 
     @FXML
     String remote;

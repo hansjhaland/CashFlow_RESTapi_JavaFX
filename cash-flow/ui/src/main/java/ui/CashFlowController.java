@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import json.CashFlowPersistence;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -38,8 +37,7 @@ public class CashFlowController {
     @FXML
     ChoiceBox<String> accountType;
 
-    private User user = new User(123456);
-    private CashFlowPersistence cfp = new CashFlowPersistence();
+    private User user;
 
     private CashFlowAccess cashFlowAccess;
 
@@ -47,9 +45,12 @@ public class CashFlowController {
         if (cashFlowAccess != null) {
             this.cashFlowAccess = cashFlowAccess;
             this.user = cashFlowAccess.getUser();
-            System.out.println(cashFlowAccess);
             updateAccountView();
         }
+    }
+
+    public CashFlowAccess getCashFlowAccess() {
+        return this.cashFlowAccess;
     }
 
     @FXML
@@ -177,22 +178,6 @@ public class CashFlowController {
         } catch (IOException e) {
             System.out.println(e);
         }
-    }
-
-    private void load() {
-        try {
-            user = cfp.loadUser();
-        } catch (IllegalStateException e) {
-            errorMessage.setText("Bankkontoene ble ikke funnet.");
-        } catch (IOException e) {
-            errorMessage.setText("Bankkontoene ble ikke funnet.");
-        }
-    }
-
-    public void loadNewUser(String saveFile) {
-        cfp.setSaveFilePath(saveFile);
-        load();
-        updateAccountView();
     }
 
     @FXML

@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import json.CashFlowPersistence;
 
 import java.io.IOException;
 
@@ -38,7 +37,6 @@ public class DetailsController {
     private User user;
     private AbstractAccount account;
     private AbstractAccount accountToTransferTo;
-    private CashFlowPersistence cfp = new CashFlowPersistence();
     private CashFlowAccess cashFlowAccess;
 
     public void setCashFlowAccess(CashFlowAccess cashFlowAccess) {
@@ -48,6 +46,10 @@ public class DetailsController {
             updateTransferHistoryView();
             updateChooseAccountView();
         }
+    }
+
+    public CashFlowAccess getCashFlowAccess() {
+        return this.cashFlowAccess;
     }
 
     @FXML
@@ -166,23 +168,6 @@ public class DetailsController {
         Parent parent = fxmlLoader.load();
         primaryStage.setScene(new Scene(parent));
         primaryStage.show();
-    }
-
-    public void loadNewUser(String saveFile) {
-        cfp.setSaveFilePath(saveFile);
-        load();
-        updateChooseAccountView();
-        updateTransferHistoryView();
-    }
-
-    private void load() {
-        try {
-            user = cfp.loadUser();
-        } catch (IllegalStateException e) {
-            feedback.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
-        } catch (IOException e) {
-            feedback.setText("Noe gikk galt! Fant ikke lagret brukerdata.");
-        }
     }
 
     private void save() {

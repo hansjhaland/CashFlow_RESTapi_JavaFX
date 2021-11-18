@@ -68,7 +68,6 @@ public class DetailsControllerTest extends ApplicationTest {
         stage.show();
         DirectAccess directAccess = new DirectAccess(user, DirectAccess.TESTSAVEFILE);
         controller.setCashFlowAccess(directAccess);
-        controller.loadNewUser(testSaveFile);
     }
 
     @SuppressWarnings(value = "unchecked")
@@ -308,6 +307,14 @@ public class DetailsControllerTest extends ApplicationTest {
 
         clickOn(DELETEBUTTON);
         assertEquals("Konto slettet.", lookup(FEEDBACK).queryText().getText());
+    }
+
+    /**
+     * Tests that the cashFlowAccess field is an instance of DirectAccess.
+     */
+    @Test
+    public void testCorrectCashFlowAccessInstance() {
+        assertTrue(controller.getCashFlowAccess() instanceof DirectAccess);
     }
 
 }
