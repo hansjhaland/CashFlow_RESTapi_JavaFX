@@ -13,6 +13,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import core.User;
 import core.AbstractAccount;
@@ -20,11 +23,12 @@ import core.BSUAccount;
 import core.SavingsAccount;
 import core.Transaction;
 import core.BankHelper;
+import core.CheckingAccount;
 
 public class DetailsController {
 
     @FXML
-    private TextField nameAccount, setAmount, transferAmount;
+    private TextField nameAccount, transferAmount, setBalance;
     @FXML
     private TextArea accounts, accountHistory;
     @FXML
@@ -54,7 +58,8 @@ public class DetailsController {
 
     @FXML
     public void initialize() {
-        accountHistory.setEditable(false);
+    accountHistory.setEditable(false);
+    setBalance.setEditable(false);
     }
 
     private void updateTransferHistoryView() {
@@ -74,8 +79,18 @@ public class DetailsController {
         chooseAccount.getItems().clear();
         transferAccount.getItems().clear();
         for (AbstractAccount account : user.getAccounts()) {
-            chooseAccount.getItems().add(account.getName() + ": " + account.getAccountNumber());
-            transferAccount.getItems().add(account.getName() + ": " + account.getAccountNumber());
+            String type = "";
+                if (account instanceof CheckingAccount){
+                    type = "Brukskonto";
+                }
+                else if (account instanceof SavingsAccount){
+                    type = "Sparekonto";
+                }
+                else if (account instanceof BSUAccount){
+                    type = "BSU-konto";
+                }
+            chooseAccount.getItems().add(type + "; " + account.getName() + ", kontonummer: " + account.getAccountNumber());
+            transferAccount.getItems().add(type + "; " + account.getName() + ": " + account.getAccountNumber());
         }
     }
 
@@ -88,6 +103,12 @@ public class DetailsController {
             String number = valueText.split(": ")[1];
             int accountNumber = (number == null ? 1 : Integer.parseInt(number));
             account = cashFlowAccess.getAccount(accountNumber);
+
+            DecimalFormat df = new DecimalFormat("##.0", new DecimalFormatSymbols(Locale.UK));
+            String balance = account.getBalance() == 0.0 ? "0.0" : df.format(account.getBalance());
+            
+            setBalance.setText(balance + " kr");
+
         }
         updateTransferHistoryView();
     }
@@ -133,8 +154,12 @@ public class DetailsController {
                     cashFlowAccess.transfer(account, accountToTransferTo, transferAmount);
                     feedback.setText("Overføring godkjent");
                     save();
+                    DecimalFormat df = new DecimalFormat("##.0", new DecimalFormatSymbols(Locale.UK));
+                    String balance = account.getBalance() == 0.0 ? "0.0" : df.format(account.getBalance());
+                    setBalance.setText(balance + " kr");
                     updateTransferHistoryView();
-                } else {
+                    this.transferAmount.setText("");
+                }else{
                     feedback.setText(account.getName() + " har ikke nok penger på konto.");
 
                 }
