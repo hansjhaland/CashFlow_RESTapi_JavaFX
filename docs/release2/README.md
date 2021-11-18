@@ -6,7 +6,14 @@ Hovedfunksjonaliteten som legges til i denne releasen er:
 - **Overføring**: Mlighet til å overføre mellom kontoer
 For å få til dette trengs det en ekstra side for detaljer og overføringer, og tilpassinger på forsiden
 
+## Dokumentasjon som ble etterspurt i release 2
 Brukerhistoriene for gruppeinnlevering ligger i [brukerhistorier](brukerhistorier.md)
+
+Plant UML diagram for arkitekturen ligger i [arkitektur](../../cash-flow/Arkitektur.png)
+
+Dokumentasjon av arbeidsvaner, arbeidsflyt og kodekvalitet ligger i [arbeidsvaner](../../cash-flow/arbeidsvaner.md)
+
+Dokumentasjon av lagringsmetafor og oversikt over JSON-formatet ligger i [persistens](../../cash-flow/persistens.md)
 
 ---
 
@@ -20,7 +27,6 @@ Vi har i denne iterasjonen:
 - modularisert prosjektet vårt
 - lagt til Checkstyle, og skal fikse feilene i 3. iterasjon
 - lagt til Spotbugs, og fikset feilene denne fant
-- 
 
 ---
 
