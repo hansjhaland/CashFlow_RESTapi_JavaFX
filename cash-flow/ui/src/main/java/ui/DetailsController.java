@@ -58,8 +58,8 @@ public class DetailsController {
 
     @FXML
     public void initialize() {
-    accountHistory.setEditable(false);
-    setBalance.setEditable(false);
+        accountHistory.setEditable(false);
+        setBalance.setEditable(false);
     }
 
     private void updateTransferHistoryView() {

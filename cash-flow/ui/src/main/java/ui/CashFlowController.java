@@ -201,18 +201,20 @@ public class CashFlowController {
     errorMessage.setText("");
     String valueText = "";
     valueText = (String) accountType.getValue();
-    if (valueText.equals("Brukskonto")){
-        accountCreated.setText("Brukskonto er uten restriksjoner.");
-        
-    }
-    else if (valueText.equals("Sparekonto")){
-        accountCreated.setText("Sparekonto kan kun ha maks 10 uttak.");
-        
-    }
-    else if (valueText.equals("BSU-konto")){
-        accountCreated.setText("Du kan bare opprette én BSU-konto." + "\n" + 
-        "Maksbeløp som kan være på konto er 25 000kr" + "\n" + "og du kan ikke gjøre noe uttak fra kontoen.");
-        
+    if (valueText != null) {
+        if (valueText.equals("Brukskonto")){
+            accountCreated.setText("Brukskonto er uten restriksjoner.");
+            
+        }
+        else if (valueText.equals("Sparekonto")){
+            accountCreated.setText("Sparekonto kan kun ha maks 10 uttak.");
+            
+        }
+        else if (valueText.equals("BSU-konto")){
+            accountCreated.setText("Du kan bare opprette én BSU-konto." + "\n" + 
+            "Maksbeløp som kan være på konto er 25 000kr" + "\n" + "og du kan ikke gjøre noe uttak fra kontoen.");
+            
+        }
     }
     
 }

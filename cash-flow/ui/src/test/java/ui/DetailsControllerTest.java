@@ -111,12 +111,12 @@ public class DetailsControllerTest extends ApplicationTest {
         type(KeyCode.ENTER);
         ChoiceBox<String> detailedAccount = find(DETAILEDACCOUNT);
         String account1 = (String) detailedAccount.getValue();
-        assertEquals("ChA: 1000", account1);
+        assertEquals("Brukskonto; ChA, kontonummer: 1000", account1);
         clickOn(RECIPIENTACCOUNT);
         type(KeyCode.ENTER);
         ChoiceBox<String> recipientAccount = find(RECIPIENTACCOUNT);
         String account2 = (String) recipientAccount.getValue();
-        assertEquals("ChA: 1000", account2);
+        assertEquals("Brukskonto; ChA: 1000", account2);
     }
 
     /**
@@ -129,13 +129,13 @@ public class DetailsControllerTest extends ApplicationTest {
         type(KeyCode.ENTER);
         ChoiceBox<String> detailedAccount = find(DETAILEDACCOUNT);
         String account1 = (String) detailedAccount.getValue();
-        assertEquals("SA: 1001", account1);
+        assertEquals("Sparekonto; SA, kontonummer: 1001", account1);
         clickOn(RECIPIENTACCOUNT);
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
         ChoiceBox<String> recipientAccount = find(RECIPIENTACCOUNT);
         String account2 = (String) recipientAccount.getValue();
-        assertEquals("SA: 1001", account2);
+        assertEquals("Sparekonto; SA: 1001", account2);
     }
 
     /**
@@ -149,14 +149,14 @@ public class DetailsControllerTest extends ApplicationTest {
         type(KeyCode.ENTER);
         ChoiceBox<String> detailedAccount = find(DETAILEDACCOUNT);
         String account1 = (String) detailedAccount.getValue();
-        assertEquals("BSUA: 1002", account1);
+        assertEquals("BSU-konto; BSUA, kontonummer: 1002", account1);
         clickOn(RECIPIENTACCOUNT);
         type(KeyCode.DOWN);
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
         ChoiceBox<String> recipientAccount = find(RECIPIENTACCOUNT);
         String account2 = (String) recipientAccount.getValue();
-        assertEquals("BSUA: 1002", account2);
+        assertEquals("BSU-konto; BSUA: 1002", account2);
     }
 
     /**
