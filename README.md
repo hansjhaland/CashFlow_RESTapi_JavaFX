@@ -41,16 +41,18 @@ Klasser og filer som omhandler GUI ligger i **ui-modulen**
 - Tester kan også kjøres uten jacoco med **mvn test**.
 
 
-# Hvordan kjøre appen med lokal lagring
+## Hvordan kjøre appen med lokal lagring
  - Først må man gå inn i rot-mappen til prosjektet (.../gr2151/cash-flow).
  - Deretter må man kjøre kommandoen **mvn install**.
  - Kjøre kommandoen **cd ui** for å komme inn i ui-mappen som skal kjøres (.../gr2151/cash-flow/ui).
  - Kjøre kommandoen **mvn javafx:run**.
 
-# Hvordan kjøre appen med "skybasert" lagring
+## Hvordan kjøre appen med "skybasert" lagring
  - Først må man gå inn i rot-mappen til prosjektet (.../gr2151/cash-flow).
  - Deretter må man kjøre kommandoen **mvn install**.
  - Kjøre kommandoen **cd integrationtests** for å komme inn mappen hvor serveren er bygget (.../gr2151/cash-flow/integrationtests).
  - Kjøre kommandoen **mvn jetty:run -D"jetty.port=8999"** for å starte serveren på porten 8999.
  - Kjøre kommandoene **cd ..** og **cd ui** for å komme inn i ui-mappen som skal kjøres (.../gr2151/cash-flow/ui).
  - Kjøre kommandoen **mvn -Premoteapp javafx:run** for å kjøre versjonen av appen som bruker REST-APIet til utveksle informasjon med serveren.
+
+ ## Hvordan konfigurere shippable produkt og bygge kjørbar fil med jlink og jpackage
