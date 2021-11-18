@@ -1,0 +1,80 @@
+package ui;
+
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Collection;
+import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import core.AbstractAccount;
+
+public class RemoteAccessTest {
+    
+    private WireMockConfiguration config;
+    private WireMockServer wireMockServer;
+
+    private RemoteAccess access;
+
+    //Her er resttjenesten mocket imens klienten/brukergrensesnittet er ekte
+
+    @BeforeEach
+    public void startWireMockServerAndSetup() throws URISyntaxException {
+        //endre fx:value i RemoteCashFlow?? til en nettsideURL av noe slag
+        // hva er dette: "http://localhost:8999/user/" som er kommentert ut i CashFlowController?
+        config = WireMockConfiguration.wireMockConfig().port(8999);
+        wireMockServer = new WireMockServer(config.portNumber());
+        wireMockServer.start();
+        WireMock.configureFor("localhost", config.portNumber());
+        access = new RemoteAccess(new URI("http://localhost:" + wireMockServer.port() + "/user"));
+    }
+
+    private void setupForTests() {
+        //status 200 betyr ok
+        stubFor(get(urlEqualTo("/user"))
+            .withHeader("Accept", equalTo("application/json"))
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withHeader("Content-Type", "application/json")
+                .withBody("{\"name\":\"nameB\",\"userID\":654321,\"accounts\":[{\"type\":\"savings\",\"name\":\"acA\",\"balance\":200.0,\"accountNumber\":5555},{\"type\":\"bsu\",\"name\":\"acB\",\"balance\":100.0,\"accountNumber\":1234}]}")
+            )
+        );
+    }
+
+    @Test
+    public void testGetTwoAccounts() {
+        setupForTests();
+        AbstractAccount account = access.getAccount(5555);
+        AbstractAccount account1 = access.getAccount(1234);
+        assertEquals(654321, access.getUser());
+        assertEquals(5555, account);
+        assertEquals(1234, account1);
+    }
+
+    @Test
+    public void testGetDeletedAccount() {
+        setupForTests();
+        access.deleteAccount(1234);
+        Collection<Integer> accountNumbers = access.getUser().getAccountNumbers();
+        assertFalse(accountNumbers.containsAll(List.of(5555, 1234)));
+        assertTrue(accountNumbers.containsAll(List.of(5555)));
+    }
+
+    @AfterEach
+    public void stopWireMockServer() {
+      wireMockServer.stop();
+    }
+
+}
