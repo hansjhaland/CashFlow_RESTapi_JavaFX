@@ -39,6 +39,7 @@ public class RemoteAccessTest {
         wireMockServer.start();
         WireMock.configureFor("localhost", config.portNumber());
         access = new RemoteAccess(new URI("http://localhost:" + wireMockServer.port() + "/user"));
+        access.getUser();
     }
 
     private void setupForTests() {
@@ -68,7 +69,7 @@ public class RemoteAccessTest {
         setupForTests();
         access.deleteAccount(1234);
         Collection<Integer> accountNumbers = access.getUser().getAccountNumbers();
-        assertFalse(accountNumbers.containsAll(List.of(5555, 1234)));
+        assertTrue(accountNumbers.size()==1);
         assertTrue(accountNumbers.containsAll(List.of(5555)));
     }
 

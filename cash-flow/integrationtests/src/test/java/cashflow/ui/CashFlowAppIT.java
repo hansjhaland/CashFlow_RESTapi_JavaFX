@@ -1,4 +1,4 @@
-package java;
+package ui;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,11 +38,11 @@ public class CashFlowAppIT extends ApplicationTest {
   public void setupItems() throws URISyntaxException {
     // same as in test-todolist.json (should perhaps read it instead)
     try (Reader reader = new InputStreamReader(getClass().getResourceAsStream("it-cashflow.json"))) {
-      String port = System.getProperty("todo.port"); //hvor skal dette?
+      String port = System.getProperty("user.port"); //hvor skal dette?
       assertNotNull(port, "No todo.port system property set");
-      URI baseUri = new URI("http://localhost:" + port + "/cashflow/"); //??
-      System.out.println("Base RemoteTodoModelAcces URI: " + baseUri); //??
-      this.controller.setTodoModelAccess(new RemoteTodoModelAccess(baseUri));
+      URI baseUri = new URI("http://localhost:" + port + "/user"); //??
+      System.out.println("Base CashFlowAccess URI: " + baseUri); //??
+      this.controller.setCashFlowAccess(new CashFlowAccess(baseUri));
     } catch (IOException ioe) {
       fail(ioe.getMessage());
     }

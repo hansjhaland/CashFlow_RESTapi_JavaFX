@@ -1,0 +1,17 @@
+{
+    "name" : "",
+    "userID" : 654321,
+    "accounts" : [ {
+      "type" : "checking",
+      "name" : "Checking",
+      "balance" : 100.0,
+      "accountNumber" : 2345,
+      "transactionHistory" : [ ]
+    }, {
+      "type" : "savings",
+      "name" : "Savings",
+      "balance" : 100.0,
+      "accountNumber" : 5432,
+      "transactionHistory" : [ ]
+    } ]
+  }
