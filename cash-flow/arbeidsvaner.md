@@ -45,3 +45,6 @@ Dersom man er ferdig med en branch og har fungerende testere, skal man lage en m
 
 ### Issue Boards
 Vi bruker issue boards til å ha en fin og ryddig oversikt av alle issues som er aktive og hvordan gruppen ligger an. På møtene går vi i tillegg over dette boardet og ser hvordan vi ligger an i forhold til innleveringen og hva som på oppdateres dersom det ikke er gjort.
+
+### Code review
+Tatt i bruk code review i Release 3, der vi i en merge request kommenterer kodekvaliten til prosjektet i den branchen, eventuelt om noe kunne ha vært bedre eller om hva som er bra. Før Release 3 ble code reviewen gjort muntlig på møtene grunnet selve mergingen av branchene også ble gjort sammen med alle på gruppen.
