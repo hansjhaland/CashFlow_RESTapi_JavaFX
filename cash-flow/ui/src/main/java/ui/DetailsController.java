@@ -17,6 +17,8 @@ import json.CashFlowPersistence;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import core.User;
 import core.AbstractAccount;
@@ -103,8 +105,8 @@ public class DetailsController {
             int accountNumber = (number == null ? 1 : Integer.parseInt(number));
             account = user.getAccount(accountNumber);
 
-            DecimalFormat df = new DecimalFormat("#.##");
-            String balance = df.format(account.getBalance());
+            DecimalFormat df = new DecimalFormat("##.0", new DecimalFormatSymbols(Locale.UK));
+            String balance = account.getBalance() == 0.0 ? "0.0" : df.format(account.getBalance());
             
             setBalance.setText(balance + " kr");
 
@@ -160,6 +162,13 @@ public class DetailsController {
                     feedback.setText("Overføring godkjent");
                     save();
                     updateTransferHistoryView();
+
+
+                    DecimalFormat df = new DecimalFormat("##.0", new DecimalFormatSymbols(Locale.UK));
+                    String balance = account.getBalance() == 0.0 ? "0.0" : df.format(account.getBalance());
+                    setBalance.setText(balance + " kr");
+                    updateTransferHistoryView();
+                    
                 }else{
                     feedback.setText(account.getName() + " har ikke nok penger på konto.");
                 
