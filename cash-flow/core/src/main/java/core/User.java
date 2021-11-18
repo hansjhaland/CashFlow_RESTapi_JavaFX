@@ -9,8 +9,6 @@ public class User {
     private final int userID;
     private Collection<AbstractAccount> accounts = new ArrayList<>();
 
-    private BankHelper helper = new BankHelper();
-
     //==============================================================================================
     // Contstructors
     //==============================================================================================
@@ -21,7 +19,7 @@ public class User {
      * @throws IllegalArgumentException if the UserID si not between 100000 and 999999
      */
     public User(int userID) {
-        helper.checkIfValidUserID(userID);
+        BankHelper.checkIfValidUserID(userID);
         this.userID = userID;
         name = "";
     }
@@ -105,7 +103,7 @@ public class User {
      * only contain letters and spaces
      */
     public void setName(String name) {
-        if (!helper.isValidName(name)) {
+        if (!BankHelper.isValidName(name)) {
             throw new IllegalArgumentException("The name " + name.length() + " must be 20 characters or less and only contain letters and spaces");
         }
         this.name = name;

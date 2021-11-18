@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.AppController">
+    <fx:define>
+        <String fx:id="remote" fx:value="true"/>
+        <String fx:id="page" fx:value="main"/>
+    </fx:define>
+    <fx:include fx:id="mainPage" source="CashFlow.fxml"/>
+</VBox>
