@@ -65,6 +65,9 @@ De ekskluderte errorene er **EI_EXPOSE_REP** og **EI_EXPOSE_REP2**. Disse ble ek
 - For å gjennomføre tester og få rapporten må man kjøre kommandoen `mvn test jacoco:report`.
 - Etter dette vil rapporten ligge i hver modul sin **target/site/jacoco/index.html**.
 - Tester kan også kjøres uten jacoco med `mvn test`.
+- Når `mvn test`kjøres vil også Spotbugs og Checkstyle kjøres
+- **Spotbugs** kan kjøres alene med kommandoen `mvn spotbugs:spotbugs`
+- **Checkstyle** kan kjøres alene med kommandoen `mvn checkstyle:check`
 
 
 ## Hvordan kjøre appen med lokal lagring
