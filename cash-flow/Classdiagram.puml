@@ -1,3 +1,15 @@
+/' Ulike definisjoner og typer blir spesifisert i diagrammene med spesielle tegn før navnet. 
+- : Der en variabel blir definert private. I en png fil blir dette visualisert med en tom rød firkant.
++ : Der en variabel blir definert public. I en png fil blir dette visualisert med en tom grønn sirkel.
+# : Der en variabel blir definert protected. I en png fil blir dette visualisert med en tom gul diamant.
+~ : Der en variabel blir definert static. I en png fil blir dette visualisert med en tom blå trekant.
+- : Der en funksjon blir definert private. I en png fil blir dette visualisert med en full rød firkant.
++ : Der en funksjon blir definert public. I en png fil blir dette visualisert med en full grønn sirkel.
+# : Der en funksjon blir definert protected. I en png fil blir dette visualisert med en full gul diamant.
+~ : Der en funksjon blir definert static. I en png fil blir dette visualisert med en full blå trekant.
+'/
+
+
 @startuml
 
 abstract class AbstractAccount {
