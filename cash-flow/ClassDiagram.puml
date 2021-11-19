@@ -1,4 +1,4 @@
-/' Ulike definisjoner og typer blir spesifisert i diagrammene med spesielle tegn før navnet. 
+/' Ulike definisjoner og synlighet blir spesifisert i diagrammene med spesielle tegn før navnet. 
 - : Der en variabel blir definert private. I en png fil blir dette visualisert med en tom rød firkant.
 + : Der en variabel blir definert public. I en png fil blir dette visualisert med en tom grønn sirkel.
 # : Der en variabel blir definert protected. I en png fil blir dette visualisert med en tom gul diamant.
@@ -91,7 +91,7 @@ class User {
 }
 
 class Transaction {
-    + enum TransactionType {DEPOSIT, WITHDRAWAL, TRANSFER}
+    + enum TransactionType {DEPOSIT, WITHDRAWAL, TRANSFER};
     - final TransactionType type;
     - final String payer;
     - final int payersAccountNumber;
