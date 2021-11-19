@@ -60,7 +60,7 @@ Klasser og filer som omhandler GUI ligger i **ui-modulen**
  - Deretter må man kjøre kommandoen `mvn install`.
  - Kjør kommandoen `cd ui` for å komme til ui-mappen (.../gr2151/cash-flow/ui).
  - Kjør kommandoen `mvn clean compile javafx:jlink`. Det er mulig dette krever at man har lastet ned [WiX Toolset](https://github.com/wixtoolset/wix3/releases/tag/wix3112rtm)
- - Kjør kommandoen `mvn clean compile javafx:jlink`.
+ - Kjør kommandoen `mvn clean compile javafx:jlink jpackage:jpackage`.
  - Nå skal targe-mappen inneholde cashflowfx.zip og dist/CashFlowFX-1.0.0.exe.
  - Kjør dist/CashFlowFX-1.0.0.exe for å installere applikasjonen.
  - Nå skal det være en CashFlow-mappe ui Programfiler/Program files-mappen på PC-en. 
