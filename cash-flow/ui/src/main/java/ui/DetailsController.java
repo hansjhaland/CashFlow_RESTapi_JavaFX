@@ -25,6 +25,15 @@ import core.Transaction;
 import core.BankHelper;
 import core.CheckingAccount;
 
+
+//==============================================================================================
+// Controller
+//==============================================================================================
+
+/**
+ * A controller for details and transfer of accounts for the user and display it with its correspondig FXML file.
+ */
+
 public class DetailsController {
 
     @FXML

@@ -30,7 +30,7 @@ import javafx.stage.Stage;
 //==============================================================================================
 
 /**
-    * A controller for creating an account and display it with its correspondig FXML file.
+ * A controller for creating an account and display it with its correspondig FXML file.
  */
 
 public class CashFlowController {
