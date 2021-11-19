@@ -39,6 +39,8 @@ class SavingsAccount {
     + SavingsAccount(String name, double balance, User owner)
     
     + boolean isWithdrawalOrTransferPossible()
+    + void withdraw(double amount)
+    + transfer(AbstractAccount recievingAccount, double amount)
     - void checkIfWithdrawalOrTransferPossible()
     - long getNumberOfWithdrawals()
     - long getNumberOfTransfersFromThisAccount()
@@ -49,6 +51,9 @@ class BSUAccount {
     + BSUAccount(String name, double balance, User owner)
     
     + boolean isValidDeposit(double amount)
+    + void deposit(double amount)
+    + void withdraw(double amount)
+    + void transfer(AbstractAccount recievingAccount, double amount)
     - void checkIfValidDeposit(double amount)
     - void checkIfUserDoesNotHaveBSU(User user)
 }
@@ -69,10 +74,12 @@ class User {
     + Collection<Integer> getAccountNumbers()
     + AbstractAccount getAccount(int accountNumber)
     + void setName(String name)
+    + String toString()
 
 }
 
 class Transaction {
+    + enum TransactionType {DEPOSIT, WITHDRAWAL, TRANSFER}
     - final TransactionType type;
     - final String payer;
     - final int payersAccountNumber;
@@ -84,6 +91,7 @@ class Transaction {
     + Transaction(String payer, int payersAccountNumber, String recipient, int recipientsAccountNumber, double amount)
     
     + TransactionType getType()
+    + String getPayer()
     + String getRecipient()
     + int getPayersAccountNumber()
     + int getRecipientsAccountNumber()
@@ -95,11 +103,12 @@ class BankHelper {
     + boolean isOnlyLettersAndSpaces(String s)
     + boolean isValidName(String name)
     + boolean isPositiveAmount(double amount)
-    + boolean isBalanceValidWhenAdding(double amount)
-    ~ void checkIfAccountNumberIsTaken(int accountNumber)
+    + boolean isBalanceValidWhenAdding(double amount, AbstractAccount account)
+    + boolean hasBSU(User user)
+    ~ void checkIfAccountNumberIsTaken(int accountNumber, User user)
     ~ void checkIfValidUserID(int userID)
     ~ void checkIfValidName(String name)
-    ~ void checkIfValidBalance(double amount)
+    ~ void checkIfValidBalance(double amount, AbstractAccount account)
     ~ void checkIfValidAccountNumber(int accountNumber)
     ~ void checkIfValidAmount(double amount)
 }
