@@ -36,6 +36,7 @@ public class RemoteAccessTest {
     private RemoteAccess access;
 
     //Her er resttjenesten mocket imens klienten/brukergrensesnittet er ekte
+    //Skal teste at den gjør det den skal når den får informasjonen den skal
 
     @BeforeEach
     public void startWireMockServerAndSetup() throws URISyntaxException {
