@@ -9,13 +9,13 @@ Hovedfunksjonaliteten som legges til i denne releasen er:
 **RESTAPI**: Lage et RESTAPI slik at aplikasjonen kan interagere med server ved hjelp av http-forespørsler.
 
 ## Dokumentasjon som ble etterspurt i release 3
-Et [pakkedigram](../../cash-flow/Arkitektur.png) for løsningen.
+Et [pakkedigram](../../cash-flow/Pakkediagram.png) for løsningen.
 
 Et [klassediagram](../../cash-flow/Klassediagram.png) for core-modulen.
 
 Et [sekvensdiagram](../../cash-flow/Sekvensdiagram.png) for når man oppretter en ny konto.
 
-Dokumentasjon av [REST-tjenesten](../../cash-flow/rest/README.md)
+Dokumentasjon av [REST-tjenesten](../../cash-flow/rest/RESTAPI.md)
 
 # Hva som er gjort
 Vi har i denne iterasjonen:
