@@ -6,10 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import json.CashFlowPersistence;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import core.User;
 import core.AbstractAccount;
@@ -36,45 +37,37 @@ public class CashFlowController {
     @FXML
     ChoiceBox<String> accountType;
 
-    private User user = new User(123456);
-    private CashFlowPersistence cfp = new CashFlowPersistence();
-    private BankHelper bankHelper = new BankHelper();
-
-    // private String uri = "http://localhost:8999/user/";
+    private User user;
 
     private CashFlowAccess cashFlowAccess;
-    
 
     public void setCashFlowAccess(CashFlowAccess cashFlowAccess) {
-        this.cashFlowAccess = cashFlowAccess;
-    }
-
-    @FXML
-    public void initialize() {
-        System.out.println("\nb\nb\nb\nb\nb\nb\nb\nb\nb\nb\nb\nb\nb\nb\nb");
-        System.out.println(cashFlowAccess);
-        if (cashFlowAccess != null){
-            accounts.setEditable(false);
-            setDropDownMenu();
-            user = cashFlowAccess.getUser();
-            save();
+        if (cashFlowAccess != null) {
+            this.cashFlowAccess = cashFlowAccess;
+            this.user = cashFlowAccess.getUser();
             updateAccountView();
         }
     }
 
-    public void setUser(User user) {
-        if (user != null) {
-            this.user = user;
+    public CashFlowAccess getCashFlowAccess() {
+        return this.cashFlowAccess;
+    }
+
+    @FXML
+    public void initialize() {
+        if (cashFlowAccess != null) {
+            accounts.setEditable(false);
+            setDropDownMenu();
+            save();
+            updateAccountView();
         }
-        updateAccountView();
-        System.out.println(cashFlowAccess);
     }
 
     private void setDropDownMenu() {
         accountType.getItems().clear();
         accountType.getItems().add("Brukskonto");
         accountType.getItems().add("Sparekonto");
-        if (!bankHelper.hasBSU(user)) {
+        if (!BankHelper.hasBSU(user)) {
             accountType.getItems().add("BSU-konto");
         }
     }
@@ -99,7 +92,6 @@ public class CashFlowController {
             clear();
             errorMessage.setText("Beløpet må bestå av tall og kan ikke være mindre enn null");
         }
-
         else {
             clear();
             String type = (String) accountType.getValue();
@@ -109,6 +101,7 @@ public class CashFlowController {
             updateAccountView();
             accountCreated.setText("Kontoen er opprettet");
             nameAccount.setText("");
+            accountType.setValue("");
             setAmount.setText("");
             save();
         }
@@ -117,13 +110,13 @@ public class CashFlowController {
     private boolean checkValidNameAmount(String name, String amount) {
         if (name == null && amount != null) {
             if (isNumeric(amount)) {
-                return bankHelper.isPositiveAmount(Double.parseDouble(amount));
+                return BankHelper.isPositiveAmount(Double.parseDouble(amount));
             } else {
                 return false;
             }
 
         } else if (name != null && amount == null) {
-            return bankHelper.isValidName(name);
+            return BankHelper.isValidName(name);
         } else {
             return false;
         }
@@ -170,7 +163,7 @@ public class CashFlowController {
                 type = "BSU-konto";
             }
             String name = account.getName();
-            DecimalFormat df = new DecimalFormat("#.##");
+            DecimalFormat df = new DecimalFormat("##.0", new DecimalFormatSymbols(Locale.UK));
             String balance = df.format(account.getBalance());
             accounts.setText(accounts.getText() + "\n" + type + ": " + name + "\n" + "   Beløp: " + balance);
         }
@@ -187,22 +180,6 @@ public class CashFlowController {
         }
     }
 
-    private void load() {
-        try {
-            user = cfp.loadUser();
-        } catch (IllegalStateException e) {
-            errorMessage.setText("Bankkontoene ble ikke funnet.");
-        } catch (IOException e) {
-            errorMessage.setText("Bankkontoene ble ikke funnet.");
-        }
-    }
-
-    public void loadNewUser(String saveFile) {
-        cfp.setSaveFilePath(saveFile);
-        load();
-        updateAccountView();
-    }
-
     @FXML
     private void onNextPage() throws IOException {
         if (!user.getAccounts().isEmpty()) {
@@ -210,7 +187,7 @@ public class CashFlowController {
             stage.close();
             Stage primaryStage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-                .getResource(cashFlowAccess instanceof DirectAccess ? "LocalDetails.fxml" : "RemoteDetails.fxml"));
+                    .getResource(cashFlowAccess instanceof DirectAccess ? "LocalDetails.fxml" : "RemoteDetails.fxml"));
             Parent parent = fxmlLoader.load();
             primaryStage.setScene(new Scene(parent));
             primaryStage.show();
@@ -218,5 +195,28 @@ public class CashFlowController {
             errorMessage.setText("Opprett en konto for å kunne se kontodetaljer og overføringer!");
         }
     }
+
+    @FXML
+    public void onAccountType(){    
+    errorMessage.setText("");
+    String valueText = "";
+    valueText = (String) accountType.getValue();
+    if (valueText != null) {
+        if (valueText.equals("Brukskonto")){
+            accountCreated.setText("Brukskonto er uten restriksjoner.");
+            
+        }
+        else if (valueText.equals("Sparekonto")){
+            accountCreated.setText("Sparekonto kan kun ha maks 10 uttak.");
+            
+        }
+        else if (valueText.equals("BSU-konto")){
+            accountCreated.setText("Du kan bare opprette én BSU-konto." + "\n" + 
+            "Maksbeløp som kan være på konto er 25 000kr" + "\n" + "og du kan ikke gjøre noe uttak fra kontoen.");
+            
+        }
+    }
+    
+}
 
 }

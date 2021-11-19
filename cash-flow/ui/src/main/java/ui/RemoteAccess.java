@@ -11,13 +11,17 @@ import json.CashFlowPersistence;
 import core.AbstractAccount;
 import core.User;
 
+/**
+ * Allows controller classes to get data from and send data to a server with
+ * http requests.
+ */
 public class RemoteAccess implements CashFlowAccess {
 
     private final URI endpointBaseUri;
     private ObjectMapper objectMapper;
     private User user;
     private CashFlowPersistence cfp;
-    public final static String SERVERSAVEFILE = "Server-SaveData.json";
+    public static final String SERVERSAVEFILE = "Server-SaveData.json";
 
     public RemoteAccess(URI endpointBaseUri) {
         this.endpointBaseUri = endpointBaseUri;
@@ -26,6 +30,9 @@ public class RemoteAccess implements CashFlowAccess {
         cfp.setSaveFilePath(SERVERSAVEFILE);
     }
 
+    /**
+     * Gets a user by sending a http GET request if user field is not set.
+     */
     public User getUser() {
         if (user == null) {
             HttpRequest request = HttpRequest.newBuilder(endpointBaseUri).header("Accept", "application/json").GET()
@@ -41,6 +48,12 @@ public class RemoteAccess implements CashFlowAccess {
         return user;
     }
 
+    /**
+     * Creates a URI with a given account number.
+     * 
+     * @param accountNumber the account number.
+     * @return a URI with the account number.
+     */
     private URI accountUri(int accountNumber) {
         return endpointBaseUri.resolve(String.valueOf(accountNumber));
     }
@@ -71,8 +84,13 @@ public class RemoteAccess implements CashFlowAccess {
         return oldAccount;
     }
 
+    /**
+     * Sends a http PUT request with an account and adds the account to the user's
+     * account list.
+     * 
+     * @param account the account to be added.
+     */
     private void putAccount(AbstractAccount account) {
-        user.addAccount(account);
         try {
             String json = objectMapper.writeValueAsString(account);
             HttpRequest request = HttpRequest.newBuilder(accountUri(account.getAccountNumber()))
@@ -90,13 +108,24 @@ public class RemoteAccess implements CashFlowAccess {
         }
     }
 
+    /**
+     * Adds an account with the helper method putAccount().
+     * 
+     * @param account the account to be added.
+     */
     @Override
     public void addAccount(AbstractAccount account) {
         putAccount(account);
     }
 
+    /**
+     * Sends a http DELETE with an account and deletes the given account from the
+     * server and the user's account list.
+     * 
+     * @param accountNumber the account number.
+     */
     @Override
-    public void deleteAccount(int accountNumber) {
+    public boolean deleteAccount(int accountNumber) {
         try {
             HttpRequest request = HttpRequest.newBuilder(accountUri(accountNumber)).header("Accept", "application/json")
                     .DELETE().build();
@@ -105,13 +134,22 @@ public class RemoteAccess implements CashFlowAccess {
             String responseString = response.body();
             Boolean removed = objectMapper.readValue(responseString, Boolean.class);
             if (removed != null) {
-                user.removeAccount(user.getAccount(accountNumber));
+                return user.removeAccount(user.getAccount(accountNumber));
             }
+            return false;
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * Creates a transfer between two accounts and uppdates both accounts by sending
+     * one http PUT request for each account.
+     * 
+     * @param payer    the paying account
+     * @param reciever the recieving account
+     * @param amount   the amount to be transfered
+     */
     @Override
     public void transfer(AbstractAccount payer, AbstractAccount reciever, double amount) {
         payer.transfer(reciever, amount);
@@ -119,14 +157,22 @@ public class RemoteAccess implements CashFlowAccess {
         putAccount(reciever);
     }
 
+    /**
+     * Saves the user to a local file.
+     */
     @Override
     public void saveUser() throws IllegalStateException, IOException {
         cfp.saveUser(user, SERVERSAVEFILE);
     }
 
+    /**
+     * Loads a user from file if the file exists. Returns a default user otherwise.
+     * 
+     * @return a user from file if the file exists. A default user otherwise.
+     */
     @Override
     public User loadInitialUser() throws IllegalStateException, IOException {
-        if (cfp.doesFileExist(SERVERSAVEFILE)){
+        if (cfp.doesFileExist(SERVERSAVEFILE)) {
             return cfp.loadUser(SERVERSAVEFILE);
         }
         return new User(123456);
