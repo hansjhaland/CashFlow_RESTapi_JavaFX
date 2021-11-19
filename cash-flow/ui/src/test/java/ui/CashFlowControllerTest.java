@@ -105,7 +105,7 @@ public class CashFlowControllerTest extends ApplicationTest {
 
         assertNotNull(lookup("#accountCreated").queryText().getText());
         assertEquals("Kontoen er opprettet", (lookup("#accountCreated").queryText().getText()));
-        assertEquals(accounts + "\n" + "Sparekonto" + ": " + name + "\n" + "   Beløp: " + Double.parseDouble(amount),
+        assertEquals(accounts + "\n" + "Sparekonto" + ": " + name + "\n" + "   Beløp: 12.0 kr",
                 accountOverview.getText());
 
     }
