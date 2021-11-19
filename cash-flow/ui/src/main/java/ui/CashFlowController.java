@@ -1,222 +1,225 @@
 package ui;
 
-import javafx.fxml.FXML;
-
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
-
+import core.AbstractAccount;
+import core.BSUAccount;
+import core.BankHelper;
+import core.CheckingAccount;
+import core.SavingsAccount;
+import core.User;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
-
-import core.User;
-import core.AbstractAccount;
-import core.BSUAccount;
-import core.CheckingAccount;
-import core.SavingsAccount;
-import core.BankHelper;
-import javafx.scene.control.ChoiceBox;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for app.
+ */
 public class CashFlowController {
 
-    @FXML
-    TextField nameAccount, setAmount;
-    @FXML
-    TextArea accounts;
-    @FXML
-    Button createAccount, detailsAndTransfers;
-    @FXML
-    Text accountCreated, errorMessage;
-    @FXML
-    ChoiceBox<String> accountType;
+  @FXML
+  TextField nameAccount;
+  @FXML
+  TextField setAmount;
+  @FXML
+  TextArea accounts;
+  @FXML
+  Button createAccount;
+  @FXML
+  Button detailsAndTransfers;
+  @FXML
+  Text accountCreated;
+  @FXML
+  Text errorMessage;
+  @FXML
+  ChoiceBox<String> accountType;
 
-    private User user;
+  private User user;
 
-    private CashFlowAccess cashFlowAccess;
+  private CashFlowAccess cashFlowAccess;
 
-    public void setCashFlowAccess(CashFlowAccess cashFlowAccess) {
-        if (cashFlowAccess != null) {
-            this.cashFlowAccess = cashFlowAccess;
-            this.user = cashFlowAccess.getUser();
-            updateAccountView();
-        }
+  public void setCashFlowAccess(CashFlowAccess cashFlowAccess) {
+    if (cashFlowAccess != null) {
+      this.cashFlowAccess = cashFlowAccess;
+      this.user = cashFlowAccess.getUser();
+      updateAccountView();
     }
+  }
 
-    public CashFlowAccess getCashFlowAccess() {
-        return this.cashFlowAccess;
+  public CashFlowAccess getCashFlowAccess() {
+    return this.cashFlowAccess;
+  }
+
+  @FXML
+  public void initialize() {
+    if (cashFlowAccess != null) {
+      accounts.setEditable(false);
+      setDropDownMenu();
+      save();
+      updateAccountView();
     }
+  }
 
-    @FXML
-    public void initialize() {
-        if (cashFlowAccess != null) {
-            accounts.setEditable(false);
-            setDropDownMenu();
-            save();
-            updateAccountView();
-        }
+  private void setDropDownMenu() {
+    accountType.getItems().clear();
+    accountType.getItems().add("Brukskonto");
+    accountType.getItems().add("Sparekonto");
+    if (!BankHelper.hasBSU(user)) {
+      accountType.getItems().add("BSU-konto");
     }
+  }
 
-    private void setDropDownMenu() {
-        accountType.getItems().clear();
-        accountType.getItems().add("Brukskonto");
-        accountType.getItems().add("Sparekonto");
-        if (!BankHelper.hasBSU(user)) {
-            accountType.getItems().add("BSU-konto");
-        }
+  @FXML
+  public void onCreateAccount() {
+    String name = nameAccount.getText();
+    String amount = setAmount.getText();
+    if (accountType.getValue() == null) {
+      errorMessage.setText("Velg en kontotype!");
+    } else if (name.isBlank() || amount.isBlank()) {
+      clear();
+      errorMessage.setText("Husk å fylle inn alle felt");
+    } else if (!checkValidNameAmount(name, null)) {
+      clear();
+      errorMessage.setText("Du kan ikke bruke tall eller tegn i navnet," 
+          + "og det må være mindre enn 20 bokstaver");
+    } else if (!checkValidNameAmount(null, amount)) {
+      clear();
+      errorMessage.setText("Beløpet må bestå av tall og kan ikke være mindre enn null");
+    } else {
+      clear();
+      String type = (String) accountType.getValue();
+      double balance = Double.parseDouble(setAmount.getText());
+      AbstractAccount account = getAccountFromType(type, name, balance);
+      cashFlowAccess.addAccount(account);
+      updateAccountView();
+      accountCreated.setText("Kontoen er opprettet");
+      nameAccount.setText("");
+      accountType.setValue("");
+      setAmount.setText("");
+      save();
     }
+  }
 
-    @FXML
-    public void onCreateAccount() {
-        String name = nameAccount.getText();
-        String amount = setAmount.getText();
-        if (accountType.getValue() == null) {
-            errorMessage.setText("Velg en kontotype!");
-        } else if (name.isBlank() || amount.isBlank()) {
-            clear();
-            errorMessage.setText("Husk å fylle inn alle felt");
-        }
+  private boolean checkValidNameAmount(String name, String amount) {
+    if (name == null && amount != null) {
+      if (isNumeric(amount)) {
+        return BankHelper.isPositiveAmount(Double.parseDouble(amount));
+      } else {
+        return false;
+      }
 
-        else if (!checkValidNameAmount(name, null)) {
-            clear();
-            errorMessage.setText("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver");
-        }
-
-        else if (!checkValidNameAmount(null, amount)) {
-            clear();
-            errorMessage.setText("Beløpet må bestå av tall og kan ikke være mindre enn null");
-        }
-        else {
-            clear();
-            String type = (String) accountType.getValue();
-            double balance = Double.parseDouble(setAmount.getText());
-            AbstractAccount account = getAccountFromType(type, name, balance);
-            cashFlowAccess.addAccount(account);
-            updateAccountView();
-            accountCreated.setText("Kontoen er opprettet");
-            nameAccount.setText("");
-            accountType.setValue("");
-            setAmount.setText("");
-            save();
-        }
+    } else if (name != null && amount == null) {
+      return BankHelper.isValidName(name);
+    } else {
+      return false;
     }
+  }
 
-    private boolean checkValidNameAmount(String name, String amount) {
-        if (name == null && amount != null) {
-            if (isNumeric(amount)) {
-                return BankHelper.isPositiveAmount(Double.parseDouble(amount));
-            } else {
-                return false;
-            }
-
-        } else if (name != null && amount == null) {
-            return BankHelper.isValidName(name);
-        } else {
-            return false;
-        }
-    }
-
-    private AbstractAccount getAccountFromType(String type, String name, double balance) {
-        switch (type) {
-        case "Brukskonto":
-            return new CheckingAccount(name, balance, user);
-        case "Sparekonto":
-            return new SavingsAccount(name, balance, user);
-        case "BSU-konto":
-            return new BSUAccount(name, balance, user);
-        }
+  private AbstractAccount getAccountFromType(String type, String name, double balance) {
+    switch (type) {
+      case "Brukskonto":
+        return new CheckingAccount(name, balance, user);
+      case "Sparekonto":
+        return new SavingsAccount(name, balance, user);
+      case "BSU-konto":
+        return new BSUAccount(name, balance, user);
+      default:
         return null;
     }
+  }
 
-    @FXML
-    private void clear() {
-        accountCreated.setText("");
-        errorMessage.setText("");
+  @FXML
+  private void clear() {
+    accountCreated.setText("");
+    errorMessage.setText("");
+  }
+
+  @FXML
+  private boolean isNumeric(String s) {
+    try {
+      Double.parseDouble(s);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
     }
+  }
 
-    @FXML
-    private boolean isNumeric(String s) {
-        try {
-            Double.parseDouble(s);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
+  @FXML
+  private void updateAccountView() {
+    accounts.setText("");
+    for (AbstractAccount account : user.getAccounts()) {
+      String type = "";
+      if (account instanceof CheckingAccount) {
+        type = "Brukskonto";
+      } else if (account instanceof SavingsAccount) {
+        type = "Sparekonto";
+      } else if (account instanceof BSUAccount) {
+        type = "BSU-konto";
+      }
+      String name = account.getName();
+      DecimalFormat df = new DecimalFormat("##.0", new DecimalFormatSymbols(Locale.UK));
+      String balance = df.format(account.getBalance());
+      accounts.setText(accounts.getText() + "\n" + type + ": " + name 
+          + "\n" + "   Beløp: " + balance + " kr");
     }
+    setDropDownMenu();
+  }
 
-    @FXML
-    private void updateAccountView() {
-        accounts.setText("");
-        for (AbstractAccount account : user.getAccounts()) {
-            String type = "";
-            if (account instanceof CheckingAccount) {
-                type = "Brukskonto";
-            } else if (account instanceof SavingsAccount) {
-                type = "Sparekonto";
-            } else if (account instanceof BSUAccount) {
-                type = "BSU-konto";
-            }
-            String name = account.getName();
-            DecimalFormat df = new DecimalFormat("##.0", new DecimalFormatSymbols(Locale.UK));
-            String balance = df.format(account.getBalance());
-            accounts.setText(accounts.getText() + "\n" + type + ": " + name + "\n" + "   Beløp: " + balance + " kr");
-        }
-        setDropDownMenu();
+  private void save() {
+    try {
+      cashFlowAccess.saveUser();
+    } catch (IllegalStateException e) {
+      System.out.println(e);
+    } catch (IOException e) {
+      System.out.println(e);
     }
+  }
 
-    private void save() {
-        try {
-            cashFlowAccess.saveUser();
-        } catch (IllegalStateException e) {
-            System.out.println(e);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
+  @FXML
+  private void onNextPage() throws IOException {
+    if (!user.getAccounts().isEmpty()) {
+      Stage stage = (Stage) detailsAndTransfers.getScene().getWindow();
+      stage.close();
+      Stage primaryStage = new Stage();
+      FXMLLoader fxmlLoader = new FXMLLoader(
+          getClass().getResource(cashFlowAccess instanceof DirectAccess 
+              ? "LocalDetails.fxml" : "RemoteDetails.fxml"));
+      Parent parent = fxmlLoader.load();
+      primaryStage.setScene(new Scene(parent));
+      primaryStage.show();
+    } else {
+      errorMessage.setText("Opprett en konto for å kunne se kontodetaljer og overføringer!");
     }
+  }
 
-    @FXML
-    private void onNextPage() throws IOException {
-        if (!user.getAccounts().isEmpty()) {
-            Stage stage = (Stage) detailsAndTransfers.getScene().getWindow();
-            stage.close();
-            Stage primaryStage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-                    .getResource(cashFlowAccess instanceof DirectAccess ? "LocalDetails.fxml" : "RemoteDetails.fxml"));
-            Parent parent = fxmlLoader.load();
-            primaryStage.setScene(new Scene(parent));
-            primaryStage.show();
-        } else {
-            errorMessage.setText("Opprett en konto for å kunne se kontodetaljer og overføringer!");
-        }
-    }
-
-    @FXML
-    public void onAccountType(){    
+  @FXML
+  public void onAccountType() {
     errorMessage.setText("");
     String valueText = "";
     valueText = (String) accountType.getValue();
     if (valueText != null) {
-        if (valueText.equals("Brukskonto")){
-            accountCreated.setText("Brukskonto er uten restriksjoner.");
-            
-        }
-        else if (valueText.equals("Sparekonto")){
-            accountCreated.setText("Sparekonto kan kun ha maks 10 uttak.");
-            
-        }
-        else if (valueText.equals("BSU-konto")){
-            accountCreated.setText("Du kan bare opprette én BSU-konto." + "\n" + 
-            "Maksbeløp som kan være på konto er 25 000kr" + "\n" + "og du kan ikke gjøre noe uttak fra kontoen.");
-            
-        }
+      if (valueText.equals("Brukskonto")) {
+        accountCreated.setText("Brukskonto er uten restriksjoner.");
+
+      } else if (valueText.equals("Sparekonto")) {
+        accountCreated.setText("Sparekonto kan kun ha maks 10 uttak.");
+
+      } else if (valueText.equals("BSU-konto")) {
+        accountCreated.setText("Du kan bare opprette én BSU-konto." + "\n"
+            + "Maksbeløp som kan være på konto er 25 000kr" + "\n" 
+            + "og du kan ikke gjøre noe uttak fra kontoen.");
+      }
     }
-    
-}
+
+  }
 
 }
