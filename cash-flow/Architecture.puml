@@ -46,10 +46,18 @@ cashflow.restserver ..> cashflow.restapi
 component jersey {
 }
 
+component jakarta {
+}
+
+component glassfish {
+}
+
 component grizzly2 {
 }
 
 rest ..> jersey
 rest ..> grizzly2
+rest ..> glassfish
+rest ..> jakarta
 
 @enduml
