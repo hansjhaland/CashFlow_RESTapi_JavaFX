@@ -25,6 +25,15 @@ import core.Transaction;
 import core.BankHelper;
 import core.CheckingAccount;
 
+
+//==============================================================================================
+// Controller
+//==============================================================================================
+
+/**
+ * A controller for details and transfer of accounts for the user and display it with its correspondig FXML file.
+ */
+
 public class DetailsController {
 
     @FXML
@@ -43,6 +52,11 @@ public class DetailsController {
     private AbstractAccount accountToTransferTo;
     private CashFlowAccess cashFlowAccess;
 
+
+/**
+ * Gives the user access to the Cashflow app by setting the user to its access.
+ * @param cashFlowAccess tells weither its Remote or Locally (Rest API).
+ */
     public void setCashFlowAccess(CashFlowAccess cashFlowAccess) {
         if (cashFlowAccess != null) {
             this.cashFlowAccess = cashFlowAccess;
@@ -52,16 +66,28 @@ public class DetailsController {
         }
     }
 
+/**
+ * Returns either Remote or Direct access.
+ * @return its access based on Remote or Locally (Rest API).
+ */
     public CashFlowAccess getCashFlowAccess() {
         return this.cashFlowAccess;
     }
-
+/**
+ * Initializer runs the methods on the app if access is granted and updates the history of the actions taken by
+ * the account and balance.
+ */
     @FXML
     public void initialize() {
         accountHistory.setEditable(false);
         setBalance.setEditable(false);
     }
 
+/**
+ * The method updates the transaction history if there is an account.
+ * Than it formats the transactiondetails in a representable way with from-account, to-account and balance
+ * that was transfered. 
+ */
     private void updateTransferHistoryView() {
         String string = "";
         StringBuffer sb = new StringBuffer();
@@ -78,6 +104,10 @@ public class DetailsController {
         accountHistory.setText(sb.toString());
     }
 
+/**
+ * Updates the pageview when changes occur, such as a transfer.
+ * The method also format the data from the account in the pageview in a representable form.
+ */
     private void updateChooseAccountView() {
         chooseAccount.getItems().clear();
         transferAccount.getItems().clear();
@@ -97,6 +127,12 @@ public class DetailsController {
         }
     }
 
+
+/**
+ * Method that happens when choosing an account and formats its sccount and balance in the choicebox.
+ * If there is no accounts in the account choicebox, it does not do anything and set account null.
+ * Else it formats the number in a representable way and gets the accountnumber from the Remote or Locally (Rest APi).
+ */
     @FXML
     private void onChooseAccount() {
         String valueText = (String) chooseAccount.getValue();
@@ -115,7 +151,10 @@ public class DetailsController {
         }
         updateTransferHistoryView();
     }
-
+/**
+ * Deletes an account when button is pushed.
+ * Deletes the accountnumber only if there is no amount on the account from either Remote or Locally (rest API).
+ */
     @FXML
     private void onDeleteAccount() {
         if (account != null) {
@@ -135,6 +174,13 @@ public class DetailsController {
 
     }
 
+/**
+ * The method let the account transfer from one account to another.
+ * Have to pick an account from and an account to transfer to.
+ * There are restrictions for transfering. Can not transfer if the amount on the account is not a number or below 0.
+ * And the from-account can not be the same as the to-account.
+ * The type account BSU can not be transformed from and can not be transformed to if it has more than 25 000kr.
+ */
     @FXML
     private void onTransfer() {
         feedback.setText("");
@@ -186,6 +232,9 @@ public class DetailsController {
 
     }
 
+/**
+ * Selecting the account to transfer the selected amount to on Remote or Locally (Rest API).
+ */
     @FXML
     private void onChooseAccountToTransferTo() {
         String valueText = (String) transferAccount.getValue();
@@ -197,6 +246,12 @@ public class DetailsController {
             accountToTransferTo = cashFlowAccess.getAccount(accountNumber);
         }
     }
+
+/**
+ * When "back" button is pressed, it returns the user to the previous page.
+ * Loads the CashFlow FXML file for the CashFlowController and display it.
+ * @throws IOException if it could not load the previous page.
+ */
 
     @FXML
     private void onPreviousPage() throws IOException {
@@ -210,6 +265,11 @@ public class DetailsController {
         primaryStage.show();
     }
 
+/**
+ * The method saves the changes to its place, weither its in Remote or Locally (Rest API).
+ * @throws IllegalStateException if an error occured and it could not save.
+ * @throws IOException if an error occured and it could not save.
+ */
     private void save() {
         try {
             cashFlowAccess.saveUser();

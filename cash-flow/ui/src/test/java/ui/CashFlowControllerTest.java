@@ -53,6 +53,7 @@ public class CashFlowControllerTest extends ApplicationTest {
 
     @BeforeEach
     public void setUpItems() {
+        //Before each test
         TextField amount = find(SETAMOUNT);
         TextField name = find(NAMEACCOUNT);
         amount.setText("");
@@ -61,25 +62,29 @@ public class CashFlowControllerTest extends ApplicationTest {
         cb.getSelectionModel().clearSelection();
     }
 
+    /**
+     * 
+     */
     @AfterAll
     public static void deleteTestJsonFile() {
         Path testFilePath = Paths.get(System.getProperty("user.home"), testSaveFile);
         File testFile = testFilePath.toFile();
         testFile.delete();
     }
-
     @Test
     public void testController() {
         assertNotNull(this.controller);
 
     }
 
+    /**
+     * Tests that you get a reaction when button is clicked on
+     */
     @Test
     public void testClickOn() {
         clickOn(CREATEACCOUNT);
         assertEquals("Velg en kontotype!", lookup("#errorMessage").queryText().getText());
     }
-
     @Test
     public void testNewCorrectAccount() {
         TextArea accountOverview = find(ACCOUNTS);
@@ -161,6 +166,10 @@ public class CashFlowControllerTest extends ApplicationTest {
 
     }
 
+    /**
+     * Testing that you can not create an account and get the correct error message
+     * when you write the wrong account name
+     */
     @Test
     public void testWrongAccountName() {
         TextField name = find(NAMEACCOUNT);
@@ -201,6 +210,10 @@ public class CashFlowControllerTest extends ApplicationTest {
                 controller.errorMessage.getText());
     }
 
+    /**
+     * Testing that you can not create an account and get the correct error message
+     * when you write an amount not following the rules
+     */
     @Test
     public void testWrongAmount() {
         TextField amount = find(SETAMOUNT);
