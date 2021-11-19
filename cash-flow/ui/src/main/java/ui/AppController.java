@@ -9,7 +9,9 @@ import core.SavingsAccount;
 import core.User;
 import javafx.fxml.FXML;
 import json.CashFlowPersistence;
-
+/** Checks if vi have run RemoteCashFlowApp or CashFlowApp.
+ * 
+*/
 public class AppController {
 
     private final static String baseUri = "http://localhost:8999/user/";

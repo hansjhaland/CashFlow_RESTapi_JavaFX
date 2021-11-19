@@ -24,6 +24,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
+//==============================================================================================
+// Controller
+//==============================================================================================
+
+/**
+    * A controller for creating an account and display it with its correspondig FXML file.
+ */
+
 public class CashFlowController {
 
     @FXML
@@ -41,6 +50,17 @@ public class CashFlowController {
 
     private CashFlowAccess cashFlowAccess;
 
+
+//==============================================================================================
+// Functional methods
+//==============================================================================================
+
+
+
+/**
+ * Gives the user access to the Cashflow app by setting the user to its access.
+ * @param cashFlowAccess
+ */
     public void setCashFlowAccess(CashFlowAccess cashFlowAccess) {
         if (cashFlowAccess != null) {
             this.cashFlowAccess = cashFlowAccess;
@@ -48,11 +68,17 @@ public class CashFlowController {
             updateAccountView();
         }
     }
-
+/**
+ * Returns either Remote or Direct access.
+ * @return
+ */
     public CashFlowAccess getCashFlowAccess() {
         return this.cashFlowAccess;
     }
 
+/**
+ * Initializer runs the methods on the app if access i granted and updates the file.
+ */
     @FXML
     public void initialize() {
         if (cashFlowAccess != null) {
@@ -63,6 +89,10 @@ public class CashFlowController {
         }
     }
 
+/**
+ * Sets the drop-down menu for the accounts you can choose between
+ * If BSU account type is not jet used, add it. Can not use BSU account type more than once.
+ */
     private void setDropDownMenu() {
         accountType.getItems().clear();
         accountType.getItems().add("Brukskonto");
@@ -71,7 +101,11 @@ public class CashFlowController {
             accountType.getItems().add("BSU-konto");
         }
     }
-
+/**
+ * Method for creating an account with name and starting amount.
+ * It checks that no fields are left empty.
+ * If no fields are empty, it creates an account and is added to the user where the user has access, either on Remote or Locally (Rest API).
+ */
     @FXML
     public void onCreateAccount() {
         String name = nameAccount.getText();
@@ -107,6 +141,16 @@ public class CashFlowController {
         }
     }
 
+/**
+ * Checks if the number typed in is valid by being not null and if so, that the number
+ * typed in is more than 0. parsDouble makes sure it is formatted correct.
+ * Checks if the name typed in agrees with the valid method for names in Bankhelper with a lenght of 20 characters
+ * and only contains letters and scaces.
+ * @param name of account of the user.
+ * @param amount in the account of the user.
+ * @return false if number is null.
+ * @return false if name is null, not valid by BankHelper class.
+ */
     private boolean checkValidNameAmount(String name, String amount) {
         if (name == null && amount != null) {
             if (isNumeric(amount)) {
@@ -122,6 +166,14 @@ public class CashFlowController {
         }
     }
 
+    /**
+     * Return the account with its name and its balance the user has created based on with type is presented.
+     * @param type of the account.
+     * @param name of the user for the account.
+     * @param balance of the account the user has placed.
+     * @return null if there is no account of any types.
+     */
+
     private AbstractAccount getAccountFromType(String type, String name, double balance) {
         switch (type) {
         case "Brukskonto":
@@ -133,13 +185,21 @@ public class CashFlowController {
         }
         return null;
     }
-
+/**
+ * Resets the popup-feedback on the display (CashFlow.fxml) when this method is used.
+ */
     @FXML
     private void clear() {
         accountCreated.setText("");
         errorMessage.setText("");
     }
 
+
+/**
+ * Checks if the chosen amount is a numeric number.
+ * @param s the written amount
+ * @return {@code true} if the amount is numeric.
+ */
     @FXML
     private boolean isNumeric(String s) {
         try {
@@ -149,6 +209,12 @@ public class CashFlowController {
             return false;
         }
     }
+
+/**
+ * Method for updating the accountview after changes.
+ * Based on the accounts type, it gets its label from what kind of account it is.
+ * Format numbers in a readble way.
+ */
 
     @FXML
     private void updateAccountView() {
@@ -170,6 +236,11 @@ public class CashFlowController {
         setDropDownMenu();
     }
 
+/**
+ * The method saves the changes to its place, weither its in Remote or Locally (Rest API).
+ * @throws IllegalStateException if an error occured and it could not save.
+ * @throws IOException if an error occured and it could not save.
+ */
     private void save() {
         try {
             cashFlowAccess.saveUser();
@@ -180,6 +251,12 @@ public class CashFlowController {
         }
     }
 
+/**
+ * Method opens a new FXML window when button detailsAndTransfers are pushed.
+ * Method opens only if there is an account created
+ * Loads the new FXML file for the new window.
+ * @throws IOException if there is no account created before the onAction button is pushed.
+ */
     @FXML
     private void onNextPage() throws IOException {
         if (!user.getAccounts().isEmpty()) {
@@ -196,6 +273,11 @@ public class CashFlowController {
         }
     }
 
+/**
+ * When the choicebox is pressed and an item is choosen, it shows the restrictions for the choosen account 
+ * based on its type.
+ * Message is display with the restrictions.
+ */
     @FXML
     public void onAccountType(){    
     errorMessage.setText("");
