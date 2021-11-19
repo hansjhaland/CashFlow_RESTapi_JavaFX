@@ -84,7 +84,7 @@
 
     <profiles>
         <profile>
-            <id>documentapp</id>
+            <id>remoteapp</id>
             <build>
                 <plugins>
                     <plugin>
@@ -92,7 +92,7 @@
                         <artifactId>javafx-maven-plugin</artifactId>
                         <version>0.0.6</version>
                         <configuration>                    
-                            <mainClass>ui.CashFlowApp</mainClass>
+                            <mainClass>ui.RemoteCashFlowApp</mainClass>
                         </configuration>
                     </plugin>
                 </plugins>

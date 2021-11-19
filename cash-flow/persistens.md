@@ -43,4 +43,4 @@ Data lagres i en json-fil som konstrueres ved hjelp av serialisering med Jackson
 ```
 ## JSON-diagram
 
-![JSONdiagram](img/json.png "json")
+![JSONdiagram](../docs/release2/img/json.png "json")

@@ -3,6 +3,7 @@ package ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -25,10 +26,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 
-public class CashFlowControllerTest extends ApplicationTest{
+public class CashFlowControllerTest extends ApplicationTest {
 
-    //Nødvendig å reste hva som skjer ved klikk på knapp "neste side"?
-    
     private CashFlowController controller;
     final String SETAMOUNT = "#setAmount";
     final String NAMEACCOUNT = "#nameAccount";
@@ -41,17 +40,16 @@ public class CashFlowControllerTest extends ApplicationTest{
 
     @Override
     public void start(final Stage stage) throws Exception {
-    //Starts the App
-    final FXMLLoader loader = new FXMLLoader(getClass().getResource("CashFlow_test.fxml"));
-    final Parent root = loader.load();
-    this.controller = loader.getController();
-    stage.setScene(new Scene(root));
-    stage.show();
-    User user = new User(123456);
-    cfp.saveUser(user, testSaveFile);
-    controller.loadNewUser(testSaveFile);
-    
-  }
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("CashFlow_test.fxml"));
+        final Parent root = loader.load();
+        this.controller = loader.getController();
+        stage.setScene(new Scene(root));
+        stage.show();
+        User user = new User(123456);
+        cfp.saveUser(user, testSaveFile);
+        DirectAccess directAccess = new DirectAccess(user, DirectAccess.TESTSAVEFILE);
+        controller.setCashFlowAccess(directAccess);
+    }
 
     @BeforeEach
     public void setUpItems() {
@@ -73,14 +71,10 @@ public class CashFlowControllerTest extends ApplicationTest{
         File testFile = testFilePath.toFile();
         testFile.delete();
     }
-    
-    /**
-     * Tests that the controller is loaded
-     */
     @Test
     public void testController() {
         assertNotNull(this.controller);
-        
+
     }
 
     /**
@@ -91,17 +85,12 @@ public class CashFlowControllerTest extends ApplicationTest{
         clickOn(CREATEACCOUNT);
         assertEquals("Velg en kontotype!", lookup("#errorMessage").queryText().getText());
     }
-    
-    /**
-     * Tests that when you follow all the rules when you choose name,
-     * amount and account, you create an account
-     */
     @Test
     public void testNewCorrectAccount() {
         TextArea accountOverview = find(ACCOUNTS);
-        //hvis null?
+        // hvis null?
         String accounts = accountOverview.getText();
-        
+
         String name = "first account";
         String amount = "12";
 
@@ -116,19 +105,16 @@ public class CashFlowControllerTest extends ApplicationTest{
 
         assertNotNull(lookup("#accountCreated").queryText().getText());
         assertEquals("Kontoen er opprettet", (lookup("#accountCreated").queryText().getText()));
-        assertEquals(accounts + "\n" + "Sparekonto" + ": " + name + "\n" + "   Beløp: " + Double.parseDouble(amount), accountOverview.getText());
-        
+        assertEquals(accounts + "\n" + "Sparekonto" + ": " + name + "\n" + "   Beløp: " + Double.parseDouble(amount),
+                accountOverview.getText());
+
     }
-    
-    @SuppressWarnings (value="unchecked")
+
+    @SuppressWarnings(value = "unchecked")
     private <T extends Node> T find(final String query) {
         return (T) lookup(query).queryAll().iterator().next();
     }
 
-    /**
-     * Tests that when you can not create an account when you have
-     * missing fields
-     */
     @Test
     public void testMissingFields() {
         TextArea kontoOversikt = find(ACCOUNTS);
@@ -137,25 +123,25 @@ public class CashFlowControllerTest extends ApplicationTest{
         TextField amount = find(SETAMOUNT);
         TextField name = find(NAMEACCOUNT);
 
-        //if you write value
+        // Test bare beløp
         clickOn(SETAMOUNT).write("34");
         clickOn(CREATEACCOUNT);
         assertEquals("Velg en kontotype!", lookup("#errorMessage").queryText().getText());
 
-        //if you write name
+        // hvis du bare skriver inn navn
         amount.setText("");
         clickOn(NAMEACCOUNT).write("test");
         clickOn(CREATEACCOUNT);
         assertEquals("Velg en kontotype!", lookup("#errorMessage").queryText().getText());
 
-        //if you write name and value
+        // hvis du skriver inn navn og beløp
         name.setText("");
         clickOn(NAMEACCOUNT).write("test");
         clickOn(SETAMOUNT).write("35");
         clickOn(CREATEACCOUNT);
         assertEquals("Velg en kontotype!", lookup("#errorMessage").queryText().getText());
 
-        //if you write type
+        // hvis du skriver inn type
         amount.setText("");
         name.setText("");
         clickOn(ACCOUNTTYPE);
@@ -164,12 +150,12 @@ public class CashFlowControllerTest extends ApplicationTest{
         clickOn(CREATEACCOUNT);
         assertEquals("Husk å fylle inn alle felt", lookup("#errorMessage").queryText().getText());
 
-        //if you write type and value
+        // hvis du skriver inn type og beløp
         clickOn(SETAMOUNT).write("35");
         clickOn(CREATEACCOUNT);
         assertEquals("Husk å fylle inn alle felt", lookup("#errorMessage").queryText().getText());
 
-        //if you write type and name
+        // hvis du skriver inn type og navn
         amount.setText("");
         clickOn(NAMEACCOUNT).write("test");
         clickOn(CREATEACCOUNT);
@@ -198,27 +184,30 @@ public class CashFlowControllerTest extends ApplicationTest{
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
 
-        //1
+        // 1
         clickOn(NAMEACCOUNT).write(name1);
         clickOn(CREATEACCOUNT);
-        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver", controller.errorMessage.getText());
+        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver",
+                controller.errorMessage.getText());
 
-        //2
+        // 2 Håndtere hvis null
         assertThrows(NullPointerException.class, () -> {
             clickOn(NAMEACCOUNT).write(name2);
         });
 
-        //3
+        // 3
         name.setText("");
         clickOn(NAMEACCOUNT).write(name3);
         clickOn(CREATEACCOUNT);
-        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver", controller.errorMessage.getText());
+        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver",
+                controller.errorMessage.getText());
 
-        //4
+        // 4
         name.setText("");
         clickOn(NAMEACCOUNT).write(name4);
         clickOn(CREATEACCOUNT);
-        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver", controller.errorMessage.getText());
+        assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver",
+                controller.errorMessage.getText());
     }
 
     /**
@@ -239,22 +228,29 @@ public class CashFlowControllerTest extends ApplicationTest{
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
 
-        //1
+        // 1
         clickOn(SETAMOUNT).write(amount1);
         clickOn(CREATEACCOUNT);
         assertEquals("Beløpet må bestå av tall og kan ikke være mindre enn null", controller.errorMessage.getText());
 
-        //2
+        // 2
         amount.setText("");
         clickOn(SETAMOUNT).write(amount2);
         clickOn(CREATEACCOUNT);
         assertEquals("Beløpet må bestå av tall og kan ikke være mindre enn null", controller.errorMessage.getText());
 
-        //3
+        // 3
         assertThrows(NullPointerException.class, () -> {
             clickOn(SETAMOUNT).write(amount3);
         });
     }
 
+    /**
+     * Tests that the cashFlowAccess field is an instance of DirectAccess.
+     */
+    @Test
+    public void testCorrectCashFlowAccessInstance() {
+        assertTrue(controller.getCashFlowAccess() instanceof DirectAccess);
+    }
 
 }
