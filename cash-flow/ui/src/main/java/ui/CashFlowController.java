@@ -24,8 +24,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/** 
- * Controller for creating an account
+
+//==============================================================================================
+// Controller
+//==============================================================================================
+
+/**
+     * A controller for creating an account.
+     * The initialize method try to load the previous saved data.
+     * @throws IllegalStateException if there is no previous saved data.
+     * @throws IOException if there is no previous saved data.
  */
 
 public class CashFlowController {
@@ -53,8 +61,14 @@ public void initialize() {
     updateAccountView();
 }
 
+
+//==============================================================================================
+// Functional methods
+//==============================================================================================
+
 /**
  * Sets the drop-down menu for the accounts you can choose between
+ * If BSU account type is not jet used, add it. Can not use BSU account type more than once.
  */
 private void setDropDownMenu() {
     accountType.getItems().clear();
@@ -66,7 +80,8 @@ private void setDropDownMenu() {
 }
 
 /**
- * Method for creating account.
+ * Method for creating an account.
+ * It makes sure that no fields are left empty.
  */
 @FXML
 public void onCreateAccount() {
@@ -162,6 +177,7 @@ private void clear() {
  * Checks if the chosen amount is a numeric number
  * @param amount the written amount
  * @return {@code true} if the amount is numeric
+ * @throws NumberFormatException if number is not numeric, false.
  */
 @FXML
 private boolean isNumeric(String amount){
@@ -173,9 +189,13 @@ private boolean isNumeric(String amount){
     }
 }
 
+/**
+ * Method for updating the accountview after changes.
+ * Format numbers in a readble way.
+ */
+
 @FXML
 private void updateAccountView(){
-    //Method for updating the accountview after changes
     accounts.setText("");
     for (AbstractAccount account : user.getAccounts()) {
         String type = "";
@@ -207,8 +227,13 @@ private void save() {
     }
 }
 
+/**
+ * Checks if the user accounts is found.
+ * @throws IllegalStateException is account is not found.
+ * @throws IOException is account is not found.
+ */
+
 private void load() {
-    //checks if the user accounts is found
     try {
         user = cfp.loadUser();
     } catch (IllegalStateException e) {
@@ -218,12 +243,23 @@ private void load() {
     }
 }
 
+/**
+ * Redirects the path of a new file with data to the same path as the last. 
+ * It replaces the old file sith the new.
+ * @param saveFile the new savefile after load.
+ */
 public void loadNewUser(String saveFile) {
     cfp.setSaveFilePath(saveFile);
     load();
     updateAccountView();
 }
 
+/**
+ * Method opens a new FXML window when button detailsAndTransfers are pushed.
+ * Method opens only if there is an account created
+ * Loads the new FXML file for the new window.
+ * @throws IOException if there is no account created before the onAction button is pushed.
+ */
 @FXML
 private void onNextPage() throws IOException {
     //Method for accessing the next page
