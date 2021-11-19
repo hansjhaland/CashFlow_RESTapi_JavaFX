@@ -5,12 +5,13 @@ Kodelageret inneholder mappene **cash-flow** med selve kodingsprosjektet og **do
 
 ## cash-flow-prosjektet
 
-Domenelogikk og json-hådtering ligger i **core-modulen**, i henholdsvis core- og json-mappene. 
+Domenelogikk og json-håndtering ligger i **core-modulen**, i henholdsvis core- og json-mappene. 
 
 I **core** ligger javaklassene 
 - **AbstractAccount**, **CheckingAccount**, **SavingsAccount**, **BSUAccount** for logikk som omhandler kontoer
 - **User** for logikk som omhandler brukeren
 - **Transaction** for kode som omhandler transaksjoner
+- **BankHelper** med hjelpemetoder for User- og Account-objekter
 
 I **json** ligger javaklassene
 - **AccountSerializer** som tar seg av serialisering av forskjellige typer konto-objekter
@@ -24,12 +25,37 @@ I **json** ligger javaklassene
 
 
 Klasser og filer som omhandler GUI ligger i **ui-modulen**
-- **CashFlowApp** som kjører applikasjonen
-- **CashFlow.FXML** som spesifiserer hvordan forsiden til applikasjonen skal se ut. Ligger i **resources-mappen**
-- **CashFlowController** som forbinder brukergrensesnittet med domenelogikken og persistens
-- **Details.FXML** som spesifiserer hvordan neste side til applikasjonen skal se ut. Ligger også i **resources-mappen**
+- **CashFlowApp** som kjører applikasjonen med lokal lagring 
+- **RemoteCashFlowApp** som kjøre applikasjonen med RESTAPI
+- **CashFlowAccess** er et interface som definerer felles metoder for de forskjellige access-typene
+- **DirectAccess** som bestemmer hvordan applikasjonen kjøres med lokal lagring
+- **RemoteAccess** som bestemmer hvordan applikasjonen kjøres med RESTAPI
+- **AppController** som velger hvilken type Access-objekt kontrollerklassene skal få
+- **CashFlowController** som forbinder brukergrensesnittet med domenelogikken og persistens, og RESTAPI dersom RemoteCashFlowApp kjøres
 - **DetailsController** neste side som forbinder brukergrensesnittet med domenelogikken og persistens
+- **CashFlow.FXML** som spesifiserer hvordan forsiden til applikasjonen skal se ut. Ligger i **resources-mappen**
+- **Details.FXML** som spesifiserer hvordan detaljer-siden til applikasjonen skal se ut. Ligger også i **resources-mappen**
+- **LocalCashFlow.FXML** som spesifiserer utseendet til forsiden når den kjøres med DirectAccess
+- **LocalDetails.FXML** som spesifiserer utseendet til detaljer-siden når den kjøres med DirectAccess
+- **RemoteCashFlow.FXML** som spesifiserer utseendet til forsiden når den kjøres med RemoteAccess
+- **RemoteDetails.FXML** som spesifiserer utseendet til detaljer-siden når den kjøres med RemoteAccess
 
+Klasser knyttet til RESTAPI ligger i **rest-modulen**, i mappene restapi og restserver
+I **restapi** ligger
+- **UserRestService** som definerer http-forespørsler for user-objekter
+- **AccountResource** som definerer http-forespørsler for accont-objekter
+
+I **restserver** ligger
+- **CashFlowConfig** sim binder sammen applikasjonen og RESTAPI-et
+- **UserObjectMapperProvider** som gir en ObjectMapper som brukes til serialisering og deserialisering
+
+Mappen **integrationtests** setter opp en lokal server som tillater å kjøre applikasjonen som en web-app
+- **sinmplelogger.properties** i resources-mappen konfigurerer loggeren
+- **web.xml** i webapp\WEB-INF-mappen setter opp serveren hvor web-appen kjøres
+
+## Spotbugs
+I config/spotbugs ligger **exclude.xml**. Denne brukes til å konfigurere spotbugs slik at den overser bestemmte errors.
+De ekskluderte errorene er **EI_EXPOSE_REP** og **EI_EXPOSE_REP2**. Disse ble ekskludert slik at applikasjonen kan fungere slik den skal.  
 
 
 ## Testing
