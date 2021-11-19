@@ -42,7 +42,7 @@ public class CashFlowAppIT extends ApplicationTest {
       assertNotNull(port, "No todo.port system property set");
       URI baseUri = new URI("http://localhost:" + port + "/user"); //??
       System.out.println("Base CashFlowAccess URI: " + baseUri); //??
-      this.controller.setCashFlowAccess(new CashFlowAccess(baseUri));
+      this.controller.setCashFlowAccess(new RemoteAccess(baseUri));
     } catch (IOException ioe) {
       fail(ioe.getMessage());
     }

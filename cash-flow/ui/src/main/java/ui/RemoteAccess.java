@@ -66,7 +66,10 @@ public class RemoteAccess implements CashFlowAccess {
      */
     @Override
     public AbstractAccount getAccount(int accountNumber) {
-        AbstractAccount oldAccount = this.user.getAccount(accountNumber);
+        AbstractAccount oldAccount = null;
+        if (user != null) {
+            oldAccount = this.user.getAccount(accountNumber);
+        }
         if (oldAccount == null) {
             HttpRequest request = HttpRequest.newBuilder(accountUri(accountNumber)).header("Accept", "application/json")
                     .GET().build();
@@ -76,7 +79,10 @@ public class RemoteAccess implements CashFlowAccess {
                 String responseString = response.body();
                 System.out.println("getAccount(" + accountNumber + ") response: " + responseString);
                 AbstractAccount account = objectMapper.readValue(responseString, AbstractAccount.class);
-                this.user.addAccount(account);
+                if (user != null) {
+                    this.user.addAccount(account);
+                }
+                return account;
             } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
