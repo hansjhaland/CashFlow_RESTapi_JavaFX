@@ -83,12 +83,12 @@ public class CashFlowController {
             errorMessage.setText("Husk å fylle inn alle felt");
         }
 
-        else if (checkValidNameAmount(name, null) == false) {
+        else if (!checkValidNameAmount(name, null)) {
             clear();
             errorMessage.setText("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver");
         }
 
-        else if (checkValidNameAmount(null, amount) == false) {
+        else if (!checkValidNameAmount(null, amount)) {
             clear();
             errorMessage.setText("Beløpet må bestå av tall og kan ikke være mindre enn null");
         }
@@ -165,7 +165,7 @@ public class CashFlowController {
             String name = account.getName();
             DecimalFormat df = new DecimalFormat("##.0", new DecimalFormatSymbols(Locale.UK));
             String balance = df.format(account.getBalance());
-            accounts.setText(accounts.getText() + "\n" + type + ": " + name + "\n" + "   Beløp: " + balance);
+            accounts.setText(accounts.getText() + "\n" + type + ": " + name + "\n" + "   Beløp: " + balance + " kr");
         }
         setDropDownMenu();
     }

@@ -66,9 +66,12 @@ public class DetailsController {
         String string = "";
         StringBuffer sb = new StringBuffer();
         if (account != null) {
+            DecimalFormat df = new DecimalFormat("##.0", new DecimalFormatSymbols(Locale.UK));
+            String balance = "";
             for (Transaction transaction : account.getTransactionHistory()) {
+                balance = account.getBalance() == 0.0 ? "0.0" : df.format(account.getBalance());
                 string = "Til: " + transaction.getRecipient() + "\n" + "Fra: " + transaction.getPayer() + "\n"
-                        + "Beløp: " + transaction.getAmount() + "\n" + "\n";
+                        + "Beløp: " + balance + " kr\n" + "\n";
                 sb.append(string);
             }
         }
@@ -137,12 +140,24 @@ public class DetailsController {
         feedback.setText("");
         if (account != null && accountToTransferTo != null) {
             String amount = transferAmount.getText();
-            double transferAmount = (amount == null ? 0 : Double.parseDouble(amount));
+            double transferAmount = 0;
+            try {
+                transferAmount = Double.parseDouble(amount);
+            } catch (Exception e) {
+                feedback.setText("Overføringsbeløpet må være et tall.");
+                return;
+            }
             if (transferAmount <= 0) {
                 feedback.setText("Overføringsbeløpet må være større enn 0.");
 
             } else if (account instanceof BSUAccount) {
                 feedback.setText("Kan ikke overføre fra en BSU-konto.");
+            } else if (accountToTransferTo instanceof BSUAccount) {
+                BSUAccount bsuAccount = (BSUAccount) accountToTransferTo;
+                if (!bsuAccount.isValidDeposit(transferAmount)) {
+                    feedback.setText("Saldoen til BSU-kontoen kan ikke overstige 25000 kr.");
+                }
+
             } else if (account == accountToTransferTo) {
                 feedback.setText("Sendekonto kan ikke være lik mottakerkonto.");
             } else if (account instanceof SavingsAccount

@@ -42,6 +42,7 @@ public class DetailsControllerTest extends ApplicationTest {
     final String FEEDBACK = "#feedback"; // Text
     final String DELETEBUTTON = "#deleteButton"; // Button
     final String DELETEMESSAGE = "#deleteMessage"; // Text
+    final String BALANCE = "#setBalance"; //TextField
 
     private DetailsController controller;
     private CashFlowPersistence cfp = new CashFlowPersistence();
@@ -117,6 +118,9 @@ public class DetailsControllerTest extends ApplicationTest {
         ChoiceBox<String> recipientAccount = find(RECIPIENTACCOUNT);
         String account2 = (String) recipientAccount.getValue();
         assertEquals("Brukskonto; ChA: 1000", account2);
+        TextField balanceTextField = find(BALANCE);
+        String balance = balanceTextField.getText();
+        assertEquals("1000.0 kr", balance);
     }
 
     /**
@@ -136,6 +140,9 @@ public class DetailsControllerTest extends ApplicationTest {
         ChoiceBox<String> recipientAccount = find(RECIPIENTACCOUNT);
         String account2 = (String) recipientAccount.getValue();
         assertEquals("Sparekonto; SA: 1001", account2);
+        TextField balanceTextField = find(BALANCE);
+        String balance = balanceTextField.getText();
+        assertEquals("1000.0 kr", balance);
     }
 
     /**
@@ -157,6 +164,9 @@ public class DetailsControllerTest extends ApplicationTest {
         ChoiceBox<String> recipientAccount = find(RECIPIENTACCOUNT);
         String account2 = (String) recipientAccount.getValue();
         assertEquals("BSU-konto; BSUA: 1002", account2);
+        TextField balanceTextField = find(BALANCE);
+        String balance = balanceTextField.getText();
+        assertEquals("1000.0 kr", balance);
     }
 
     /**
@@ -225,6 +235,9 @@ public class DetailsControllerTest extends ApplicationTest {
         TextArea transactionHistory = find(TRANSACTIONHISTORY);
         String historyString = transactionHistory.getText();
         assertTrue(!historyString.equals(""));
+        TextField balanceTextField = find(BALANCE);
+        String balance = balanceTextField.getText();
+        assertEquals("990.0 kr", balance);
     }
 
     /**
@@ -242,6 +255,23 @@ public class DetailsControllerTest extends ApplicationTest {
         amount.setText("-10");
         clickOn(TRANSFER);
         assertEquals("Overføringsbeløpet må være større enn 0.", lookup(FEEDBACK).queryText().getText());
+    }
+
+    /**
+     * Tests that a transfer with negative amount gives proper error message.
+     */
+    @Test
+    public void testSettingTransferAmountToNonNumber() {
+        clickOn(RECIPIENTACCOUNT);
+        type(KeyCode.DOWN);
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+        clickOn(DETAILEDACCOUNT);
+        type(KeyCode.ENTER);
+        TextField amount = find(AMOUNT);
+        amount.setText("Word");
+        clickOn(TRANSFER);
+        assertEquals("Overføringsbeløpet må være et tall.", lookup(FEEDBACK).queryText().getText());
     }
 
     /**
