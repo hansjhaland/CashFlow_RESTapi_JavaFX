@@ -71,7 +71,7 @@ public class DetailsController {
             for (Transaction transaction : account.getTransactionHistory()) {
                 balance = account.getBalance() == 0.0 ? "0.0" : df.format(account.getBalance());
                 string = "Til: " + transaction.getRecipient() + "\n" + "Fra: " + transaction.getPayer() + "\n"
-                        + "Beløp: " + balance + " kr\n" + "\n";
+                        + "Beløp: " + balance + " kr" + "\n";
                 sb.append(string);
             }
         }
