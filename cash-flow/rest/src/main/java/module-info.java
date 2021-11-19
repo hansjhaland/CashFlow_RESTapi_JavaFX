@@ -9,7 +9,10 @@ module cashflow.rest {
     requires org.glassfish.hk2.api;
     requires org.slf4j;
 
-    requires cashflow.core;
+    requires transitive cashflow.core;
+
+    exports restapi;
+    exports restserver;
 
     opens restapi to jersey.server;
 }

@@ -1,4 +1,4 @@
-package cashflow.restserver;
+package restserver;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,6 +11,7 @@ import jakarta.ws.rs.core.Response;
 import restapi.UserRestService;
 import restserver.CashFlowConfig;
 import restserver.UserObjectMapperProvider;
+import restapi.UserRestService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -81,7 +82,7 @@ public class UserRestServiceTest extends JerseyTest{
         assertEquals(654321, user.getUserID());
         assertEquals(2, user.getAccounts().size());
         assertTrue(user.getAccount(2345) instanceof CheckingAccount);
-        assertTrue(user.getAccount(5555) instanceof SavingsAccount);
+        assertTrue(user.getAccount(5432) instanceof SavingsAccount);
       } catch (JsonProcessingException e) {
         fail(e.getMessage());
       }

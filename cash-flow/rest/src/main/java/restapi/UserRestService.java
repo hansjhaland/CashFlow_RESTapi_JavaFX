@@ -25,7 +25,7 @@ public class UserRestService {
     private static final Logger LOG = LoggerFactory.getLogger(UserRestService.class);
 
     @Context
-    private User user;
+    public User user;
 
     /**
      * Method for getting the user, indicating
