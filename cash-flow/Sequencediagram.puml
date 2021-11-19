@@ -4,7 +4,7 @@ User -> "~#createAccount: Button" as createAccount: click
 createAccount -> CashFlowController: onCreateAccount
 CashFlowController -> Core: getAccountFromType
 CashFlowController <- Core: account
-CashFlowController -> RestAPI: addAccount PUT-request
+CashFlowController -> RestAPI: addAccount / PUT-request
 RestAPI -> Core: response
 CashFlowController -> Core: user.addAccount
 CashFlowController -> User: setText
