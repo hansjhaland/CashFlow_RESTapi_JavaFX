@@ -5,12 +5,16 @@ import java.io.IOException;
 import core.AbstractAccount;
 import core.User;
 
+/**
+ * Interface that allows controller to work with different sources, e.g. local
+ * or server (RESTAPI)
+ */
 public interface CashFlowAccess {
 
     /**
      * Gets a user from relevant source.
      * 
-     * @return a user 
+     * @return a user
      */
     public User getUser();
 
@@ -33,12 +37,12 @@ public interface CashFlowAccess {
      * 
      * @param account the account to be deleted
      */
-    public void deleteAccount(int accountNumber);
+    public boolean deleteAccount(int accountNumber);
 
     /**
      * Adds an transaction to both accouts' transaction history
      * 
-     * @param payer paying account
+     * @param payer    paying account
      * @param reciever recieving account
      */
     public void transfer(AbstractAccount payer, AbstractAccount reciever, double amount);

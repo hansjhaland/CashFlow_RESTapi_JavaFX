@@ -1,6 +1,7 @@
 module cashflow.rest {
-    requires jakarta.ws.rs;
 
+    requires jakarta.ws.rs;
+    
     requires jersey.common;
     requires jersey.server;
     requires jersey.media.json.jackson;

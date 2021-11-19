@@ -8,6 +8,11 @@ import jakarta.ws.rs.ext.ContextResolver;
 import jakarta.ws.rs.ext.Provider;
 import json.CashFlowPersistence;
 
+/**
+ * Used for providing the apropriate JSON-objectmapper 
+ * with serializers and deserializers for User, Account,
+ * and Transaction objects.
+ */
 @Provider
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
