@@ -27,6 +27,9 @@ Gjennom møtene ser vi gjennom hverandres kode og kommer med innspill. Gruppemel
 ### Testing
 Klasser testes etter logikken er skrevet.
 
+### Formatering av navn i prosjektet
+Prosjektet er satt til at både koden og alle navn på filene skal være på engelsk. Formateringen av navn skrives slik at alle ordene er sammenhengende med stor forbokstav på hvert ord. Dette ble bestemt på første møte med gruppen.
+
 
 # Git-konvensjoner
 ### Issues og Branches
@@ -38,7 +41,7 @@ Vi bruker også andre labler som hvilke type oppgave issuen er, som bug, design,
 Hvordan vi skiller en issue fra hverandre når det kommer til hvilke som skal bli gjennomført først, er ved å lable dem med hvilken type priority de er, om de er 1 eller 2.
 
 ### Commit meldinger
-Commit meldinger skrives på norsk og skal gi en kort sammendrag av det som har blitt implementert, løst eller fikset på i branchen. Skal være oversiktelig for de andre på gruppen og seg selv.
+Commit meldinger skrives på norsk og skal gi en kort sammendrag av det som har blitt implementert, løst eller fikset på i branchen. Skal være oversiktelig for de andre på gruppen og seg selv. Commitmeldingene skal være på norsk. Ble bestemt på første møte med gruppen.
 
 ### Merge request
 Dersom man er ferdig med en branch og har fungerende testere, skal man lage en merge request til branchen. Når vi møtes går alle på gruppen over koden og trykker på "Approve"-knappen dersom de sier seg enig i løsningen. Dersom de ikke er fornøyde skal dette kommenteres i merge requesten og tas opp med resten av gruppen. Eventuelle endringer kan oppstå da.
