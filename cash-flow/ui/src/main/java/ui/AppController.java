@@ -31,11 +31,11 @@ public class AppController {
 
     private CashFlowPersistence cfp;
 
-/**
- * The method try to load accounts from the saved file.
- * If there is none, it throws an exception and creats two accounts for the user.
- * @return the users accounts if there are any or the accounts that were made for it.
- */
+    /**
+     * The method tries to load user from the saved file.
+     * If no user is found, a default user is created.
+     * @return the user
+     */
     private User getInitialUser() {
         User initialUser = null;
         if (cfp != null) {
@@ -47,8 +47,6 @@ public class AppController {
         }
         if (initialUser == null) {
             initialUser = new User(123456);
-            new CheckingAccount("Brukskonto", 250.0, initialUser);
-            new SavingsAccount("Sparekonto", 1000.0, initialUser);
         }
         return initialUser;
     }

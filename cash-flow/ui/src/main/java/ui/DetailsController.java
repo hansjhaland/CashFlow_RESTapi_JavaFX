@@ -93,11 +93,11 @@ public class DetailsController {
         StringBuffer sb = new StringBuffer();
         if (account != null) {
             DecimalFormat df = new DecimalFormat("##.0", new DecimalFormatSymbols(Locale.UK));
-            String balance = "";
+            String amount = "";
             for (Transaction transaction : account.getTransactionHistory()) {
-                balance = account.getBalance() == 0.0 ? "0.0" : df.format(account.getBalance());
+                amount = transaction.getAmount() == 0.0 ? "0.0" : df.format(transaction.getAmount());
                 string = "Til: " + transaction.getRecipient() + "\n" + "Fra: " + transaction.getPayer() + "\n"
-                        + "Beløp: " + balance + " kr\n" + "\n";
+                        + "Beløp: " + amount + " kr\n" + "\n";
                 sb.append(string);
             }
         }
