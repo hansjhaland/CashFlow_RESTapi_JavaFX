@@ -59,7 +59,7 @@ public class CashFlowController {
 
 /**
  * Gives the user access to the Cashflow app by setting the user to its access.
- * @param cashFlowAccess
+ * @param cashFlowAccess tells weither its Remote or Locally (Rest API).
  */
     public void setCashFlowAccess(CashFlowAccess cashFlowAccess) {
         if (cashFlowAccess != null) {
@@ -70,14 +70,14 @@ public class CashFlowController {
     }
 /**
  * Returns either Remote or Direct access.
- * @return
+ * @return its access based on Remote or Locally (Rest API).
  */
     public CashFlowAccess getCashFlowAccess() {
         return this.cashFlowAccess;
     }
 
 /**
- * Initializer runs the methods on the app if access i granted and updates the file.
+ * Initializer runs the methods on the app if access is granted and updates the file.
  */
     @FXML
     public void initialize() {
@@ -254,7 +254,7 @@ public class CashFlowController {
 /**
  * Method opens a new FXML window when button detailsAndTransfers are pushed.
  * Method opens only if there is an account created
- * Loads the new FXML file for the new window.
+ * Loads the Details FXML file for the DetailsController.
  * @throws IOException if there is no account created before the onAction button is pushed.
  */
     @FXML
