@@ -18,7 +18,7 @@ public class CashFlowConfig extends ResourceConfig {
 
   /**
    * Initializes the CashFlowConfig with the given user.
-   * 
+   *
    * @param user the user that is going to get injected
    */
   public CashFlowConfig(User user) {
@@ -51,7 +51,7 @@ public class CashFlowConfig extends ResourceConfig {
 
   /**
    * Creates a default User-object.
-   * 
+   *
    * @return the default user
    */
   private static User createDefaultUser() {

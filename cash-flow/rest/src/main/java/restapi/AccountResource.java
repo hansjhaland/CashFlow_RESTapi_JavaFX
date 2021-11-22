@@ -30,7 +30,7 @@ public class AccountResource {
 
   /**
    * Initializes an AccountResource-object which represents an account.
-   * 
+   *
    * @param user the owner of the account
    * @param accountNumber the accountnumber
    * @param account the account-object
@@ -52,7 +52,7 @@ public class AccountResource {
 
   /**
    * Method for getting the account, indicating that the method responds to HTTP-GET requests.
-   * 
+   *
    * @return the account
    */
   @GET
@@ -66,7 +66,7 @@ public class AccountResource {
   /**
    * Method for adding an account or updating the account if it already exists, indicating that the
    * method responds to HTTP-PUT requests.
-   * 
+   *
    * @param account the account to be put
    * @return {@code true} if the account was put
    */
@@ -80,7 +80,7 @@ public class AccountResource {
   /**
    * Method for deleting/removing an account, indicating that the method responds to HTTP-DELETE
    * requests.
-   * 
+   *
    * @return {@code true} if the account was deleted
    */
   @DELETE

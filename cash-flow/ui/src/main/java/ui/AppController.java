@@ -32,7 +32,7 @@ public class AppController {
   /**
    * The method tries to load user from the saved file. If no user is found, a default user is
    * created.
-   * 
+   *
    * @return the user
    */
   private User getInitialUser() {

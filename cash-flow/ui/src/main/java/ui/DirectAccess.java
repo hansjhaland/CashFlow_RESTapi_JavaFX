@@ -16,6 +16,13 @@ public class DirectAccess implements CashFlowAccess {
   public static final String TESTSAVEFILE = "SaveDataTest.json";
   private String saveFile;
 
+  /**
+   * Constructs a DirectAccess object which gives the indicates 
+   * that the local app version is running.
+   *
+   * @param user the user
+   * @param saveFile the savefile 
+   */
   public DirectAccess(User user, String saveFile) {
     this.saveFile = saveFile;
     this.user = user;
@@ -25,7 +32,7 @@ public class DirectAccess implements CashFlowAccess {
 
   /**
    * Getter for user field.
-   * 
+   *
    * @return a user
    */
   public User getUser() {
@@ -34,7 +41,7 @@ public class DirectAccess implements CashFlowAccess {
 
   /**
    * Gets an acount from the user's account list based on its account number.
-   * 
+   *
    * @return the corresponding account if it exists in user's account list. Otherwise null.
    */
   @Override
@@ -63,7 +70,7 @@ public class DirectAccess implements CashFlowAccess {
 
   /**
    * Creates a transfer between two accounts.
-   * 
+   *
    * @param payer the paying account
    * @param reciever the recieving account
    * @param amount the amount to be transfered
@@ -75,7 +82,7 @@ public class DirectAccess implements CashFlowAccess {
 
   /**
    * Deletes the account with the corresponding account number.
-   * 
+   *
    * @param accountNumber the account number
    * @return true if account is deleted. false if account is not deleted or the user is null.
    */
@@ -89,7 +96,7 @@ public class DirectAccess implements CashFlowAccess {
 
   /**
    * Loads a user from file if the file exists. Returns a default user otherwise.
-   * 
+   *
    * @return a user from file if the file exists. A default user otherwise.
    */
   @Override
