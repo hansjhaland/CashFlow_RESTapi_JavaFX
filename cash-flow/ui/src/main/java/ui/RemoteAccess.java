@@ -1,6 +1,8 @@
 package ui;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import core.AbstractAccount;
+import core.User;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -8,8 +10,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import json.CashFlowPersistence;
-import core.AbstractAccount;
-import core.User;
 
 /**
  * Allows controller classes to get data from and send data to a server with http requests.
@@ -34,7 +34,8 @@ public class RemoteAccess implements CashFlowAccess {
    */
   public User getUser() {
     if (user == null) {
-      HttpRequest request = HttpRequest.newBuilder(endpointBaseUri).header("Accept", "application/json").GET().build();
+      HttpRequest request = HttpRequest.newBuilder(endpointBaseUri)
+          .header("Accept", "application/json").GET().build();
       try {
         final HttpResponse<String> response =
             HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
@@ -67,7 +68,8 @@ public class RemoteAccess implements CashFlowAccess {
     AbstractAccount oldAccount = this.user.getAccount(accountNumber);
     if (oldAccount == null) {
       HttpRequest request =
-          HttpRequest.newBuilder(accountUri(accountNumber)).header("Accept", "application/json").GET().build();
+          HttpRequest.newBuilder(accountUri(accountNumber))
+              .header("Accept", "application/json").GET().build();
       try {
         final HttpResponse<String> response =
             HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
@@ -91,8 +93,10 @@ public class RemoteAccess implements CashFlowAccess {
     try {
       String json = objectMapper.writeValueAsString(account);
       HttpRequest request =
-          HttpRequest.newBuilder(accountUri(account.getAccountNumber())).header("Accept", "application/json")
-              .header("Content-Type", "application/json").PUT(BodyPublishers.ofString(json)).build();
+          HttpRequest.newBuilder(accountUri(account.getAccountNumber()))
+              .header("Accept", "application/json")
+              .header("Content-Type", "application/json")
+              .PUT(BodyPublishers.ofString(json)).build();
       final HttpResponse<String> response =
           HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
       String responseString = response.body();
@@ -116,8 +120,8 @@ public class RemoteAccess implements CashFlowAccess {
   }
 
   /**
-   * Sends a http DELETE with an account and deletes the given account from the server and the user's
-   * account list.
+   * Sends a http DELETE with an account and deletes the given 
+   * account from the server and the user's account list.
    * 
    * @param accountNumber the account number.
    */
@@ -125,7 +129,8 @@ public class RemoteAccess implements CashFlowAccess {
   public boolean deleteAccount(int accountNumber) {
     try {
       HttpRequest request =
-          HttpRequest.newBuilder(accountUri(accountNumber)).header("Accept", "application/json").DELETE().build();
+          HttpRequest.newBuilder(accountUri(accountNumber))
+              .header("Accept", "application/json").DELETE().build();
       final HttpResponse<String> response =
           HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
       String responseString = response.body();

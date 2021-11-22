@@ -1,9 +1,8 @@
 package ui;
 
-import java.io.IOException;
-
 import core.AbstractAccount;
 import core.User;
+import java.io.IOException;
 import json.CashFlowPersistence;
 
 /**
@@ -13,8 +12,8 @@ public class DirectAccess implements CashFlowAccess {
 
   private User user;
   private CashFlowPersistence cfp;
-  public final static String LOCALSAVEFILE = "SaveData.json";
-  public final static String TESTSAVEFILE = "SaveDataTest.json";
+  public static final String LOCALSAVEFILE = "SaveData.json";
+  public static final String TESTSAVEFILE = "SaveDataTest.json";
   private String saveFile;
 
   public DirectAccess(User user, String saveFile) {
