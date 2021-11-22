@@ -1,6 +1,6 @@
 ## Brukerhistorie 3
 *Jeg som bruker skal kunne bestemme hvilken type konto jeg oppretter*
-- Må implementere SavingAccount og BSUAccount
+- Må implementere SavingAccount og BsuAccount
 - Persistens må huske kontotype
 - UI må tilpasses
 

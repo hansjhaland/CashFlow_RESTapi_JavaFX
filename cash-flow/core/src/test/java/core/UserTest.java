@@ -27,8 +27,8 @@ public class UserTest {
         //test acceptable values
         User user1 = new User(100000);
         User user2 = new User(999999);
-        assertEquals(100000, user1.getUserID(), "Expected '100000', but was: " + user1.getUserID());
-        assertEquals(999999, user2.getUserID(), "Expected '999999', but was: " + user2.getUserID());
+        assertEquals(100000, user1.getUserId(), "Expected '100000', but was: " + user1.getUserId());
+        assertEquals(999999, user2.getUserId(), "Expected '999999', but was: " + user2.getUserId());
 
         //throwing if the userID is not between 100000 and 999999
         assertThrows(IllegalArgumentException.class,
@@ -61,7 +61,7 @@ public class UserTest {
 
         //test if adding an account without an owner leads to the user adding the account becoming
         //the new owner of this account
-        assertEquals(user.getUserID(), listOfAccounts.get(0).getOwnerID(), "Expected the specified user to be the owner of the account, but was: " + listOfAccounts.get(0).getOwnerID());
+        assertEquals(user.getUserId(), listOfAccounts.get(0).getOwnerId(), "Expected the specified user to be the owner of the account, but was: " + listOfAccounts.get(0).getOwnerId());
         
         //test if adding an account with a different owner leads to the user adding the account becoming
         //the new owner of this account, and the previous owner not being the owner anymore
@@ -70,7 +70,7 @@ public class UserTest {
         AbstractAccount testAccount = new CheckingAccount("testAccount", 0, 1234, otherUser);
         user.addAccount(testAccount);
         assertTrue(user.getAccounts().contains(testAccount), "Expected that the user owning the account is 'true', but was 'false'");
-        assertEquals(user.getUserID(), testAccount.getOwnerID(), "Expected that the new owner of the account is the user but was: " + testAccount.getOwnerID());
+        assertEquals(user.getUserId(), testAccount.getOwnerId(), "Expected that the new owner of the account is the user but was: " + testAccount.getOwnerId());
     }
 
     @Test

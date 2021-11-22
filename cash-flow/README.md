@@ -1,6 +1,6 @@
 # CashFlow-app
 
-Prosjektet går ut på en app som implementere bank-funksjonalitet. Appen skal fungere på lik linje som andre banker, der det skal være mulig å opprette, slette eller overføre mellom brukskontoer, sparekontoer og BSU-kontoer.
+Prosjektet går ut på en app som implementere bank-funksjonalitet. Appen skal fungere på lik linje som andre banker, der det skal være mulig å opprette, slette eller overføre mellom brukskontoer, sparekontoer og Bsu-kontoer.
 Det vil også være mulig å se kontohistorikken til alle kontoene og alle transaksjoner på valgt konto.
 
 ## User 
@@ -12,7 +12,7 @@ User brukes som et toppnivå for lagring av kontoer. Det ble lagt til felter som
 
 **SavingsAccount (Sparekonto):** Kan bare gjøre ti uttak. 
 
-**BSUAccount (BSU-konto):** Kan bare opprette én konto. Kan bare inneholde 25 000 kr. Kan ikke gjøre uttak.
+**BsuAccount (Bsu-konto):** Kan bare opprette én konto. Kan bare inneholde 25 000 kr. Kan ikke gjøre uttak.
 
 **Merk**: Appen har ikke noen form for tidsperspektiv. I forhold til en vanlig bankapplikasjon kan man tenke seg at CashFlow opererer på et ettårs-perspektiv. Altså vil for eksempel maksimalt antall uttak i en sparekonto aldri fornyes, og ting som renter tas ikke hensyn til.
 

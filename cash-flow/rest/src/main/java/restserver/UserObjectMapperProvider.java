@@ -9,24 +9,27 @@ import jakarta.ws.rs.ext.Provider;
 import json.CashFlowPersistence;
 
 /**
- * Used for providing the apropriate JSON-objectmapper 
- * with serializers and deserializers for User, Account,
- * and Transaction objects.
+ * Used for providing the apropriate JSON-objectmapper with serializers and deserializers for User,
+ * Account, and Transaction objects.
  */
 @Provider
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserObjectMapperProvider implements ContextResolver<ObjectMapper> {
-    
-    private final ObjectMapper objectMapper;
 
-    public UserObjectMapperProvider(){
-        objectMapper = CashFlowPersistence.createObjectMapper();
-    }
+  private final ObjectMapper objectMapper;
 
-    @Override
-    public ObjectMapper getContext(final Class<?> type){
-        return objectMapper;
-    }
+  /**
+   * Initializes a UserObjectMapperProvider for serialization and 
+   * deserialization from CashFlowPersistence. 
+   */
+  public UserObjectMapperProvider() {
+    objectMapper = CashFlowPersistence.createObjectMapper();
+  }
+  
+  @Override
+  public ObjectMapper getContext(final Class<?> type) {
+    return objectMapper;
+  }
 
 }

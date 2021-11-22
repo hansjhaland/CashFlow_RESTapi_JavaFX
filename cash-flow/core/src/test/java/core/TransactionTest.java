@@ -76,6 +76,7 @@ public class TransactionTest {
 
     @Test
     public void testConstructorForJson() {
+        // test the constructor with the possible methods to handle the balance.
         Transaction transaction = new Transaction("payer", 1234, "recipient", 4321, 100);
         assertEquals(TransactionType.TRANSFER, transaction.getType(), "Expected type to be 'TRANSFER', but was: " + transaction.getType());
         transaction = new Transaction("payer", 1234, "", 0, 100);
@@ -110,8 +111,8 @@ public class TransactionTest {
 
     @Test
     public void testTransfer_moreThan25000InBsuAccount() {
-        //test transfering to a BSUAccount so that the balance exceeds 25000
-        account1 = new BSUAccount("BSU", 24000, user1);
+        //test transfering to a BsuAccount so that the balance exceeds 25000
+        account1 = new BsuAccount("Bsu", 24000, user1);
         account2 = new CheckingAccount("otherAccount", 2000, user1);
         assertThrows(IllegalStateException.class, 
                     () -> account2.transfer(account1, 2000),

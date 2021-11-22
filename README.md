@@ -8,7 +8,7 @@ Kodelageret inneholder mappene **cash-flow** med selve kodingsprosjektet og **do
 Domenelogikk og json-håndtering ligger i **core-modulen**, i henholdsvis core- og json-mappene. 
 
 I **core** ligger javaklassene 
-- **AbstractAccount**, **CheckingAccount**, **SavingsAccount**, **BSUAccount** for logikk som omhandler kontoer
+- **AbstractAccount**, **CheckingAccount**, **SavingsAccount**, **BsuAccount** for logikk som omhandler kontoer
 - **User** for logikk som omhandler brukeren
 - **Transaction** for kode som omhandler transaksjoner
 - **BankHelper** med hjelpemetoder for User- og Account-objekter

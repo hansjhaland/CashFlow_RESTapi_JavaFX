@@ -42,7 +42,10 @@ public class CashFlowPersistenceTest {
         account1.transfer(account2, 10);
     }
 
-
+    /**
+     * Tests serialization and deserialization with a 
+     * CashFlowPersistence object.
+     */
     @Test
     public void testSerializersDeserializers() {
         try {
@@ -51,7 +54,7 @@ public class CashFlowPersistenceTest {
             String json = writer.toString();
             User user2 = cashFlowPersistence.readUser(new StringReader(json));
             assertEquals("name", user2.getName());
-            assertEquals(123456, user2.getUserID());
+            assertEquals(123456, user2.getUserId());
             List<AbstractAccount> accountList = new ArrayList<>();
             for (AbstractAccount user2Account : user2.getAccounts()) {
                 accountList.add(user2Account);
@@ -63,6 +66,10 @@ public class CashFlowPersistenceTest {
         }
     }
 
+    /**
+     * Test saving to and loding from file using a temporary 
+     * file and directory.
+     */
     @Test
     public void testWriteToReadFromFile(){
         try{
@@ -71,7 +78,7 @@ public class CashFlowPersistenceTest {
             cashFlowPersistence.saveUser(user1);
             User user2 = cashFlowPersistence.loadUser();
             assertEquals("name", user2.getName());
-            assertEquals(123456, user2.getUserID());
+            assertEquals(123456, user2.getUserId());
             List<AbstractAccount> accountList = new ArrayList<>();
             for (AbstractAccount user2Account : user2.getAccounts()) {
                 accountList.add(user2Account);
