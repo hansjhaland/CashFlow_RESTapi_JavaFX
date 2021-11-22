@@ -62,7 +62,7 @@ public class DetailsControllerTest extends ApplicationTest {
         } catch (IOException e) {
             fail(e);
         }
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource("Details_test.fxml"));
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("DetailsTest.fxml"));
         final Parent root = loader.load();
         this.controller = loader.getController();
         stage.setScene(new Scene(root));
@@ -309,12 +309,20 @@ public class DetailsControllerTest extends ApplicationTest {
         assertEquals("ChA har ikke nok penger på konto.", lookup(FEEDBACK).queryText().getText());
     }
 
+    /**
+     * Tests that deleting an account without choosing account
+     * is impossible
+     */
     @Test
     public void testDeleteAccountWithoutChoosingAccount() {
         clickOn(DELETEBUTTON);
         assertEquals("Du må velge en konto først.", lookup(FEEDBACK).queryText().getText());
     }
 
+    /**
+     * Tests that deleting an account with money
+     * is impossible
+     */
     @Test
     public void testDeleteAccountWithMoney() {
         clickOn(DETAILEDACCOUNT);
@@ -324,6 +332,10 @@ public class DetailsControllerTest extends ApplicationTest {
                 lookup(FEEDBACK).queryText().getText());
     }
 
+    /**
+     * Tests that deleting an account with no money
+     * is possible
+     */
     @Test
     public void testValidDeleteAccount() {
         clickOn(DETAILEDACCOUNT);

@@ -3,6 +3,9 @@
 ### Møter 
 Vi har faste møter tirsdager 12.15 - 14.00 og torsdager 10.15 - 12.00. Disse møtene er obligatoriske for alle medlemene på gruppa og det må gis beskjed om fravær i god tid før. Vanligvis pleier gruppa å jobbe mer enn oppgitt for å levere det beste produktet.
 
+### Scrum 
+Vi har tatt i bruk et par scrum metoder, blant annet faste møter med tidspunkt og faste sprinter der hver sprint avsluttes med en innlevering. Oppgavene blir markert med en type milestone for å indikere hvilken sprint den er en del av. Før hver sprint har vi en dyp vekting av de ulike oppgavene som trengs og hvilke som skal prioriteres først. Issuebordet vi bruker på Git er vår sprint backlog.
+
 ### Parprogrammering
 Vi bruker parprogrammering på møtene, og når vi skal gjøre ting som vi må ha en felles enighet om. For å fullføre alle arbeidsoppgavene før en innlevering fordeles arbeidet på programmeringsparene. Dersom et programmeringspar ikke mener det er hensiktsmessig å bruke parprogrammering på en del av arbeidsoppgavene, gjøres den delen av et enkeltmedlem for å spare tid. Det kan for eksempel være å legge til en liten funksjon eller fikse noe i koden. Som student er det i praksis umulig å få tid til å gjøre alle arbeidsoppgavene med parprogrammering, og fremdeles rekke alt som skal gjøres. 
 
@@ -27,18 +30,21 @@ Gjennom møtene ser vi gjennom hverandres kode og kommer med innspill. Gruppemel
 ### Testing
 Klasser testes etter logikken er skrevet.
 
+### Formatering av navn i prosjektet
+Prosjektet er satt til at både koden og alle navn på filene skal være på engelsk. Formateringen av navn skrives slik at alle ordene er sammenhengende med stor forbokstav på hvert ord. Dette ble bestemt på første møte med gruppen.
+
 
 # Git-konvensjoner
 ### Issues og Branches
 Issues navngis utifra hvilken oppgave som skal løses. Utifra issues lager vi branches som får sitt eget nummer (etterfølgende tall fra forrige branch nummer), der navnet på den branchen er korrosponderende med issuen.
 Hver brukerhistorie har fått sitt eget nummer og utifra dem har vi laget UserStory-label. På den måten dersom det er en issue som bygger seg på en brukerhistorie, vil den få samme Userstory-label som brukerhistorien sin.
 
-I tillegg labler vi hver issue med en milestone der hver milestone er en innlevering.
+I tillegg labler vi hver issue med en milestone der hver milestone er en innlevering (sprint).
 Vi bruker også andre labler som hvilke type oppgave issuen er, som bug, design, feature, refactoring og test.
 Hvordan vi skiller en issue fra hverandre når det kommer til hvilke som skal bli gjennomført først, er ved å lable dem med hvilken type priority de er, om de er 1 eller 2.
 
 ### Commit meldinger
-Commit meldinger skrives på norsk og skal gi en kort sammendrag av det som har blitt implementert, løst eller fikset på i branchen. Skal være oversiktelig for de andre på gruppen og seg selv.
+Commit meldinger skrives på norsk og skal gi en kort sammendrag av det som har blitt implementert, løst eller fikset på i branchen. Skal være oversiktelig for de andre på gruppen og seg selv. Dette ble bestemt på første møte med gruppen.
 
 ### Merge request
 Dersom man er ferdig med en branch og har fungerende testere, skal man lage en merge request til branchen. Når vi møtes går alle på gruppen over koden og trykker på "Approve"-knappen dersom de sier seg enig i løsningen. Dersom de ikke er fornøyde skal dette kommenteres i merge requesten og tas opp med resten av gruppen. Eventuelle endringer kan oppstå da.

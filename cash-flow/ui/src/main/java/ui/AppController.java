@@ -1,7 +1,5 @@
 package ui;
 
-import core.CheckingAccount;
-import core.SavingsAccount;
 import core.User;
 import java.io.IOException;
 import java.net.URI;
@@ -32,9 +30,10 @@ public class AppController {
   private CashFlowPersistence cfp;
 
   /**
-   * Gets a user from local file or creates a default user if file does not exist.
+   * The method tries to load user from the saved file. If no user is found, a default user is
+   * created.
    * 
-   * @return a user
+   * @return the user
    */
   private User getInitialUser() {
     User initialUser = null;
@@ -47,8 +46,6 @@ public class AppController {
     }
     if (initialUser == null) {
       initialUser = new User(123456);
-      new CheckingAccount("Brukskonto", 250.0, initialUser);
-      new SavingsAccount("Sparekonto", 1000.0, initialUser);
     }
     return initialUser;
   }
