@@ -129,7 +129,7 @@ public class GeneralAccountTest {
                     "An IllegalStateException should have been thrown");
     }
 
-    //Edge cases:
+    
 
 
 }

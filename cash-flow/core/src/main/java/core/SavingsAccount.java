@@ -2,11 +2,14 @@ package core;
 
 import core.Transaction.TransactionType;
 
+/**
+ * A class that creats a savingsaccount that inherits from AbstractAccount class.
+ */
 public class SavingsAccount extends AbstractAccount {
 
   /**
    * Initializes a new SavingsAccount-object.
-   * 
+   *
    * @param name the name of the account
    * @param accountNumber the account number of the account
    * @param owner the owner of the account
@@ -25,7 +28,7 @@ public class SavingsAccount extends AbstractAccount {
   /**
    * Initializes a new SavingsAccount-object, and also generates the next available 
    * account number for this particular user.
-   * 
+   *
    * @param name the name of the account
    * @param owner the owner of the account
    * @throws IllegalArgumentException if the name is more than 20 characters long or contains
@@ -41,7 +44,7 @@ public class SavingsAccount extends AbstractAccount {
   /**
    * Withdraws the given amount from the account. Also adds this transaction to the transaction
    * history.
-   * 
+   *
    * @param amount the amount to be withdrawn
    * @throws IllegalArgumentException if the given amount is negative
    * @throws IllegalStateException if the withdrawal of the amount leads to the 
@@ -57,7 +60,7 @@ public class SavingsAccount extends AbstractAccount {
 
   /**
    * Transfers the spesified amount of money from this account to the recipient account.
-   * 
+   *
    * @param recievingAccount the account that will recieve the money
    * @param amount the amount of money to be transferred to the recipient account
    * @throws IllegalArgumentException if the amount is negative
@@ -84,7 +87,7 @@ public class SavingsAccount extends AbstractAccount {
   /**
    * Checks if the number of withdrawals and transfer hase been reached. This limit is set to be 10
    * withdrawals or transfers.
-   * 
+   *
    * @return {@code false} if the account has reached the withdrawal/transfer limit of 10
    */
   public boolean isWithdrawalOrTransferPossible() {

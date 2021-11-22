@@ -1,10 +1,14 @@
 package core;
 
+/**
+ * A class for creating a standard account called checkingaccount that 
+ * inherits from AbstractAccount.
+ */
 public class CheckingAccount extends AbstractAccount {
 
   /**
    * Initializes a new CheckingAccount-object.
-   * 
+   *
    * @param name the name of the account
    * @param amount the initial balance of the account
    * @param accountNumber the account number of the account
@@ -24,7 +28,7 @@ public class CheckingAccount extends AbstractAccount {
   /**
    * Initializes a new CheckingAccount-object, and also generates the next available account number
    * for this particular user.
-   * 
+   *
    * @param name the name of the account
    * @param amount the initial balance of the account
    * @param owner the owner of the account

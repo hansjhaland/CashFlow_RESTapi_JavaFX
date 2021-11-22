@@ -9,7 +9,7 @@ public final class BankHelper {
 
   /**
    * Checks if the UserID is between 100000 and 999999.
-   * 
+   *
    * @param userID the UserID to be checked
    * @throws IllegalArguementException if the UserID isn't between 100000 and 999999
    */
@@ -23,7 +23,7 @@ public final class BankHelper {
 
   /**
    * Checks if the account number is taken.
-   * 
+   *
    * @param accountNumber the account number to check
    * @param user the user to check
    * @throws IllegalStateException if the account number is taken
@@ -39,7 +39,7 @@ public final class BankHelper {
 
   /**
    * Checks if the name is 20 characters or less. Checks if the name is only letters and spaces.
-   * 
+   *
    * @param name the name to be checked
    * @throws IllegalArgumentException if the name is more than 20 characters long or does not only
    *         contain letters and spaces
@@ -55,7 +55,7 @@ public final class BankHelper {
   /**
    * Checks if the amount added sets the balance in an invalid state (less than 0).
    * Amount can be negative if you are checking a withdrawal.
-   * 
+   *
    * @param amount the amount to be added to the balance
    * @param account the account to be checked
    * @throws IllegalStateException if the balance is less than 0 when the amount is added
@@ -70,7 +70,7 @@ public final class BankHelper {
 
   /**
    * Checks if the account number is between 1000 and 9999.
-   * 
+   *
    * @param accountNumber the acocunt number to be checked
    * @throws IllegalArgumentException if the account number is not between 1000 and 9999
    */
@@ -83,7 +83,7 @@ public final class BankHelper {
 
   /**
    * Checks if the amount is positive.
-   * 
+   *
    * @param amount the amount to be checked
    * @throws IllegalArgumentException if the amount is negative
    */
@@ -95,7 +95,7 @@ public final class BankHelper {
 
   /**
    * Checks if the amount is positive.
-   * 
+   *
    * @param amount the amount to check
    * @return {@code true} if the amount is positive
    */
@@ -106,7 +106,7 @@ public final class BankHelper {
   /**
    * Checks if the amount added sets the balance in an invalid state (less than 0). Amount can be
    * negative if you are checking a withdrawal.
-   * 
+   *
    * @param amount the amount to be added
    * @return {@code false} if the balance is set to be negative
    */
@@ -117,7 +117,7 @@ public final class BankHelper {
 
   /**
    * Checks if the user already owns a BSU-account.
-   * 
+   *
    * @param user the user to be checked
    * @return {@code true} if the user owns a BSU-account
    */
@@ -127,7 +127,7 @@ public final class BankHelper {
 
   /**
    * Checks if the name is less than 20 characters long and only consists of letters and spaces.
-   * 
+   *
    * @param name the name to be checked
    * @return {@code true} if the name satisfies this rule
    */
@@ -140,7 +140,7 @@ public final class BankHelper {
 
   /**
    * Checks if the given string consists of only letters and spaces.
-   * 
+   *
    * @param s the string to check
    * @return {@code true} if name consists of only letters and spaces
    */

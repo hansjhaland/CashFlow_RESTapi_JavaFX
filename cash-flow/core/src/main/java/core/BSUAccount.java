@@ -1,10 +1,14 @@
 package core;
 
+
+/**
+ * A class that creates a BSU account with its restrictions.
+ */
 public class BSUAccount extends AbstractAccount {
 
   /**
    * Initializes a new BSUAccount-object.
-   * 
+   *
    * @param name the name of the account
    * @param accountNumber the account number of the account
    * @param owner the owner of the account
@@ -26,7 +30,7 @@ public class BSUAccount extends AbstractAccount {
   /**
    * Initializes a new BSUAccount-object, and also generates the next available account number for
    * this particular user.
-   * 
+   *
    * @param name the name of the account
    * @param owner the owner of the account
    * @throws IllegalArgumentException if the name is more than 20 characters long or contains
@@ -46,7 +50,7 @@ public class BSUAccount extends AbstractAccount {
   /**
    * Deposits the given amount in to the account, which must not exceed 25000. Also adds this
    * transaction to the transaction history.
-   * 
+   *
    * @param amount the amount to be deposited
    * @throws IllegalArgumentException if the given amount is negative
    * @throws IllegalStateException if the deposit leads to the balance exceeding the cap of 25000
@@ -60,7 +64,7 @@ public class BSUAccount extends AbstractAccount {
   /**
    * This method does nothing, because you cannot withdraw from a BSU account, unless its used as
    * deductable for a mortgage.
-   * 
+   *
    * @param amount the amount to be withdrawn
    */
   @Override
@@ -69,7 +73,7 @@ public class BSUAccount extends AbstractAccount {
   /**
    * This method does nothing, because you cannot transfer from a BSU account, unless its used as
    * deductable for a mortgage.
-   * 
+   *
    * @param amount the amount to be transfered
    */
   @Override
@@ -95,7 +99,7 @@ public class BSUAccount extends AbstractAccount {
 
   /**
    * Checks if the deposit leads to the balance of the BSUAccount exceeding the cap of 25000.
-   * 
+   *
    * @param amount the amount to be added
    * @return {@code false} if the balance exceeds 25000
    */

@@ -76,6 +76,7 @@ public class TransactionTest {
 
     @Test
     public void testConstructorForJson() {
+        // test the constructor with the possible methods to handle the balance.
         Transaction transaction = new Transaction("payer", 1234, "recipient", 4321, 100);
         assertEquals(TransactionType.TRANSFER, transaction.getType(), "Expected type to be 'TRANSFER', but was: " + transaction.getType());
         transaction = new Transaction("payer", 1234, "", 0, 100);
