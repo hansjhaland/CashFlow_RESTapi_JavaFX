@@ -93,3 +93,5 @@ De ekskluderte errorene er **EI_EXPOSE_REP** og **EI_EXPOSE_REP2**. Disse ble ek
  - Nå skal targe-mappen inneholde cashflowfx.zip og dist/CashFlowFX-1.0.0.exe.
  - Kjør dist/CashFlowFX-1.0.0.exe for å installere applikasjonen.
  - Nå skal det være en CashFlow-mappe ui Programfiler/Program files-mappen på PC-en. 
+ 
+ **Merk:** jlink og jpackage er i dette prosjektet bare konfigurert for windows.  
