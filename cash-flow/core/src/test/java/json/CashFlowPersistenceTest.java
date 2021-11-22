@@ -42,7 +42,10 @@ public class CashFlowPersistenceTest {
         account1.transfer(account2, 10);
     }
 
-
+    /**
+     * Tests serialization and deserialization with a 
+     * CashFlowPersistence object.
+     */
     @Test
     public void testSerializersDeserializers() {
         try {
@@ -63,6 +66,10 @@ public class CashFlowPersistenceTest {
         }
     }
 
+    /**
+     * Test saving to and loding from file using a temporary 
+     * file and directory.
+     */
     @Test
     public void testWriteToReadFromFile(){
         try{
