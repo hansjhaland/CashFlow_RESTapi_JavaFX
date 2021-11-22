@@ -1,8 +1,8 @@
 package ui;
 
 import core.AbstractAccount;
-import core.BSUAccount;
 import core.BankHelper;
+import core.BsuAccount;
 import core.CheckingAccount;
 import core.SavingsAccount;
 import core.User;
@@ -88,15 +88,15 @@ public class CashFlowController {
   }
 
   /**
-   * Sets the drop-down menu for the accounts you can choose between If BSU account type is not jet
-   * used, add it. Can not use BSU account type more than once.
+   * Sets the drop-down menu for the accounts you can choose between If Bsu account type is not jet
+   * used, add it. Can not use Bsu account type more than once.
    */
   private void setDropDownMenu() {
     accountType.getItems().clear();
     accountType.getItems().add("Brukskonto");
     accountType.getItems().add("Sparekonto");
-    if (!BankHelper.hasBSU(user)) {
-      accountType.getItems().add("BSU-konto");
+    if (!BankHelper.hasBsu(user)) {
+      accountType.getItems().add("Bsu-konto");
     }
   }
 
@@ -179,8 +179,8 @@ public class CashFlowController {
         return new CheckingAccount(name, balance, user);
       case "Sparekonto":
         return new SavingsAccount(name, balance, user);
-      case "BSU-konto":
-        return new BSUAccount(name, balance, user);
+      case "Bsu-konto":
+        return new BsuAccount(name, balance, user);
       default:
         return null;
     }
@@ -226,8 +226,8 @@ public class CashFlowController {
         type = "Brukskonto";
       } else if (account instanceof SavingsAccount) {
         type = "Sparekonto";
-      } else if (account instanceof BSUAccount) {
-        type = "BSU-konto";
+      } else if (account instanceof BsuAccount) {
+        type = "Bsu-konto";
       }
       String name = account.getName();
       DecimalFormat df = new DecimalFormat("##.0", new DecimalFormatSymbols(Locale.UK));
@@ -293,8 +293,8 @@ public class CashFlowController {
       } else if (valueText.equals("Sparekonto")) {
         accountCreated.setText("Sparekonto kan kun ha maks 10 uttak.");
 
-      } else if (valueText.equals("BSU-konto")) {
-        accountCreated.setText("Du kan bare opprette én BSU-konto." + "\n"
+      } else if (valueText.equals("Bsu-konto")) {
+        accountCreated.setText("Du kan bare opprette én Bsu-konto." + "\n"
             + "Maksbeløp som kan være på konto er 25 000kr" + "\n" 
             + "og du kan ikke gjøre noe uttak fra kontoen.");
       }

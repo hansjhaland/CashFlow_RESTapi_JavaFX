@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import core.AbstractAccount;
-import core.BSUAccount;
+import core.BsuAccount;
 import core.CheckingAccount;
 import core.SavingsAccount;
 import core.Transaction;
@@ -35,8 +35,8 @@ public class AccountSerializer extends JsonSerializer<AbstractAccount> {
     if (account instanceof SavingsAccount) {
       jsonGen.writeStringField("type", "savings");
     }
-    if (account instanceof BSUAccount) {
-      jsonGen.writeStringField("type", "bsu");
+    if (account instanceof BsuAccount) {
+      jsonGen.writeStringField("type", "Bsu");
     }
     jsonGen.writeStringField("name", account.getName());
     jsonGen.writeNumberField("balance", account.getBalance());

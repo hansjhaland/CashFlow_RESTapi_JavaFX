@@ -70,7 +70,7 @@ public class GeneralAccountTest {
         assertEquals("Kontonavn", test.getName(), "Expected 'Kontonavn', but was: " + test.getName());
         assertEquals(123, test.getBalance(), "Expected '123', but was: " + test.getBalance());
         assertEquals(2345, test.getAccountNumber(), "Expected '2345', but was: " + test.getAccountNumber());
-        assertEquals(user.getUserID(), test.getOwnerID());
+        assertEquals(user.getUserId(), test.getOwnerId());
 
         //reinitializing object-pointer 'test'
         //and see if the users list of accounts is correct

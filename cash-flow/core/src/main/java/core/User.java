@@ -9,7 +9,7 @@ import java.util.Collection;
 public class User {
 
   private String name;
-  private final int userID;
+  private final int userId;
   private Collection<AbstractAccount> accounts = new ArrayList<>();
 
   // ==============================================================================================
@@ -19,12 +19,12 @@ public class User {
   /**
    * Initializes a new User-object. UserID must be between 100000 and 999999.
    *
-   * @param userID the users identification number
+   * @param userId the users identification number
    * @throws IllegalArgumentException if the UserID si not between 100000 and 999999
    */
-  public User(int userID) {
-    BankHelper.checkIfValidUserID(userID);
-    this.userID = userID;
+  public User(int userId) {
+    BankHelper.checkIfValidUserId(userId);
+    this.userId = userId;
     name = "";
   }
 
@@ -70,8 +70,8 @@ public class User {
     return name;
   }
 
-  public int getUserID() {
-    return userID;
+  public int getUserId() {
+    return userId;
   }
 
   public Collection<AbstractAccount> getAccounts() {
@@ -127,7 +127,7 @@ public class User {
 
   @Override
   public String toString() {
-    String string = "Name: " + getName() + "\nUserID: " + getUserID() + "\nAccounts:";
+    String string = "Name: " + getName() + "\nUserID: " + getUserId() + "\nAccounts:";
     StringBuffer sb = new StringBuffer();
     sb.append(string);
     for (AbstractAccount account : getAccounts()) {

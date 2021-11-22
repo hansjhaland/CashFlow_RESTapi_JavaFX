@@ -30,7 +30,7 @@ import javafx.scene.text.*;
 import core.User;
 import core.CheckingAccount;
 import core.SavingsAccount;
-import core.BSUAccount;
+import core.BsuAccount;
 
 public class DetailsControllerTest extends ApplicationTest {
 
@@ -54,7 +54,7 @@ public class DetailsControllerTest extends ApplicationTest {
     public void start(final Stage stage) throws Exception {
         new CheckingAccount("ChA", 1000, 1000, user);
         new SavingsAccount("SA", 1000, 1001, user);
-        new BSUAccount("BSUA", 1000, 1002, user);
+        new BsuAccount("BsuA", 1000, 1002, user);
         try {
             cfp.saveUser(user, testSaveFile);
         } catch (IllegalStateException e) {
@@ -146,24 +146,24 @@ public class DetailsControllerTest extends ApplicationTest {
     }
 
     /**
-     * Tests that a BSU account is chosen when expected.
+     * Tests that a Bsu account is chosen when expected.
      */
     @Test
-    public void testChooseBSUAccount() {
+    public void testChooseBsuAccount() {
         clickOn(DETAILEDACCOUNT);
         type(KeyCode.DOWN);
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
         ChoiceBox<String> detailedAccount = find(DETAILEDACCOUNT);
         String account1 = (String) detailedAccount.getValue();
-        assertEquals("BSU-konto; BSUA, kontonummer: 1002", account1);
+        assertEquals("Bsu-konto; BsuA, kontonummer: 1002", account1);
         clickOn(RECIPIENTACCOUNT);
         type(KeyCode.DOWN);
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
         ChoiceBox<String> recipientAccount = find(RECIPIENTACCOUNT);
         String account2 = (String) recipientAccount.getValue();
-        assertEquals("BSU-konto; BSUA: 1002", account2);
+        assertEquals("Bsu-konto; BsuA: 1002", account2);
         TextField balanceTextField = find(BALANCE);
         String balance = balanceTextField.getText();
         assertEquals("1000.0 kr", balance);

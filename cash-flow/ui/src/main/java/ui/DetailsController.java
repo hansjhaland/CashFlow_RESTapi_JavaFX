@@ -1,8 +1,8 @@
 package ui;
 
 import core.AbstractAccount;
-import core.BSUAccount;
 import core.BankHelper;
+import core.BsuAccount;
 import core.CheckingAccount;
 import core.SavingsAccount;
 import core.Transaction;
@@ -136,8 +136,8 @@ public class DetailsController {
         type = "Brukskonto";
       } else if (account instanceof SavingsAccount) {
         type = "Sparekonto";
-      } else if (account instanceof BSUAccount) {
-        type = "BSU-konto";
+      } else if (account instanceof BsuAccount) {
+        type = "Bsu-konto";
       }
       chooseAccount.getItems().add(type + "; " + account.getName() 
           + ", kontonummer: " + account.getAccountNumber());
@@ -199,7 +199,7 @@ public class DetailsController {
    * Have to pick an account from and an account to transfer to. 
    * There are restrictions for transfering. Can not transfer if the amount
    * on the account is not a number or below 0. And the from-account can not be the 
-   * same as the to-account. The type account BSU can not be transformed from and can 
+   * same as the to-account. The type account Bsu can not be transformed from and can 
    * not be transformed to if it has more than 25 000kr.
    */
   @FXML
@@ -217,12 +217,12 @@ public class DetailsController {
       if (transferAmount <= 0) {
         feedback.setText("Overføringsbeløpet må være større enn 0.");
 
-      } else if (account instanceof BSUAccount) {
-        feedback.setText("Kan ikke overføre fra en BSU-konto.");
-      } else if (accountToTransferTo instanceof BSUAccount) {
-        BSUAccount bsuAccount = (BSUAccount) accountToTransferTo;
+      } else if (account instanceof BsuAccount) {
+        feedback.setText("Kan ikke overføre fra en Bsu-konto.");
+      } else if (accountToTransferTo instanceof BsuAccount) {
+        BsuAccount bsuAccount = (BsuAccount) accountToTransferTo;
         if (!bsuAccount.isValidDeposit(transferAmount)) {
-          feedback.setText("Saldoen til BSU-kontoen kan ikke overstige 25000 kr.");
+          feedback.setText("Saldoen til Bsu-kontoen kan ikke overstige 25000 kr.");
         }
 
       } else if (account == accountToTransferTo) {

@@ -24,7 +24,7 @@ public class UserSerializer extends JsonSerializer<User> {
       throws IOException {
     jasonGen.writeStartObject();
     jasonGen.writeStringField("name", user.getName());
-    jasonGen.writeNumberField("userID", user.getUserID());
+    jasonGen.writeNumberField("userID", user.getUserId());
     jasonGen.writeArrayFieldStart("accounts");
     for (AbstractAccount account : user.getAccounts()) {
       jasonGen.writeObject(account);

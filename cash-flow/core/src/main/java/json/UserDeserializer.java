@@ -40,7 +40,7 @@ public class UserDeserializer extends JsonDeserializer<User> {
       ObjectNode objectNode = (ObjectNode) treeNode;
 
       String name = "";
-      int userID = 0;
+      int userId = 0;
 
       JsonNode textNode = objectNode.get("name");
       if (textNode instanceof TextNode) {
@@ -49,10 +49,10 @@ public class UserDeserializer extends JsonDeserializer<User> {
 
       JsonNode intNode = objectNode.get("userID");
       if (intNode instanceof IntNode) {
-        userID = intNode.asInt();
+        userId = intNode.asInt();
       }
 
-      User user = new User(userID);
+      User user = new User(userId);
       user.setName(name);
       JsonNode accountsNode = objectNode.get("accounts");
       if (accountsNode instanceof ArrayNode) {

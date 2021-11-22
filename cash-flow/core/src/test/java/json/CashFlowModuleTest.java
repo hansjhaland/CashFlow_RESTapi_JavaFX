@@ -16,7 +16,7 @@ import java.util.Iterator;
 import core.AbstractAccount;
 import core.CheckingAccount;
 import core.SavingsAccount;
-import core.BSUAccount;
+import core.BsuAccount;
 import core.User;
 
 public class CashFlowModuleTest {
@@ -30,7 +30,7 @@ public class CashFlowModuleTest {
     }
 
     private final static String userWithOneAccount  = "{\"name\":\"nameA\",\"userID\":123456,\"accounts\":[{\"type\":\"checking\",\"name\":\"acA\",\"balance\":700.0,\"accountNumber\":5555,\"transactionHistory\":[{\"payer\":\"\",\"payersAccountNumber\":0,\"recipient\":\"acA\",\"recipientsAccountNumber\":5555,\"amount\":500.0}]}]}";
-    private final static String userWithTwoAccounts = "{\"name\":\"nameB\",\"userID\":654321,\"accounts\":[{\"type\":\"savings\",\"name\":\"acA\",\"balance\":200.0,\"accountNumber\":5555},{\"type\":\"bsu\",\"name\":\"acB\",\"balance\":100.0,\"accountNumber\":1234}]}";
+    private final static String userWithTwoAccounts = "{\"name\":\"nameB\",\"userID\":654321,\"accounts\":[{\"type\":\"savings\",\"name\":\"acA\",\"balance\":200.0,\"accountNumber\":5555},{\"type\":\"Bsu\",\"name\":\"acB\",\"balance\":100.0,\"accountNumber\":1234}]}";
 
     /**
      * Tests serialization of user object with one account.
@@ -81,15 +81,15 @@ public class CashFlowModuleTest {
         try {
             User user = mapper.readValue(userWithTwoAccounts, User.class);
             assertEquals("nameB", user.getName());
-            assertTrue(654321 == user.getUserID());
+            assertTrue(654321 == user.getUserId());
             AbstractAccount account = user.getAccounts().stream().filter(ac -> ac.getName().equals("acA")).findFirst().orElse(null);
             assertTrue(account instanceof SavingsAccount, "Account type was: " + account.getClass().getName());
             checkAccount(account, "acA", 200.0, 5555);
-            assertEquals(user.getUserID(), account.getOwnerID());
+            assertEquals(user.getUserId(), account.getOwnerId());
             account = user.getAccounts().stream().filter(ac -> ac.getName().equals("acB")).findFirst().orElse(null);
-            assertTrue(account instanceof BSUAccount, "Account type was: " + account.getClass().getName());
+            assertTrue(account instanceof BsuAccount, "Account type was: " + account.getClass().getName());
             checkAccount(account, "acB", 100.0, 1234);
-            assertEquals(user.getUserID(), account.getOwnerID());
+            assertEquals(user.getUserId(), account.getOwnerId());
         } catch (JsonProcessingException e){
             fail("Throws JsonProcessingException");
         }
@@ -108,7 +108,7 @@ public class CashFlowModuleTest {
             String json = mapper.writeValueAsString(user1);
             User user2 = mapper.readValue(json, User.class);
             assertEquals(user1.getName(), user2.getName(), "Usernames are not equal!");
-            assertEquals(user1.getUserID(), user2.getUserID(), "UserIDs are not equal!");
+            assertEquals(user1.getUserId(), user2.getUserId(), "UserIDs are not equal!");
             Iterator<AbstractAccount> it1 = user1.getAccounts().iterator();
             Iterator<AbstractAccount> it2 = user2.getAccounts().iterator();
             AbstractAccount user1Account;

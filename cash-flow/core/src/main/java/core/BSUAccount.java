@@ -2,12 +2,12 @@ package core;
 
 
 /**
- * A class that creates a BSU account with its restrictions.
+ * A class that creates a Bsu account with its restrictions.
  */
-public class BSUAccount extends AbstractAccount {
+public class BsuAccount extends AbstractAccount {
 
   /**
-   * Initializes a new BSUAccount-object.
+   * Initializes a new BsuAccount-object.
    *
    * @param name the name of the account
    * @param accountNumber the account number of the account
@@ -17,18 +17,18 @@ public class BSUAccount extends AbstractAccount {
    * @throws IllegalArgumentException if the account number is not between 1000 and 9999 or already
    *         exists in the users list of account numbers
    * @throws IllegalStateException if the initial balance is set to be less than 0 or 
-   *         more than 25000 or the user already owns a BSU-account
+   *         more than 25000 or the user already owns a Bsu-account
    */
-  public BSUAccount(String name, double balance, int accountNumber, User owner) {
+  public BsuAccount(String name, double balance, int accountNumber, User owner) {
     super(name, accountNumber, owner);
-    checkIfUserDoesNotHaveBSU(owner);
+    checkIfUserDoesNotHaveBsu(owner);
     setOwner(owner);
     checkIfValidDeposit(balance);
     initialDeposit(balance);
   }
 
   /**
-   * Initializes a new BSUAccount-object, and also generates the next available account number for
+   * Initializes a new BsuAccount-object, and also generates the next available account number for
    * this particular user.
    *
    * @param name the name of the account
@@ -37,11 +37,11 @@ public class BSUAccount extends AbstractAccount {
    *         characters other than letters and spaces
    * @throws IllegalStateException if the maximum number of accounts have been reached for this user
    * @throws IllegalStateException if the initial balance is set to be less than 0 
-   *         or more than 25000 or the user already owns a BSU-account
+   *         or more than 25000 or the user already owns a Bsu-account
    */
-  public BSUAccount(String name, double balance, User owner) {
+  public BsuAccount(String name, double balance, User owner) {
     super(name, owner);
-    checkIfUserDoesNotHaveBSU(owner);
+    checkIfUserDoesNotHaveBsu(owner);
     setOwner(owner);
     checkIfValidDeposit(balance);
     initialDeposit(balance);
@@ -62,7 +62,7 @@ public class BSUAccount extends AbstractAccount {
   }
 
   /**
-   * This method does nothing, because you cannot withdraw from a BSU account, unless its used as
+   * This method does nothing, because you cannot withdraw from a Bsu account, unless its used as
    * deductable for a mortgage.
    *
    * @param amount the amount to be withdrawn
@@ -71,7 +71,7 @@ public class BSUAccount extends AbstractAccount {
   public void withdraw(double amount) {}
 
   /**
-   * This method does nothing, because you cannot transfer from a BSU account, unless its used as
+   * This method does nothing, because you cannot transfer from a Bsu account, unless its used as
    * deductable for a mortgage.
    *
    * @param amount the amount to be transfered
@@ -87,23 +87,23 @@ public class BSUAccount extends AbstractAccount {
   }
 
   /**
-   * Checks whether the given user has a BSU account or not.
+   * Checks whether the given user has a Bsu account or not.
    *
    * @param user to be checked.
    */
-  private void checkIfUserDoesNotHaveBSU(User user) {
+  private void checkIfUserDoesNotHaveBsu(User user) {
     if (user != null) {
-      long numberOfBSU = user.getAccounts().stream()
-          .filter(account -> account instanceof BSUAccount).count();
-      if (numberOfBSU > 1) {
+      long numberOfBsu = user.getAccounts().stream()
+          .filter(account -> account instanceof BsuAccount).count();
+      if (numberOfBsu > 1) {
         user.removeAccount(this);
-        throw new IllegalStateException("A user can only own excactly one BSU-account");
+        throw new IllegalStateException("A user can only own excactly one Bsu-account");
       }
     }
   }
 
   /**
-   * Checks if the deposit leads to the balance of the BSUAccount exceeding the cap of 25000.
+   * Checks if the deposit leads to the balance of the BsuAccount exceeding the cap of 25000.
    *
    * @param amount the amount to be added
    * @return {@code false} if the balance exceeds 25000

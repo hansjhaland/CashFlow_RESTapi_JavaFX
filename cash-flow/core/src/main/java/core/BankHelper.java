@@ -13,8 +13,8 @@ public final class BankHelper {
    * @param userID the UserID to be checked
    * @throws IllegalArguementException if the UserID isn't between 100000 and 999999
    */
-  static void checkIfValidUserID(int userID) {
-    int numberOfDigits = (int) Math.log10(userID) + 1;
+  static void checkIfValidUserId(int userId) {
+    int numberOfDigits = (int) Math.log10(userId) + 1;
     if (numberOfDigits != 6) {
       throw new IllegalArgumentException(
           "UserID must be between 100000 and 999999, but had: " + numberOfDigits + " digits.");
@@ -116,13 +116,13 @@ public final class BankHelper {
   }
 
   /**
-   * Checks if the user already owns a BSU-account.
+   * Checks if the user already owns a Bsu-account.
    *
    * @param user the user to be checked
-   * @return {@code true} if the user owns a BSU-account
+   * @return {@code true} if the user owns a Bsu-account
    */
-  public static boolean hasBSU(User user) {
-    return user.getAccounts().stream().anyMatch(account -> account instanceof BSUAccount);
+  public static boolean hasBsu(User user) {
+    return user.getAccounts().stream().anyMatch(account -> account instanceof BsuAccount);
   }
 
   /**

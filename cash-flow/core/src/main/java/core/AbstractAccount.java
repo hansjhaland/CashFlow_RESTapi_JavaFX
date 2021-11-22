@@ -140,10 +140,10 @@ public abstract class AbstractAccount {
     if (recievingAccount == this) {
       throw new IllegalArgumentException("The parameter 'recievingAccount' cannot be itself");
     }
-    if (recievingAccount instanceof BSUAccount && recievingAccount.getBalance() 
+    if (recievingAccount instanceof BsuAccount && recievingAccount.getBalance() 
         + amount > 25000) {
       throw new IllegalStateException(
-          "The BSU account's balance cannot exceed '25000', but was: " 
+          "The Bsu account's balance cannot exceed '25000', but was: " 
               + recievingAccount.getBalance() + amount);
     }
     // deducts the amount from this accounts balance
@@ -212,11 +212,11 @@ public abstract class AbstractAccount {
    *
    * @return the ID number of the owner, or {@code -1} if the owner is {@code null}.
    */
-  public int getOwnerID() {
+  public int getOwnerId() {
     if (owner == null) {
       return -1;
     }
-    return owner.getUserID();
+    return owner.getUserId();
   }
 
   public List<Transaction> getTransactionHistory() {
@@ -254,6 +254,6 @@ public abstract class AbstractAccount {
   public String toString() {
     return "Name: " + getName() + "\nAccount number: " + getAccountNumber() 
         + "\nOwner (ID): " + owner.getName() + " ("
-        + owner.getUserID() + ")" + "\nBalance: " + getBalance();
+        + owner.getUserId() + ")" + "\nBalance: " + getBalance();
   }
 }

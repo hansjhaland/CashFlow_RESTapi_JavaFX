@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import core.AbstractAccount;
-import core.BSUAccount;
+import core.BsuAccount;
 import core.CheckingAccount;
 import core.SavingsAccount;
 import core.Transaction;
@@ -86,8 +86,8 @@ public class AccountDeserializer extends JsonDeserializer<AbstractAccount> {
         case "savings":
           account = new SavingsAccount(name, balance, accountNumber, null);
           break;
-        case "bsu":
-          account = new BSUAccount(name, balance, accountNumber, null);
+        case "Bsu":
+          account = new BsuAccount(name, balance, accountNumber, null);
           break;
         default:
           throw new IllegalStateException("Could not create account of existing type.");

@@ -33,7 +33,7 @@ public class UserRestService {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public User getUser() {
-    LOG.debug("getUser: " + user.getUserID());
+    LOG.debug("getUser: " + user.getUserId());
     return user;
   }
 

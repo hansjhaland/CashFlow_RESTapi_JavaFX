@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class BSUAccountTest {
+public class BsuAccountTest {
 
     private User user;
 
@@ -20,27 +20,27 @@ public class BSUAccountTest {
     @Test
     public void testConstructor() {
         //test depositing more than 25 000
-        new BSUAccount("Kontonavn", 25000, 1000, null);
+        new BsuAccount("Kontonavn", 25000, 1000, null);
         assertThrows(IllegalStateException.class,
-                    () -> new BSUAccount("Kontonavn", 25000.01, 1234, null),
+                    () -> new BsuAccount("Kontonavn", 25000.01, 1234, null),
                     "An IllegalStateException should have been thrown");
     }
 
     @Test
-    public void testUserAlreadyOwningBSU() {
-        //test adding two BSU-accounts
-        AbstractAccount account1 = new BSUAccount("accountOne", 100, user);
-        assertTrue(account1 instanceof BSUAccount, "'account1' should have been an instance of BSUAccount");
+    public void testUserAlreadyOwningBsu() {
+        //test adding two Bsu-accounts
+        AbstractAccount account1 = new BsuAccount("accountOne", 100, user);
+        assertTrue(account1 instanceof BsuAccount, "'account1' should have been an instance of BsuAccount");
         assertThrows(IllegalStateException.class,
-                    () -> new BSUAccount("accountTwo", 100, user),
+                    () -> new BsuAccount("accountTwo", 100, user),
                     "An IllegalStateException should have been thrown");
 
     }
 
     @Test
     public void testDeposit() {
-        //trowing when the deposit leads to the BSU accounts balance exceeds 25 000
-        AbstractAccount test = new BSUAccount("Kontonavn", 0, 1000, user);
+        //trowing when the deposit leads to the Bsu accounts balance exceeds 25 000
+        AbstractAccount test = new BsuAccount("Kontonavn", 0, 1000, user);
         test.deposit(25000);
         assertEquals(25000, test.getBalance(), "Expected '25000', but was: " + test.getBalance());
         assertThrows(IllegalStateException.class,
