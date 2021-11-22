@@ -86,6 +86,11 @@ public class BSUAccount extends AbstractAccount {
     }
   }
 
+  /**
+   * Checks whether the given user has a BSU account or not.
+   *
+   * @param user to be checked.
+   */
   private void checkIfUserDoesNotHaveBSU(User user) {
     if (user != null) {
       long numberOfBSU = user.getAccounts().stream()

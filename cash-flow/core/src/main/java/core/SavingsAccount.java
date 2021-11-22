@@ -77,6 +77,11 @@ public class SavingsAccount extends AbstractAccount {
     super.transfer(recievingAccount, amount);
   }
 
+  /**
+   * Checks wheter a transfer is possible or not.
+   *
+   * @throws IllegalStateException if transfer is not possible.
+   */
   private void checkIfWithdrawalOrTransferPossible() {
     if (!isWithdrawalOrTransferPossible()) {
       throw new IllegalStateException(
@@ -94,12 +99,22 @@ public class SavingsAccount extends AbstractAccount {
     return getNumberOfWithdrawals() + getNumberOfTransfersFromThisAccount() < 10;
   }
 
+  /**
+   * Gets the number of withdrawals from transaction history.
+   * 
+   * @return numberOfWithdrawals the number of withdrawals
+   */
   private long getNumberOfWithdrawals() {
     long numberOfWithdrawals = getTransactionHistory().stream()
         .filter(transaction -> transaction.getType() == TransactionType.WITHDRAWAL).count();
     return numberOfWithdrawals;
   }
 
+  /**
+   * Gets the number of transfers from current account.
+   * 
+   * @return numberOfTransfers the number of transfers.
+   */
   private long getNumberOfTransfersFromThisAccount() {
     long numberOfTransfers =
         getTransactionHistory().stream()
