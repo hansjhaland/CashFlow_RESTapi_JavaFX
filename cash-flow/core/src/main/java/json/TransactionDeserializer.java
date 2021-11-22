@@ -1,7 +1,5 @@
 package json;
 
-import java.io.IOException;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.TreeNode;
@@ -12,21 +10,23 @@ import com.fasterxml.jackson.databind.node.DoubleNode;
 import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
-
 import core.Transaction;
+import java.io.IOException;
 
-
+/**
+ * A class for deserializing a transaction. 
+ */
 public class TransactionDeserializer extends JsonDeserializer<Transaction> {
 
   /**
    * Method for deserialization of a Transaction object.
-   * 
+   *
    * @param parser a JsonParser object.
    * @param ctxt a DeserializationContext object.
+   * @return Transaction object which is returned from helper method
    * @throws IOException if I/O problem when processing JSON content.
    * @throws JsonProcessingException if porblem other than I/O is encountered when processing JSON
    *         content.
-   * @return Transaction object which is returned from helper method
    */
   @Override
   public Transaction deserialize(JsonParser parser, DeserializationContext ctxt)
@@ -37,7 +37,7 @@ public class TransactionDeserializer extends JsonDeserializer<Transaction> {
 
   /**
    * Helper method for deserialization of a Transaction object.
-   * 
+   *
    * @param jsonNode a JsonNode object.
    * @return a Transaction object.
    */
@@ -76,7 +76,8 @@ public class TransactionDeserializer extends JsonDeserializer<Transaction> {
         amount = amountNode.asDouble();
       }
 
-      return new Transaction(payer, payersAccountNumber, recipient, recipientsAccountNumber, amount);
+      return new Transaction(payer, payersAccountNumber, recipient, 
+      recipientsAccountNumber, amount);
     }
     return null;
   }

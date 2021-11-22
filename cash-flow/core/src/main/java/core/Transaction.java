@@ -1,6 +1,13 @@
 package core;
 
+/**
+ * A class that holds all the transaction methods based on which type of account it is.
+ */
 public class Transaction {
+
+  /**
+   * An enum for spesifying which type of transaction you want.
+   */
 
   public enum TransactionType {
     DEPOSIT, WITHDRAWAL, TRANSFER
@@ -17,7 +24,7 @@ public class Transaction {
    * Initializes a new Transaction-object. The Transaction-object is an object which is initialized
    * each time there's a transfer, deposit or a withdrawal. It keeps track of: the paying account,
    * the recipient account, the type of transfer and the amount money transferred.
-   * 
+   *
    * @param payerAccount the paying account
    * @param recipientAccount the recieving account
    * @param amount the amount to be transfered

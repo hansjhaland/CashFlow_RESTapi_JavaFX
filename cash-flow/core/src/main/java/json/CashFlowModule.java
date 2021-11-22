@@ -1,12 +1,14 @@
 package json;
 
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.core.Version;
-
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import core.AbstractAccount;
 import core.Transaction;
 import core.User;
 
+/**
+ * A class that combines all of the serializers and deserializers.
+ */
 
 public class CashFlowModule extends SimpleModule {
   private static final String NAME = "CashFlowModule";

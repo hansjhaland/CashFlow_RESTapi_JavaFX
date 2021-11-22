@@ -1,7 +1,5 @@
 package json;
 
-import java.io.IOException;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.TreeNode;
@@ -18,20 +16,24 @@ import core.BSUAccount;
 import core.CheckingAccount;
 import core.SavingsAccount;
 import core.Transaction;
+import java.io.IOException;
 
+/**
+ * A class that deserialize an account object.
+ */
 public class AccountDeserializer extends JsonDeserializer<AbstractAccount> {
 
   private TransactionDeserializer transactionDeserializer = new TransactionDeserializer();
 
   /**
    * Method for deserialization of an AbstractAccount object.
-   * 
+   *
    * @param parser a JsonParser object.
    * @param ctxt a DeserializationContext object.
+   * @return AbstractAccount object which is returned from helper method
    * @throws IOException if I/O problem when processing JSON content.
    * @throws JsonProcessingException if porblem other than I/O is encountered when processing JSON
    *         content.
-   * @return AbstractAccount object which is returned from helper method
    */
   @Override
   public AbstractAccount deserialize(JsonParser parser, DeserializationContext ctxt)
@@ -42,10 +44,10 @@ public class AccountDeserializer extends JsonDeserializer<AbstractAccount> {
 
   /**
    * Helper method for deserialization of an AbstractAccount object.
-   * 
+   *
    * @param jsonNode a JsonNode object.
-   * @return an AbstractAccount object of variyng type depending on the content of the "type" node in
-   *         jsonNode.
+   * @return an AbstractAccount object of variyng type depending on the content of the 
+   *        "type" node in jsonNode.
    */
   public AbstractAccount deserialize(JsonNode jsonNode) {
     if (jsonNode instanceof ObjectNode) {

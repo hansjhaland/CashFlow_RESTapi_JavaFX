@@ -3,6 +3,9 @@ package core;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * A class for creating a user for the accounts to be created.
+ */
 public class User {
 
   private String name;
@@ -15,8 +18,8 @@ public class User {
 
   /**
    * Initializes a new User-object. UserID must be between 100000 and 999999.
-   * 
-   * @param UserID the users identification number
+   *
+   * @param userID the users identification number
    * @throws IllegalArgumentException if the UserID si not between 100000 and 999999
    */
   public User(int userID) {
@@ -32,7 +35,7 @@ public class User {
   /**
    * Adds the account to users list of accounts. Also adds the accounts accountnumber to the users
    * list of accountnumbers.
-   * 
+   *
    * @param account the account to be added
    * @return {@code true} if the account was added
    */
@@ -48,7 +51,7 @@ public class User {
   /**
    * Removes the given account from the users list of accounts. Also removes the accounts
    * accountnumber from the users list of accountnumbers.
-   * 
+   *
    * @param account the account to be removed
    * @return {@code true} if the account was removed
    */
@@ -75,6 +78,12 @@ public class User {
     return new ArrayList<>(accounts);
   }
 
+  /**
+   * A method that holds the accountnumbers of an account in a collection 
+   * and puts every accountnumber to its account in the list.
+   *
+   * @return the lists of all accounts with its accountnumbers.
+   */
   public Collection<Integer> getAccountNumbers() {
     Collection<Integer> accountNumbers = new ArrayList<>();
     for (AbstractAccount account : getAccounts()) {
@@ -86,7 +95,7 @@ public class User {
   /**
    * Returns the account with the coresponding account number, if the user has an account with this
    * account number. If not, it returns {@code null}.
-   * 
+   *
    * @param accountNumber the account number of the account you wish to find
    * @return the account with the account number, or {@code null} if the 
    *        account number doesn't exist
@@ -102,7 +111,7 @@ public class User {
   /**
    * Changes the name of the user. Name must be 20 characters or less, and can only
    * consist of letters and spaces.
-   * 
+   *
    * @param name the name you wish to change to
    * @throws IllegalArgumentException if the name is more than 20 characters long, or does not only
    *         contain letters and spaces
