@@ -46,7 +46,6 @@ public class UserRestService {
    */
   @Path("{accountNumber}")
   public AccountResource getAccount(@PathParam("accountNumber") String accountNumber) {
-    // Account trenger ikke å eksistere.
     AbstractAccount account = getUser().getAccount(Integer.valueOf(accountNumber));
     AccountResource accountResource = new AccountResource(user, accountNumber, account);
     return accountResource;

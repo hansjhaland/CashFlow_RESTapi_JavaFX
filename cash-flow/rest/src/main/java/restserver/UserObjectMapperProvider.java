@@ -19,10 +19,14 @@ public class UserObjectMapperProvider implements ContextResolver<ObjectMapper> {
 
   private final ObjectMapper objectMapper;
 
+  /**
+   * Initializes a UserObjectMapperProvider for serialization and 
+   * deserialization from CashFlowPersistence. 
+   */
   public UserObjectMapperProvider() {
     objectMapper = CashFlowPersistence.createObjectMapper();
   }
-
+  
   @Override
   public ObjectMapper getContext(final Class<?> type) {
     return objectMapper;
