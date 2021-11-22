@@ -70,7 +70,7 @@ public class DetailsController {
 
   /**
    * Gives the user access to the Cashflow app by setting the user to its access.
-   * 
+   *
    * @param cashFlowAccess tells weither its Remote or Locally (Rest API).
    */
   public void setCashFlowAccess(CashFlowAccess cashFlowAccess) {
@@ -84,7 +84,7 @@ public class DetailsController {
 
   /**
    * Returns either Remote or Direct access.
-   * 
+   *
    * @return its access based on Remote or Locally (Rest API).
    */
   public CashFlowAccess getCashFlowAccess() {
@@ -271,7 +271,7 @@ public class DetailsController {
   /**
    * When "back" button is pressed, it returns the user to the previous page. 
    * Loads the CashFlow FXML file for the CashFlowController and display it.
-   * 
+   *
    * @throws IOException if it could not load the previous page.
    */
 
@@ -290,7 +290,7 @@ public class DetailsController {
 
   /**
    * The method saves the changes to its place, weither its in Remote or Locally (Rest API).
-   * 
+   *
    * @throws IllegalStateException if an error occured and it could not save.
    * @throws IOException if an error occured and it could not save.
    */

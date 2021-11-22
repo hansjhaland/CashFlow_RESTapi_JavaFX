@@ -54,7 +54,7 @@ public class CashFlowController {
 
   /**
    * Gives the user access to the Cashflow app by setting the user to its access.
-   * 
+   *
    * @param cashFlowAccess tells weither its Remote or Locally (Rest API).
    */
   public void setCashFlowAccess(CashFlowAccess cashFlowAccess) {
@@ -67,7 +67,7 @@ public class CashFlowController {
 
   /**
    * Returns either Remote or Direct access.
-   * 
+   *
    * @return its access based on Remote or Locally (Rest API).
    */
   public CashFlowAccess getCashFlowAccess() {
@@ -142,7 +142,7 @@ public class CashFlowController {
    * more than 0. parsDouble makes sure it is formatted correct. Checks if the name typed in agrees
    * with the valid method for names in Bankhelper with a lenght of 20 characters and only contains
    * letters and scaces.
-   * 
+   *
    * @param name of account of the user.
    * @param amount in the account of the user.
    * @return false if number is null.
@@ -166,7 +166,7 @@ public class CashFlowController {
   /**
    * Return the account with its name and its balance the user has created based on with type is
    * presented.
-   * 
+   *
    * @param type of the account.
    * @param name of the user for the account.
    * @param balance of the account the user has placed.
@@ -198,7 +198,7 @@ public class CashFlowController {
 
   /**
    * Checks if the chosen amount is a numeric number.
-   * 
+   *
    * @param s the written amount
    * @return {@code true} if the amount is numeric.
    */
@@ -240,7 +240,7 @@ public class CashFlowController {
 
   /**
    * The method saves the changes to its place, weither its in Remote or Locally (Rest API).
-   * 
+   *
    * @throws IllegalStateException if an error occured and it could not save.
    * @throws IOException if an error occured and it could not save.
    */
@@ -257,7 +257,7 @@ public class CashFlowController {
   /**
    * Method opens a new FXML window when button detailsAndTransfers are pushed. Method opens only if
    * there is an account created Loads the Details FXML file for the DetailsController.
-   * 
+   *
    * @throws IOException if there is no account created before the onAction button is pushed.
    */
   @FXML

@@ -25,7 +25,7 @@ public class RemoteAccess implements CashFlowAccess {
   /**
    * Constructs a RemoteAccess object which gives the indicates 
    * that the remote app version is running.
-   * 
+   *
    * @param endpointBaseUri the server URI
    */
   public RemoteAccess(URI endpointBaseUri) {
@@ -55,7 +55,7 @@ public class RemoteAccess implements CashFlowAccess {
 
   /**
    * Creates a URI with a given account number.
-   * 
+   *
    * @param accountNumber the account number.
    * @return a URI with the account number.
    */
@@ -65,7 +65,7 @@ public class RemoteAccess implements CashFlowAccess {
 
   /**
    * Gets the account with the given account number.
-   * 
+   *
    * @param accountNumber the account number
    * @return the account with the given account number
    */
@@ -93,7 +93,7 @@ public class RemoteAccess implements CashFlowAccess {
   /**
    * Sends a http PUT request with an account and adds the account 
    * to the user's account list.
-   * 
+   *
    * @param account the account to be added.
    */
   private void putAccount(AbstractAccount account) {
@@ -118,7 +118,7 @@ public class RemoteAccess implements CashFlowAccess {
 
   /**
    * Adds an account with the helper method putAccount().
-   * 
+   *
    * @param account the account to be added.
    */
   @Override
@@ -129,7 +129,7 @@ public class RemoteAccess implements CashFlowAccess {
   /**
    * Sends a http DELETE with an account and deletes the given account 
    * from the server and the user's account list.
-   * 
+   *
    * @param accountNumber the account number.
    */
   @Override
@@ -154,7 +154,7 @@ public class RemoteAccess implements CashFlowAccess {
   /**
    * Creates a transfer between two accounts and uppdates both accounts by sending one http PUT
    * request for each account.
-   * 
+   *
    * @param payer the paying account
    * @param reciever the recieving account
    * @param amount the amount to be transfered
@@ -176,7 +176,7 @@ public class RemoteAccess implements CashFlowAccess {
 
   /**
    * Loads a user from file if the file exists. Returns a default user otherwise.
-   * 
+   *
    * @return a user from file if the file exists. A default user otherwise.
    */
   @Override
