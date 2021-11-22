@@ -16,6 +16,13 @@ public class DirectAccess implements CashFlowAccess {
   public static final String TESTSAVEFILE = "SaveDataTest.json";
   private String saveFile;
 
+  /**
+   * Constructs a DirectAccess object which gives the indicates 
+   * that the local app version is running.
+   * 
+   * @param user the user
+   * @param saveFile the savefile 
+   */
   public DirectAccess(User user, String saveFile) {
     this.saveFile = saveFile;
     this.user = user;

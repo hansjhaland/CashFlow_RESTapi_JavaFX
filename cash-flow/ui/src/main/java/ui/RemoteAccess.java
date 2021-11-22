@@ -22,6 +22,12 @@ public class RemoteAccess implements CashFlowAccess {
   private CashFlowPersistence cfp;
   public static final String SERVERSAVEFILE = "Server-SaveData.json";
 
+  /**
+   * Constructs a RemoteAccess object which gives the indicates 
+   * that the remote app version is running.
+   * 
+   * @param endpointBaseUri the server URI
+   */
   public RemoteAccess(URI endpointBaseUri) {
     this.endpointBaseUri = endpointBaseUri;
     this.objectMapper = CashFlowPersistence.createObjectMapper();
@@ -85,7 +91,8 @@ public class RemoteAccess implements CashFlowAccess {
   }
 
   /**
-   * Sends a http PUT request with an account and adds the account to the user's account list.
+   * Sends a http PUT request with an account and adds the account 
+   * to the user's account list.
    * 
    * @param account the account to be added.
    */
@@ -120,8 +127,8 @@ public class RemoteAccess implements CashFlowAccess {
   }
 
   /**
-   * Sends a http DELETE with an account and deletes the given 
-   * account from the server and the user's account list.
+   * Sends a http DELETE with an account and deletes the given account 
+   * from the server and the user's account list.
    * 
    * @param accountNumber the account number.
    */
