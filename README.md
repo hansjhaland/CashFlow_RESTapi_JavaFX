@@ -57,6 +57,9 @@ Mappen **integrationtests** setter opp en lokal server som tillater å kjøre ap
 I config/spotbugs ligger **exclude.xml**. Denne brukes til å konfigurere spotbugs slik at den overser bestemmte errors.
 De ekskluderte errorene er **EI_EXPOSE_REP** og **EI_EXPOSE_REP2**. Disse ble ekskludert slik at applikasjonen kan fungere slik den skal.  
 
+## Checkstyle
+Vi har valgt å ignorere feilen med at checkstyle ber oss om å kun ha én stor bokstav i et ord i navnet på metodene våre, slik som BSUaccount og getOwnerID.
+
 
 ## Testing
 
