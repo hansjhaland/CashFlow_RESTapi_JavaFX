@@ -101,7 +101,7 @@ public class SavingsAccount extends AbstractAccount {
 
   /**
    * Gets the number of withdrawals from transaction history.
-   * 
+   *
    * @return numberOfWithdrawals the number of withdrawals
    */
   private long getNumberOfWithdrawals() {
@@ -112,7 +112,7 @@ public class SavingsAccount extends AbstractAccount {
 
   /**
    * Gets the number of transfers from current account.
-   * 
+   *
    * @return numberOfTransfers the number of transfers.
    */
   private long getNumberOfTransfersFromThisAccount() {
