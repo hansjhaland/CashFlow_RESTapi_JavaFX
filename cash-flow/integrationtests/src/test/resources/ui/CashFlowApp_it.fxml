@@ -12,6 +12,6 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.CashFlowController">
    <children>
       <Button fx:id="createAccount" onAction="#onCreateAccount"/>
-      <Button fx:id="detailsAndTransfers" onAction="#onNextPage" text="Detaljer og overføringer">
+      <Button fx:id="detailsAndTransfers" onAction="#onNextPage" text="Detaljer og overføringer"/>
    </children>
 </AnchorPane>
