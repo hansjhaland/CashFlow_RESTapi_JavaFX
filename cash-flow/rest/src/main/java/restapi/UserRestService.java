@@ -27,7 +27,7 @@ public class UserRestService {
 
   /**
    * Method for getting the user, indicating that the method responds to HTTP-GET request.
-   * 
+   *
    * @return the user
    */
   @GET
@@ -40,7 +40,7 @@ public class UserRestService {
   /**
    * Method that delegates the methods regarding the the 
    * users accounts to an AccountResource-object.
-   * 
+   *
    * @param accountNumber the account number of the account
    * @return the AccountResource-object
    */
