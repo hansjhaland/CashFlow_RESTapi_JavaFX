@@ -22,12 +22,22 @@ public class RemoteAccess implements CashFlowAccess {
     private User user;
     private CashFlowPersistence cfp;
     public static final String SERVERSAVEFILE = "Server-SaveData.json";
+    private String saveFile;
 
     public RemoteAccess(URI endpointBaseUri) {
+        this.saveFile = SERVERSAVEFILE;
         this.endpointBaseUri = endpointBaseUri;
         this.objectMapper = CashFlowPersistence.createObjectMapper();
         this.cfp = new CashFlowPersistence();
         cfp.setSaveFilePath(SERVERSAVEFILE);
+    }
+
+    public RemoteAccess(URI endpointBaseUri, String saveFile) {
+        this.saveFile = saveFile;
+        this.endpointBaseUri = endpointBaseUri;
+        this.objectMapper = CashFlowPersistence.createObjectMapper();
+        this.cfp = new CashFlowPersistence();
+        cfp.setSaveFilePath(saveFile);
     }
 
     /**
@@ -168,7 +178,7 @@ public class RemoteAccess implements CashFlowAccess {
      */
     @Override
     public void saveUser() throws IllegalStateException, IOException {
-        cfp.saveUser(user, SERVERSAVEFILE);
+        cfp.saveUser(user, saveFile);
     }
 
     /**
@@ -178,8 +188,8 @@ public class RemoteAccess implements CashFlowAccess {
      */
     @Override
     public User loadInitialUser() throws IllegalStateException, IOException {
-        if (cfp.doesFileExist(SERVERSAVEFILE)) {
-            return cfp.loadUser(SERVERSAVEFILE);
+        if (cfp.doesFileExist(saveFile)) {
+            return cfp.loadUser(saveFile);
         }
         return new User(123456);
     }

@@ -152,5 +152,6 @@
         <module>core</module>
         <module>ui</module>
         <module>rest</module>
+        <module>integrationtests</module>
     </modules>
 </project>

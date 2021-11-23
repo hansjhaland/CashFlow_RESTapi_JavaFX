@@ -4,13 +4,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
@@ -30,19 +30,19 @@ import org.testfx.framework.junit5.ApplicationTest;
 
 import core.User;
 
-public class CashFlowAppIT extends ApplicationTest {
-
-  private CashFlowController controller;
+public class DetailsIT extends ApplicationTest {
+    
+  private DetailsController controller;
   private final static String testSaveFile = "SaveDataIT.json";
   private RemoteAccess remoteAccess;
   private User user;
 
-  final String SETAMOUNT = "#setAmount";
-  final String NAMEACCOUNT = "#nameAccount";
-  final String CREATEACCOUNT = "#createAccount";
-  final String ACCOUNTTYPE = "#accountType";
-  final String ACCOUNTS = "#accounts";
-  final String NEXTPAGE = "#detailsAndTransfers";
+  final String DETAILEDACCOUNT = "#chooseAccount"; // ChoiceBox
+  final String RECIPIENTACCOUNT = "#transferAccount"; // ChoiceBox
+  final String AMOUNT = "#transferAmount"; // TextField
+  final String TRANSFER = "#transfer"; // Button
+  final String DELETEBUTTON = "#deleteButton"; // Button
+  final String SETBALANCE = "#setBalance";
 
   @BeforeAll
   public static void setupHeadless() {
@@ -54,10 +54,9 @@ public class CashFlowAppIT extends ApplicationTest {
       return (T) lookup(query).queryAll().iterator().next();
   }
 
-
   @Override
   public void start(final Stage stage) throws Exception {
-    final FXMLLoader loader = new FXMLLoader(getClass().getResource("MainPage_it.fxml"));
+    final FXMLLoader loader = new FXMLLoader(getClass().getResource("Details_it.fxml"));
     final Parent root = loader.load();
     this.controller = loader.getController();
     stage.setScene(new Scene(root));
@@ -88,32 +87,30 @@ public class CashFlowAppIT extends ApplicationTest {
     Path testFilePath = Paths.get(System.getProperty("user.home"), testSaveFile);
     File testFile = testFilePath.toFile();
     testFile.delete();
-    
   }
 
-
   @Test
-  public void testCreateAccount() {
-    TextArea accountOverview = find(ACCOUNTS);
-    String accounts = accountOverview.getText();
+  public void testTransfer() {
+    clickOn(DETAILEDACCOUNT);
+    type(KeyCode.ENTER);
+    TextField setBalance = find(SETBALANCE);
 
-    String name = "first account";
-    String amount = "12";
+    assertEquals("100.0 kr", setBalance.getText());
+    assertEquals(100, user.getAccount(2345).getBalance());
+    assertEquals(100, user.getAccount(5432).getBalance());
 
-    clickOn(NAMEACCOUNT).write(name);
-    clickOn(SETAMOUNT).write(amount);
-    
-    clickOn(ACCOUNTTYPE);
+    String amount = "100";
+    clickOn(AMOUNT).write(amount);
+    clickOn(RECIPIENTACCOUNT);
     type(KeyCode.DOWN);
     type(KeyCode.ENTER);
+    clickOn(TRANSFER);
 
-    clickOn(CREATEACCOUNT);
+    assertEquals("0.0 kr", setBalance.getText());
+    assertEquals(0, user.getAccount(2345).getBalance());
+    assertEquals(200, user.getAccount(5432).getBalance());
 
-    assertEquals(accounts + "\n" + "Sparekonto" + ": " + name + "\n" + "   Beløp: " + Double.parseDouble(amount),
-                accountOverview.getText());
-
-    assertTrue(user.getAccounts()
-                   .stream()
-                   .anyMatch(account -> account.getName().equals("first account")));
+    clickOn(DELETEBUTTON);
+    assertNull(user.getAccount(2345));
   }
 }
