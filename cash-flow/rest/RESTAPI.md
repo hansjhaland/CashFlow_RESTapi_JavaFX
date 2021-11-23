@@ -2,6 +2,8 @@
 
 Kort beskrivelse av RESTAPI-et. Merk at til forskjell fra Jackson-serialisering/deserialisering så er det ikke laget et eget nivå for transaksjoner i RESTAPI-et. RESTAPI-et bruker heller ikke POST-forespørsler.
 
+**Merk:** Prosjektet benytter seg av en lagringsfil som sørger for at applikasjonen har en standardbruker hver gang serveren startes på nytt. Altså vil applikasjonen resettes hver gang man stopper og starter serveren på nytt.
+
 # Forespørsler
 
 ## GET
