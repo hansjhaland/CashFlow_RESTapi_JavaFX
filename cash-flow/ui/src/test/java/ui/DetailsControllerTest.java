@@ -2,6 +2,7 @@ package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import json.CashFlowPersistence;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -42,10 +45,13 @@ public class DetailsControllerTest extends ApplicationTest {
     final String FEEDBACK = "#feedback"; // Text
     final String DELETEBUTTON = "#deleteButton"; // Button
     final String DELETEMESSAGE = "#deleteMessage"; // Text
+    final String SETBALANCE = "#setBalance"; // TextField
+    final String MAINPAGE = "#toMainPage"; // Button
 
     private DetailsController controller;
     private CashFlowPersistence cfp = new CashFlowPersistence();
     private User user = new User(123456);
+    private Parent root;
 
     private final static String testSaveFile = "SaveDataTest.json";
 
@@ -68,6 +74,8 @@ public class DetailsControllerTest extends ApplicationTest {
         stage.show();
         DirectAccess directAccess = new DirectAccess(user, DirectAccess.TESTSAVEFILE);
         controller.setCashFlowAccess(directAccess);
+
+        this.root = root;
     }
 
     @SuppressWarnings(value = "unchecked")
@@ -316,5 +324,37 @@ public class DetailsControllerTest extends ApplicationTest {
     public void testCorrectCashFlowAccessInstance() {
         assertTrue(controller.getCashFlowAccess() instanceof DirectAccess);
     }
+
+    @Test
+    public void testWhenOnChooseAccount() {
+        clickOn(DETAILEDACCOUNT);
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+
+        TextField balance = (TextField) root.lookup(SETBALANCE);
+
+        assertEquals("1000.0 kr", balance.getText());
+
+    }
+
+    @Test
+    public void testGoToMainPage() {
+        clickOn(MAINPAGE);
+        WaitForAsyncUtils.waitForFxEvents();
+        assertNull(findSceneRootWithId("detailsRoot"));
+        assertNotNull(findSceneRootWithId("localCashFlow"));
+    }
+
+    private Parent findSceneRootWithId(String id) {
+        for (Window window : Window.getWindows()) {
+          if (window instanceof Stage && window.isShowing()) {
+            var root = window.getScene().getRoot();
+            if (id.equals(root.getId())) {
+              return root;
+            }
+          }
+        }
+        return null;
+      }
 
 }

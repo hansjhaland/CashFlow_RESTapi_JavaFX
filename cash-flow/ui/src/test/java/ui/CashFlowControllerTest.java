@@ -3,11 +3,11 @@ package ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -15,9 +15,9 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
 import core.User;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -38,7 +38,7 @@ public class CashFlowControllerTest extends ApplicationTest {
     final String CREATEACCOUNT = "#createAccount";
     final String ACCOUNTTYPE = "#accountType";
     final String ACCOUNTS = "#accounts";
-    final String DETAILSANDTRANSFER = "#detailsAndTransfers";
+    final String DETAILSANDTRANSFERS = "#detailsAndTransfers";
 
     private final static String testSaveFile = "SaveDataTest.json";
     private CashFlowPersistence cfp = new CashFlowPersistence();
@@ -245,24 +245,36 @@ public class CashFlowControllerTest extends ApplicationTest {
         assertTrue(controller.getCashFlowAccess() instanceof DirectAccess);
     }
 
-    /*
     @Test
     public void testOnNextPage() {
-        clickOn(DETAILSANDTRANSFER);
-        ObservableList<Window> windows = Window.getWindows();
-        for (Window window : windows) {
-            if (window.isShowing()) {
-                Parent parent = window.getScene().getRoot();
-                FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("CashFlow_test.fxml"));
-                try {
-                    assertEquals(fxmlLoader.load(), parent);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }
+        //Need to create an account before going to the next page
+        clickOn(ACCOUNTTYPE);
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+
+        clickOn(NAMEACCOUNT).write("Account");
+        clickOn(SETAMOUNT).write("5");
+        clickOn(CREATEACCOUNT);
+        WaitForAsyncUtils.waitForFxEvents();
+
+        clickOn(DETAILSANDTRANSFERS);
+        WaitForAsyncUtils.waitForFxEvents();
+
+
+        assertNull(findSceneRootWithId("cashFlowRoot"));
+        assertNotNull(findSceneRootWithId("localDetails"));
     }
-    */
+
+    private Parent findSceneRootWithId(String id) {
+        for (Window window : Window.getWindows()) {
+          if (window instanceof Stage && window.isShowing()) {
+            var root = window.getScene().getRoot();
+            if (id.equals(root.getId())) {
+              return root;
+            }
+          }
+        }
+        return null;
+      }
 
 }
