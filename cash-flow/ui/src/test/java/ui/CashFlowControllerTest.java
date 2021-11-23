@@ -1,11 +1,13 @@
 package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -15,11 +17,13 @@ import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import core.User;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import json.CashFlowPersistence;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -34,6 +38,7 @@ public class CashFlowControllerTest extends ApplicationTest {
     final String CREATEACCOUNT = "#createAccount";
     final String ACCOUNTTYPE = "#accountType";
     final String ACCOUNTS = "#accounts";
+    final String DETAILSANDTRANSFER = "#detailsAndTransfers";
 
     private final static String testSaveFile = "SaveDataTest.json";
     private CashFlowPersistence cfp = new CashFlowPersistence();
@@ -239,5 +244,25 @@ public class CashFlowControllerTest extends ApplicationTest {
     public void testCorrectCashFlowAccessInstance() {
         assertTrue(controller.getCashFlowAccess() instanceof DirectAccess);
     }
+
+    /*
+    @Test
+    public void testOnNextPage() {
+        clickOn(DETAILSANDTRANSFER);
+        ObservableList<Window> windows = Window.getWindows();
+        for (Window window : windows) {
+            if (window.isShowing()) {
+                Parent parent = window.getScene().getRoot();
+                FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("CashFlow_test.fxml"));
+                try {
+                    assertEquals(fxmlLoader.load(), parent);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    */
 
 }
