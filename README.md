@@ -68,7 +68,7 @@ De ekskluderte errorene er **EI_EXPOSE_REP** og **EI_EXPOSE_REP2**. Disse ble ek
 - Når `mvn test`kjøres vil også Spotbugs og Checkstyle kjøres
 - **Spotbugs** kan kjøres alene med kommandoen `mvn spotbugs:spotbugs`
 - **Checkstyle** kan kjøres alene med kommandoen `mvn checkstyle:check`
--**integrationtests** kjøres med `mvn install` og vil ikke kjøre med `mvn test`
+- **integrationtests** kjøres med `mvn install` og vil ikke kjøre med `mvn test`
 
 ### NB! Testing i Gitpod
 
