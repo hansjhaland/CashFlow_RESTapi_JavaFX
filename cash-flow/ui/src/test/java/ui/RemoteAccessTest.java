@@ -48,6 +48,9 @@ public class RemoteAccessTest {
         setUpForStubs();
     }
 
+    /**
+     * Set up and checks the respons based on the request.
+     */
     private void setUpForStubs() {
         stubFor(get(urlEqualTo("/user/"))
             .withHeader("Accept", equalTo("application/json"))
@@ -92,12 +95,17 @@ public class RemoteAccessTest {
 
     }
 
+    /**
+     * Tests that gives the right userid based on user.
+     */
     @Test
     public void testGetUser() {
         User user = access.getUser();
         assertEquals(654321, user.getUserId());
     }
-
+    /**
+     * Gets two accounts with its accountnumber and checks if it is the right accountnumber.
+     */
     @Test
     public void testGetTwoAccounts() {
         AbstractAccount account = access.getAccount(5555);
@@ -106,6 +114,9 @@ public class RemoteAccessTest {
         assertEquals(1234, account1.getAccountNumber());
     }
 
+    /**
+     * Checks if the deleted account is in the accountnumbers list with all the accounts.
+     */
     @Test
     public void testDeleteAccount() {
         access.getUser();
@@ -114,7 +125,9 @@ public class RemoteAccessTest {
         assertTrue(accountNumbers.size()==1);
         assertTrue(accountNumbers.containsAll(List.of(5555)));
     }
-
+    /**
+     * Checks by creating an account with the user and checks that it has the information given.
+     */
     @Test
     public void testPuttingAccount() {
         access.getUser();
