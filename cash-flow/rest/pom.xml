@@ -135,7 +135,7 @@
         		<artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <argLine>
-                    @{jaCoCoArgLine} --add-opens cashflow.ui/ui=ALL-UNNAMED --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                        @{jaCoCoArgLine} --add-opens cashflow.rest/restapi=ALL-UNNAMED
                     </argLine>
                 </configuration>
 	        </plugin>

@@ -63,6 +63,7 @@ public class Transaction {
 
   /**
    * A method for creating an transaction object.
+   *
    * @param payer user that pays.
    * @param payersAccountNumber accountnumber of the payer.
    * @param recipient the reciver of the transaction.

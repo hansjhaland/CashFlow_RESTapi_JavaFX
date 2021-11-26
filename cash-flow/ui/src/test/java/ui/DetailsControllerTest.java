@@ -296,6 +296,7 @@ public class DetailsControllerTest extends ApplicationTest {
     clickOn(RECIPIENTACCOUNT);
     type(KeyCode.ENTER);
     TextField amount = find(AMOUNT);
+    WaitForAsyncUtils.waitForFxEvents();
     for (int i = 0; i < 12; i++) {
       amount.setText("10");
       clickOn(TRANSFER);
