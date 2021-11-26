@@ -23,13 +23,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import core.User;
 
+/**
+ * A class for integrationtesting. Tests that both the ui, the Details page, and the server works.
+ */
 public class DetailsIT extends ApplicationTest {
     
   private DetailsController controller;
@@ -42,13 +44,16 @@ public class DetailsIT extends ApplicationTest {
   final String AMOUNT = "#transferAmount"; // TextField
   final String TRANSFER = "#transfer"; // Button
   final String DELETEBUTTON = "#deleteButton"; // Button
-  final String SETBALANCE = "#setBalance";
+  final String SETBALANCE = "#setBalance"; // TextField
 
   @SuppressWarnings(value = "unchecked")
   private <T extends Node> T find(final String query) {
     return (T) lookup(query).queryAll().iterator().next();
   }
 
+  /**
+   * Starts the app.
+   */
   @Override
   public void start(final Stage stage) throws Exception {
     final FXMLLoader loader = new FXMLLoader(getClass().getResource("Details_it.fxml"));
@@ -58,14 +63,18 @@ public class DetailsIT extends ApplicationTest {
     stage.show();
   }
 
+  /**
+   * Starts the server.
+   * @throws URISyntaxException if the server can not be started.
+   */
   @BeforeEach
   public void setupItems() throws URISyntaxException {
     try (Reader reader = new InputStreamReader(getClass().getResourceAsStream("it-cashflow.json"))) {
-      String port = System.getProperty("user.port"); //hvor skal dette?
+      String port = System.getProperty("user.port");
       assertNotNull(port, "No user.port system property set");
       String baseUri = "http://localhost:" + port + "/user/";
-      URI uri = new URI(baseUri); //??
-      System.out.println("Base CashFlowAccess URI: " + baseUri); //??
+      URI uri = new URI(baseUri);
+      System.out.println("Base CashFlowAccess URI: " + baseUri);
       this.remoteAccess = new RemoteAccess(uri, testSaveFile);
 
       assertNotNull(this.controller);
@@ -77,6 +86,9 @@ public class DetailsIT extends ApplicationTest {
     }
   }
 
+  /**
+   * Deletes the Json File after the tests is finished.
+   */
   @AfterAll
   public static void deleteTestJsonFile() {
     Path testFilePath = Paths.get(System.getProperty("user.home"), testSaveFile);
@@ -84,6 +96,10 @@ public class DetailsIT extends ApplicationTest {
     testFile.delete();
   }
 
+  /**
+   * Test for transfering amount to another account and checking if the User class has updated 
+   * the balance.
+   */
   @Test
   public void testTransfer() {
     clickOn(DETAILEDACCOUNT);

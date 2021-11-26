@@ -33,16 +33,19 @@ import javafx.scene.control.TextArea;
 public class CashFlowControllerTest extends ApplicationTest {
 
     private CashFlowController controller;
-    final String SETAMOUNT = "#setAmount";
-    final String NAMEACCOUNT = "#nameAccount";
-    final String CREATEACCOUNT = "#createAccount";
-    final String ACCOUNTTYPE = "#accountType";
-    final String ACCOUNTS = "#accounts";
-    final String DETAILSANDTRANSFERS = "#detailsAndTransfers";
+    final String SETAMOUNT = "#setAmount"; // TextField
+    final String NAMEACCOUNT = "#nameAccount"; // TextField
+    final String CREATEACCOUNT = "#createAccount"; // Button
+    final String ACCOUNTTYPE = "#accountType"; // ChoiceBox
+    final String ACCOUNTS = "#accounts"; // TextArea
+    final String DETAILSANDTRANSFERS = "#detailsAndTransfers"; // Button
 
     private final static String testSaveFile = "SaveDataTest.json";
     private CashFlowPersistence cfp = new CashFlowPersistence();
 
+    /**
+     * Starts the CashFlowApp.
+     */
     @Override
     public void start(final Stage stage) throws Exception {
         final FXMLLoader loader = new FXMLLoader(getClass().getResource("CashFlowTest.fxml"));
@@ -68,7 +71,7 @@ public class CashFlowControllerTest extends ApplicationTest {
     }
 
     /**
-     * 
+     * Deletes Json file after all tests.
      */
     @AfterAll
     public static void deleteTestJsonFile() {
@@ -76,6 +79,10 @@ public class CashFlowControllerTest extends ApplicationTest {
         File testFile = testFilePath.toFile();
         testFile.delete();
     }
+
+    /**
+     * Tests that the controller is set.
+     */
     @Test
     public void testController() {
         assertNotNull(this.controller);

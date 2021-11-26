@@ -55,6 +55,9 @@ public class DetailsControllerTest extends ApplicationTest {
 
   private final static String testSaveFile = "SaveDataTest.json";
 
+  /**
+   * Opens the page and initiates three accounts.
+   */
   @Override
   public void start(final Stage stage) throws Exception {
     new CheckingAccount("ChA", 1000, 1000, user);
