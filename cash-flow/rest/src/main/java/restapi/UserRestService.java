@@ -33,7 +33,7 @@ public class UserRestService {
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public User getUser(){
+  public User getUser() {
     LOG.debug("getUser: " + user.getUserId());
     return user;
   }
@@ -46,7 +46,7 @@ public class UserRestService {
    * @return the AccountResource-object
    */
   @Path("{accountNumber}")
-  public AccountResource getAccount(@PathParam("accountNumber") String accountNumber){
+  public AccountResource getAccount(@PathParam("accountNumber") String accountNumber) {
     AbstractAccount account = getUser().getAccount(Integer.valueOf(accountNumber));
     AccountResource accountResource = new AccountResource(user, accountNumber, account);
     return accountResource;
