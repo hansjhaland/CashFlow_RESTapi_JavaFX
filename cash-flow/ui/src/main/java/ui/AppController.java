@@ -22,6 +22,7 @@ public class AppController {
 
   @FXML
   DetailsController detailsController;
+  
   @FXML
   CashFlowController mainPageController;
 
