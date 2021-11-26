@@ -1,18 +1,10 @@
 package restserver;
-
-import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import java.util.Iterator;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import restapi.UserRestService;
-import restserver.CashFlowConfig;
-import restserver.UserObjectMapperProvider;
-import restapi.UserRestService;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.glassfish.jersey.logging.LoggingFeature;
@@ -23,17 +15,18 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import core.AbstractAccount;
-import core.BsuAccount;
 import core.CheckingAccount;
 import core.SavingsAccount;
 import core.User;
 
+/**
+ * A class that tests the users data with Rest Api.
+ */
 public class UserRestServiceTest extends JerseyTest{
   
-      /**
-       * ???
-       */
-      
+    /**
+     * Tests if the user 
+     */
     @Override
     protected ResourceConfig configure() {
         final CashFlowConfig config = new CashFlowConfig();
@@ -47,9 +40,8 @@ public class UserRestServiceTest extends JerseyTest{
     private ObjectMapper objectMapper;
 
     /**
-     * Setter opp test-container
+     * The method creats a test-container.
      */
-    
     @BeforeEach
     @Override
     public void setUp() throws Exception {
@@ -58,9 +50,8 @@ public class UserRestServiceTest extends JerseyTest{
     }
 
     /**
-     * River ned test-container
+     * The method removes the test-container.
      */
-    
     @AfterEach
     @Override
     public void tearDown() throws Exception {
@@ -68,9 +59,8 @@ public class UserRestServiceTest extends JerseyTest{
     }
 
     /**
-     * denne har jeg såvidt endret og er litt uskker på hva jeg skal gjøre noe med
+     * Uses Rest Api to get account and checks if the user of the account has the correct data to that account.
      */
-    
     @Test
     public void testGet_user() {
       Response getResponse = target(UserRestService.USER_REST_SERVICE_PATH)
@@ -89,7 +79,8 @@ public class UserRestServiceTest extends JerseyTest{
     }
    
     /**
-     * Henter en bestemt konto basert på kontonr og sjekker at vi får svar som forventet
+     * The method gets an account based on the accountnumber and checks if the answere is as 
+     * expected.
      */
     @Test
     public void testGetAccount_2345() {
@@ -99,11 +90,9 @@ public class UserRestServiceTest extends JerseyTest{
           .get();
       assertEquals(200, getResponse.getStatus());
       try {
-          //riktig med AbstractAccount??
         AbstractAccount account = objectMapper.readValue(getResponse.readEntity(String.class), AbstractAccount.class);
 
         assertEquals(2345, account.getAccountNumber());
-        //har vi noe JsonProcessingException
       } catch (JsonProcessingException e) {
         fail(e.getMessage());
       }
