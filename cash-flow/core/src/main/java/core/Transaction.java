@@ -62,7 +62,13 @@ public class Transaction {
   }
 
   /**
-   * Method for json.
+   * A method for creating an transaction object.
+   * @param payer user that pays.
+   * @param payersAccountNumber accountnumber of the payer.
+   * @param recipient the reciver of the transaction.
+   * @param recipientsAccountNumber accountnumber of the reciver.
+   * @param amount that is being transferd.
+   * @throws IllegalArgumentException if there is no payer or recipent.
    */
   public Transaction(String payer, int payersAccountNumber, String recipient, 
       int recipientsAccountNumber, double amount) {
@@ -108,6 +114,9 @@ public class Transaction {
     return amount;
   }
 
+  /**
+   * Tostring for the transaction.
+   */
   @Override
   public String toString() {
     return "type: " + type + "\npayer: " + payer + "\npayersAccountNumber: "
