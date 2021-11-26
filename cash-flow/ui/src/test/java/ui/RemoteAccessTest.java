@@ -12,7 +12,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.net.URI;
@@ -20,7 +19,6 @@ import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,13 +33,13 @@ public class RemoteAccessTest {
 
     private RemoteAccess access;
 
-    //Her er resttjenesten mocket imens klienten/brukergrensesnittet er ekte
-    //Skal teste at den gjør det den skal når den får informasjonen den skal
-
+    /**
+     * The Restservice is mocked while the client/interface is real.
+     * Tests that it does what it is supposed to do when it gets the information it is supposed to.
+     * @throws URISyntaxException if it does not behave correct with its information.
+     */
     @BeforeEach
     public void startWireMockServerAndSetup() throws URISyntaxException {
-        //endre fx:value i RemoteCashFlow?? til en nettsideURL av noe slag
-        // hva er dette: "http://localhost:8999/user/" som er kommentert ut i CashFlowController?
         config = WireMockConfiguration.wireMockConfig().port(8099);
         wireMockServer = new WireMockServer(config.portNumber());
         wireMockServer.start();
