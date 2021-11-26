@@ -30,7 +30,8 @@ import org.testfx.framework.junit5.ApplicationTest;
 import core.User;
 
 /**
- * A class end to end testing. Tests that both the ui, the Details page, and the server works.
+ * End to end testing. Tests that the core, the Details page, 
+ * and the server works together.
  */
 public class DetailsIT extends ApplicationTest {
     
@@ -64,7 +65,7 @@ public class DetailsIT extends ApplicationTest {
   }
 
   /**
-   * Starts the server.
+   * Starts the server. Sets the controllers cashflowaccess-object with right URI.
    * @throws URISyntaxException if the server can not be started.
    */
   @BeforeEach
@@ -87,7 +88,7 @@ public class DetailsIT extends ApplicationTest {
   }
 
   /**
-   * Deletes the Json File after the tests is finished.
+   * Deletes the Json test-file after the tests are finished.
    */
   @AfterAll
   public static void deleteTestJsonFile() {
@@ -97,8 +98,8 @@ public class DetailsIT extends ApplicationTest {
   }
 
   /**
-   * Test for transfering amount to another account and checking if the User class has updated 
-   * the balance.
+   * Test for transfering amount to another account and checking if the
+   * account-objects and UI is updated.
    */
   @Test
   public void testTransfer() {

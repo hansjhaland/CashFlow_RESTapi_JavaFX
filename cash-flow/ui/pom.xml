@@ -11,7 +11,6 @@
     </parent>
 
     <dependencies>
-
         <dependency>
             <groupId>gr2151</groupId>
             <artifactId>core</artifactId>
@@ -75,7 +74,6 @@
             <version>3.1.2</version>
         </dependency>
         
-
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -91,7 +89,6 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.12.0</version>
         </dependency>
-
     </dependencies>
 
     <profiles>
@@ -170,22 +167,19 @@
                 </configuration>
             </plugin>
 
-
-        <!-- Run the checkstyle code quality tool -->
+            <!-- Run the checkstyle code quality tool -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
             </plugin>
 
-        <!-- Run the spotbugs code quality tool -->
+            <!-- Run the spotbugs code quality tool -->
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
             </plugin>
 
-
-
-        <!-- Configure jacoco code coverage -->
+            <!-- Configure jacoco code coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -193,7 +187,6 @@
                     <propertyName>jaCoCoArgLine</propertyName>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

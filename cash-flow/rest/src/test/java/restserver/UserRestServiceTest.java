@@ -20,12 +20,12 @@ import core.SavingsAccount;
 import core.User;
 
 /**
- * A class that tests the users data with Rest Api.
+ * A class that tests the top-level rest-service.
  */
-public class UserRestServiceTest extends JerseyTest{
+public class UserRestServiceTest extends JerseyTest {
   
     /**
-     * Tests if the user 
+     * Configures the rest-service with the CashFlowConfig.
      */
     @Override
     protected ResourceConfig configure() {
@@ -40,7 +40,7 @@ public class UserRestServiceTest extends JerseyTest{
     private ObjectMapper objectMapper;
 
     /**
-     * The method creats a test-container.
+     * The method sets up a test-container.
      */
     @BeforeEach
     @Override
@@ -50,7 +50,7 @@ public class UserRestServiceTest extends JerseyTest{
     }
 
     /**
-     * The method removes the test-container.
+     * The method tears down the test-container.
      */
     @AfterEach
     @Override
@@ -59,10 +59,10 @@ public class UserRestServiceTest extends JerseyTest{
     }
 
     /**
-     * Uses Rest Api to get account and checks if the user of the account has the correct data to that account.
+     * Tests the HTTP-get method for the user.
      */
     @Test
-    public void testGet_user() {
+    public void testGetuser() {
       Response getResponse = target(UserRestService.USER_REST_SERVICE_PATH)
           .request(MediaType.APPLICATION_JSON)
           .get();
@@ -79,8 +79,7 @@ public class UserRestServiceTest extends JerseyTest{
     }
    
     /**
-     * The method gets an account based on the accountnumber and checks if the answere is as 
-     * expected.
+     * Tests the HTTP-get method for the accounts.
      */
     @Test
     public void testGetAccount_2345() {

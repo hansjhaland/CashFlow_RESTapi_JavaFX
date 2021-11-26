@@ -26,6 +26,11 @@ import core.AbstractAccount;
 import core.CheckingAccount;
 import core.User;
 
+/**
+ * The Restserver is mocked while the client/interface is real.
+ * Tests that the remote-access interface works as intended when
+ * it recieves certain responses to HTTP-requests.
+ */
 public class RemoteAccessTest {
     
     private WireMockConfiguration config;
@@ -34,8 +39,7 @@ public class RemoteAccessTest {
     private RemoteAccess access;
 
     /**
-     * The Restservice is mocked while the client/interface is real.
-     * Tests that it does what it is supposed to do when it gets the information it is supposed to.
+     * Starts the mock-server, with the given URI and port.
      * @throws URISyntaxException if it does not behave correct with its information.
      */
     @BeforeEach
@@ -49,7 +53,8 @@ public class RemoteAccessTest {
     }
 
     /**
-     * Set up and checks the respons based on the request.
+     * Set up for stubs. Defines what the responses for the different requests
+     * should be for the given endpoints.
      */
     private void setUpForStubs() {
         stubFor(get(urlEqualTo("/user/"))
@@ -96,7 +101,7 @@ public class RemoteAccessTest {
     }
 
     /**
-     * Tests that gives the right userid based on user.
+     * Tests that gives right user object is set.
      */
     @Test
     public void testGetUser() {
@@ -104,7 +109,8 @@ public class RemoteAccessTest {
         assertEquals(654321, user.getUserId());
     }
     /**
-     * Gets two accounts with its accountnumber and checks if it is the right accountnumber.
+     * Gets two accounts with the given accountnumbers and checks if 
+     * it is the right accounts by checking the accountnumber.
      */
     @Test
     public void testGetTwoAccounts() {
@@ -115,7 +121,7 @@ public class RemoteAccessTest {
     }
 
     /**
-     * Checks if the deleted account is in the accountnumbers list with all the accounts.
+     * Checks if the deleted account is in the users list of accounts.
      */
     @Test
     public void testDeleteAccount() {
@@ -126,7 +132,8 @@ public class RemoteAccessTest {
         assertTrue(accountNumbers.containsAll(List.of(5555)));
     }
     /**
-     * Checks by creating an account with the user and checks that it has the information given.
+     * Checks putting an account by getting the account with the given
+     * accountnumber.
      */
     @Test
     public void testPuttingAccount() {
@@ -136,6 +143,9 @@ public class RemoteAccessTest {
         assertNotNull(access.getAccount(9999));
     }
 
+    /**
+     * Stops the mock-server after each test.
+     */
     @AfterEach
     public void stopWireMockServer() {
       wireMockServer.stop();

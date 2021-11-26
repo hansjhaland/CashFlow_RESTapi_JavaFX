@@ -231,7 +231,7 @@ public class CashFlowController {
       }
       String name = account.getName();
       DecimalFormat df = new DecimalFormat("##.0", new DecimalFormatSymbols(Locale.UK));
-      String balance = df.format(account.getBalance());
+      String balance = account.getBalance() == 0.0 ? "0.0" : df.format(account.getBalance());
       accounts.setText(accounts.getText() + "\n" + type + ": " + name + "\n" 
           + "   Beløp: " + balance + " kr");
     }

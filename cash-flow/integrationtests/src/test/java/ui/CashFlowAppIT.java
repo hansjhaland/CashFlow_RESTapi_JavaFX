@@ -30,7 +30,8 @@ import org.testfx.framework.junit5.ApplicationTest;
 import core.User;
 
 /**
- * A class for integrationtesting. Tests that both the ui, the CashFlow page, and the server works.
+ * End-to-end testing. Tests that both the core, the CashFlow page,
+ * and the server works together.
  */
 public class CashFlowAppIT extends ApplicationTest {
 
@@ -52,7 +53,8 @@ public class CashFlowAppIT extends ApplicationTest {
   }
 
   /**
-   * Loads the MainPage fxml. Sets the controller with the fxml and displays it for the user.
+   * Loads the MainPage fxml (CashFlowController). 
+   * Sets the controller with the fxml and displays it for the user.
    */
   @Override
   public void start(final Stage stage) throws Exception {
@@ -64,7 +66,7 @@ public class CashFlowAppIT extends ApplicationTest {
   }
 
   /**
-   * Starts the server.
+   * Starts the server. Sets the controllers cashflowaccess-object with right URI.
    * @throws URISyntaxException if the server can not be started.
    */
   @BeforeEach
@@ -87,7 +89,7 @@ public class CashFlowAppIT extends ApplicationTest {
   }
 
   /**
-   * Deletes the Json File after the tests is finished.
+   * Deletes the Json test-file after the tests are finished.
    */
   @AfterAll
   public static void deleteTestJsonFile() {
@@ -98,7 +100,8 @@ public class CashFlowAppIT extends ApplicationTest {
   }
 
   /**
-   * Test for creating an account and checking if the User class has updated its accounts.
+   * Test for creating an account and checking if the user-object
+   * contains the account, and that the UI is updated.
    */
   @Test
   public void testCreateAccount() {
