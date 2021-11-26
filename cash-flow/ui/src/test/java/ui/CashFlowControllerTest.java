@@ -43,7 +43,7 @@ public class CashFlowControllerTest extends ApplicationTest {
     private CashFlowPersistence cfp = new CashFlowPersistence();
 
     /**
-     * Starts the CashFlowApp.
+     * Loads the CashFlowTest fxml. Sets the controller with the fxml and displays it for the user.
      */
     @Override
     public void start(final Stage stage) throws Exception {
@@ -69,9 +69,6 @@ public class CashFlowControllerTest extends ApplicationTest {
         cb.getSelectionModel().clearSelection();
     }
 
-    /**
-     * Deletes Json file after all tests.
-     */
     @AfterAll
     public static void deleteTestJsonFile() {
         Path testFilePath = Paths.get(System.getProperty("user.home"), testSaveFile);
@@ -80,7 +77,7 @@ public class CashFlowControllerTest extends ApplicationTest {
     }
 
     /**
-     * Tests that the controller is set.
+     * Tests that the controller is loaded.
      */
     @Test
     public void testController() {
@@ -202,25 +199,25 @@ public class CashFlowControllerTest extends ApplicationTest {
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
 
-        // 1
+        // name1
         clickOn(NAMEACCOUNT).write(name1);
         clickOn(CREATEACCOUNT);
         assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver",
                 controller.errorMessage.getText());
 
-        // 2 Handle if zero
+        // name2
         assertThrows(NullPointerException.class, () -> {
             clickOn(NAMEACCOUNT).write(name2);
         });
 
-        // 3
+        // name3
         name.setText("");
         clickOn(NAMEACCOUNT).write(name3);
         clickOn(CREATEACCOUNT);
         assertEquals("Du kan ikke bruke tall eller tegn i navnet, og det må være mindre enn 20 bokstaver",
                 controller.errorMessage.getText());
 
-        // 4
+        // name4
         name.setText("");
         clickOn(NAMEACCOUNT).write(name4);
         clickOn(CREATEACCOUNT);
@@ -246,18 +243,18 @@ public class CashFlowControllerTest extends ApplicationTest {
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
 
-        // 1
+        // amount1
         clickOn(SETAMOUNT).write(amount1);
         clickOn(CREATEACCOUNT);
         assertEquals("Beløpet må bestå av tall og kan ikke være mindre enn null", controller.errorMessage.getText());
 
-        // 2
+        // amount2
         amount.setText("");
         clickOn(SETAMOUNT).write(amount2);
         clickOn(CREATEACCOUNT);
         assertEquals("Beløpet må bestå av tall og kan ikke være mindre enn null", controller.errorMessage.getText());
 
-        // 3
+        // amount3
         assertThrows(NullPointerException.class, () -> {
             clickOn(SETAMOUNT).write(amount3);
         });
@@ -271,6 +268,10 @@ public class CashFlowControllerTest extends ApplicationTest {
         assertTrue(controller.getCashFlowAccess() instanceof DirectAccess);
     }
 
+    /**
+     * Tests that current window is closing, and new window details page is showing when button is
+     * pressed.
+     */
     @Test
     public void testOnNextPage() {
         //Need to create an account before going to the next page

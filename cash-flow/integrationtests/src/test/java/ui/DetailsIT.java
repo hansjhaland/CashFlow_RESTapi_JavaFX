@@ -30,7 +30,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 import core.User;
 
 /**
- * A class for integrationtesting. Tests that both the ui, the Details page, and the server works.
+ * A class end to end testing. Tests that both the ui, the Details page, and the server works.
  */
 public class DetailsIT extends ApplicationTest {
     
@@ -52,7 +52,7 @@ public class DetailsIT extends ApplicationTest {
   }
 
   /**
-   * Starts the app.
+   * Loads the Details fxml. Sets the controller with the fxml and displays it for the user.
    */
   @Override
   public void start(final Stage stage) throws Exception {

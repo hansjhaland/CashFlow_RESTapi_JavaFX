@@ -365,6 +365,10 @@ public class DetailsControllerTest extends ApplicationTest {
     assertTrue(controller.getCashFlowAccess() instanceof DirectAccess);
   }
 
+  /**
+   * Tests that the {@link #SETBALANCE} TextField views the balance of the account chosen i ChoiceBox
+   * {@link #DETAILEDACCOUNT}
+   */
   @Test
   public void testWhenOnChooseAccount() {
     clickOn(DETAILEDACCOUNT);
@@ -377,6 +381,10 @@ public class DetailsControllerTest extends ApplicationTest {
 
   }
 
+  /**
+   * Tests that current window is closing, and new window to main page is showing when button is
+   * pressed.
+   */
   @Test
   public void testGoToMainPage() {
     clickOn(MAINPAGE);

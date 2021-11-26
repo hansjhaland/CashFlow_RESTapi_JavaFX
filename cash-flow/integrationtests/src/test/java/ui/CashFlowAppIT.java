@@ -52,7 +52,7 @@ public class CashFlowAppIT extends ApplicationTest {
   }
 
   /**
-   * Starts the app.
+   * Loads the MainPage fxml. Sets the controller with the fxml and displays it for the user.
    */
   @Override
   public void start(final Stage stage) throws Exception {
