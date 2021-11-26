@@ -393,5 +393,4 @@ public class DetailsControllerTest extends ApplicationTest {
     }
     return null;
   }
-
 }
