@@ -68,6 +68,17 @@ De ekskluderte errorene er **EI_EXPOSE_REP** og **EI_EXPOSE_REP2**. Disse ble ek
 - Når `mvn test`kjøres vil også Spotbugs og Checkstyle kjøres
 - **Spotbugs** kan kjøres alene med kommandoen `mvn spotbugs:spotbugs`
 - **Checkstyle** kan kjøres alene med kommandoen `mvn checkstyle:check`
+-**integrationtests** kjøres med `mvn install` og vil ikke kjøre med `mvn test`
+
+### NB! Testing i Gitpod
+
+**JavaFX-tester:** JavaFX-tester som kjører i GitPod vil kan utløse RunTimeError siden "roboten" noen ganger gjennomfører instruksjoner i feil rekkefølge.
+
+### NB! Testing lokalt
+
+**JavaFX-tester:** JavaFX-tester kan også ende i failure lokalt når de egentlig ikke skal, men dette skjer sjeldent.
+
+**Integrationstests:** For å gjennomføre integrationtests når man kjører prosjektet lokalt må man først kjøre `cd integrationtests` og deretter `mvn install`. 
 
 
 ## Hvordan kjøre appen med lokal lagring
@@ -83,6 +94,8 @@ De ekskluderte errorene er **EI_EXPOSE_REP** og **EI_EXPOSE_REP2**. Disse ble ek
  - Kjøre kommandoen `mvn jetty:run -D"jetty.port=8999"` for å starte serveren på porten 8999.
  - Kjøre kommandoene `cd ..` og `cd ui` for å komme inn i ui-mappen som skal kjøres (.../gr2151/cash-flow/ui).
  - Kjøre kommandoen `mvn -Premoteapp javafx:run` for å kjøre versjonen av appen som bruker REST-APIet til utveksle informasjon med serveren.
+
+ **Merk:** Dersom prosjektet ikke kjøres med GitPod burde man installere med `mvn install -DskipTests`. Grunnen til dette er at "roboten" i **integrationtests** starter for tidlig og forårsaker test failure og build failure.
 
  ## Hvordan konfigurere shippable produkt og bygge kjørbar fil med jlink og jpackage
  - Først må man gå inn i rot-mappen til prosjektet (.../gr2151/cash-flow).
