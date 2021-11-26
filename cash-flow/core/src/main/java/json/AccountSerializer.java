@@ -36,7 +36,7 @@ public class AccountSerializer extends JsonSerializer<AbstractAccount> {
       jsonGen.writeStringField("type", "savings");
     }
     if (account instanceof BsuAccount) {
-      jsonGen.writeStringField("type", "Bsu");
+      jsonGen.writeStringField("type", "bsu");
     }
     jsonGen.writeStringField("name", account.getName());
     jsonGen.writeNumberField("balance", account.getBalance());

@@ -1,3 +1,15 @@
+/' Ulike definisjoner og synlighet blir spesifisert i diagrammene med spesielle tegn før navnet. 
+- : Der en variabel blir definert private. I en png fil blir dette visualisert med en tom rød firkant.
++ : Der en variabel blir definert public. I en png fil blir dette visualisert med en tom grønn sirkel.
+# : Der en variabel blir definert protected. I en png fil blir dette visualisert med en tom gul diamant.
+~ : Der en variabel blir definert static. I en png fil blir dette visualisert med en tom blå trekant.
+- : Der en funksjon blir definert private. I en png fil blir dette visualisert med en full rød firkant.
++ : Der en funksjon blir definert public. I en png fil blir dette visualisert med en full grønn sirkel.
+# : Der en funksjon blir definert protected. I en png fil blir dette visualisert med en full gul diamant.
+~ : Der en funksjon blir definert static. I en png fil blir dette visualisert med en full blå trekant.
+'/
+
+
 @startuml
 
 abstract class AbstractAccount {
@@ -5,7 +17,7 @@ abstract class AbstractAccount {
     - double balance;
     - final int accountNumber;
     - User owner;
-    - List<Transaction> transactionHistory
+    - List<Transaction> transactionHistory;
     
     + AbstractAccount(String name, int accountNumber, User owner)
     + AbstractAccount(String name, User owner)
@@ -39,6 +51,8 @@ class SavingsAccount {
     + SavingsAccount(String name, double balance, User owner)
     
     + boolean isWithdrawalOrTransferPossible()
+    + void withdraw(double amount)
+    + transfer(AbstractAccount recievingAccount, double amount)
     - void checkIfWithdrawalOrTransferPossible()
     - long getNumberOfWithdrawals()
     - long getNumberOfTransfersFromThisAccount()
@@ -49,6 +63,9 @@ class BsuAccount {
     + BsuAccount(String name, double balance, User owner)
     
     + boolean isValidDeposit(double amount)
+    + void deposit(double amount)
+    + void withdraw(double amount)
+    + void transfer(AbstractAccount recievingAccount, double amount)
     - void checkIfValidDeposit(double amount)
     - void checkIfUserDoesNotHaveBsu(User user)
 }
@@ -56,7 +73,7 @@ class BsuAccount {
 class User {
     - String name;
     - final int userID;
-    - Collection<AbstractAccount> accounts
+    - Collection<AbstractAccount> accounts;
     
     + User(int userID)
     
@@ -69,10 +86,12 @@ class User {
     + Collection<Integer> getAccountNumbers()
     + AbstractAccount getAccount(int accountNumber)
     + void setName(String name)
+    + String toString()
 
 }
 
 class Transaction {
+    + enum TransactionType {DEPOSIT, WITHDRAWAL, TRANSFER};
     - final TransactionType type;
     - final String payer;
     - final int payersAccountNumber;
@@ -84,6 +103,7 @@ class Transaction {
     + Transaction(String payer, int payersAccountNumber, String recipient, int recipientsAccountNumber, double amount)
     
     + TransactionType getType()
+    + String getPayer()
     + String getRecipient()
     + int getPayersAccountNumber()
     + int getRecipientsAccountNumber()
@@ -95,11 +115,12 @@ class BankHelper {
     + boolean isOnlyLettersAndSpaces(String s)
     + boolean isValidName(String name)
     + boolean isPositiveAmount(double amount)
-    + boolean isBalanceValidWhenAdding(double amount)
-    ~ void checkIfAccountNumberIsTaken(int accountNumber)
+    + boolean isBalanceValidWhenAdding(double amount, AbstractAccount account)
+    + boolean hasBSU(User user)
+    ~ void checkIfAccountNumberIsTaken(int accountNumber, User user)
     ~ void checkIfValidUserID(int userID)
     ~ void checkIfValidName(String name)
-    ~ void checkIfValidBalance(double amount)
+    ~ void checkIfValidBalance(double amount, AbstractAccount account)
     ~ void checkIfValidAccountNumber(int accountNumber)
     ~ void checkIfValidAmount(double amount)
 }

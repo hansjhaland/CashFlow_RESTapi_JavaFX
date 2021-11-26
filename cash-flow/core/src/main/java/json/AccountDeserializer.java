@@ -86,7 +86,7 @@ public class AccountDeserializer extends JsonDeserializer<AbstractAccount> {
         case "savings":
           account = new SavingsAccount(name, balance, accountNumber, null);
           break;
-        case "Bsu":
+        case "bsu":
           account = new BsuAccount(name, balance, accountNumber, null);
           break;
         default:

@@ -11,7 +11,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="385.0" style="-fx-background-color: #5fbee1#5fbee1;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.DetailsController">
+<AnchorPane fx:id="detailsRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="385.0" style="-fx-background-color: #5fbee1#5fbee1;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.DetailsController">
    <children>
       <Label layoutX="249.0" layoutY="171.0" />
       <Text fill="#070707" layoutX="11.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CashFlow" textAlignment="CENTER" underline="true" wrappingWidth="363.78857421875">
@@ -48,11 +48,6 @@
       <TextField fx:id="transferAmount" alignment="CENTER_RIGHT" layoutX="215.0" layoutY="387.0" prefHeight="27.0" prefWidth="120.0" promptText="0.00" />
       <Button fx:id="toMainPage" layoutX="34.0" layoutY="22.0" mnemonicParsing="false" onAction="#onPreviousPage">
          <graphic>
-            <ImageView fitHeight="16.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../BackButtonImage.jpg" />
-               </image>
-            </ImageView>
          </graphic></Button>
       <Button fx:id="transfer" layoutX="35.0" layoutY="424.0" mnemonicParsing="false" onAction="#onTransfer" prefHeight="27.0" prefWidth="73.0" text="Overfør" />
       <Text fx:id="feedback" fill="#1b1a1a" layoutX="146.0" layoutY="442.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="186.0" />

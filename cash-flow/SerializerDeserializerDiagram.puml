@@ -1,0 +1,73 @@
+/' Ulike definisjoner og synlighet blir spesifisert i diagrammene med spesielle tegn før navnet. 
+- : Der en variabel blir definert private. I en png fil blir dette visualisert med en tom rød firkant.
++ : Der en variabel blir definert public. I en png fil blir dette visualisert med en tom grønn sirkel.
+# : Der en variabel blir definert protected. I en png fil blir dette visualisert med en tom gul diamant.
+~ : Der en variabel blir definert static. I en png fil blir dette visualisert med en tom blå trekant.
+- : Der en funksjon blir definert private. I en png fil blir dette visualisert med en full rød firkant.
++ : Der en funksjon blir definert public. I en png fil blir dette visualisert med en full grønn sirkel.
+# : Der en funksjon blir definert protected. I en png fil blir dette visualisert med en full gul diamant.
+~ : Der en funksjon blir definert static. I en png fil blir dette visualisert med en full blå trekant.
+'/
+
+
+@startuml
+
+class CashFlowModule {
+    - static final String NAME = "CashFlowModule";
+    - static final VersionUtil VERSION_UTIL = new VersionUtil;
+    
+    + CashFlowModule()
+}
+
+class SimpleModule {
+    SimpleModule er importert fra jackson biblioteket.
+}
+
+class UserSerializer {
+    + void serialize(User user, JsonGenerator jGen, SerializerProvider serializerProvider)
+}
+
+class AccountSerializer {
+    + void serialize(AbstractAccount account, JsonGenerator jGen, SerializerProvider serializerProvider)
+}
+
+class AccountDeserializer {
+    - TransactionDeserializer transactionDeserializer = new TransactionDeserializer;
+    
+    + AbstractAccount deserialize(JsonParser parser, DeserializationContext ctxt)
+    + AbstractAccount deserialize(JsonNode jsonNode) 
+}
+
+class UserDeserializer {
+    - AccountDeserializer checkingAccountDeserializer = new AccountDeserializer;
+    
+    + User deserialize(JsonParser parser, DeserializationContext ctxt)
+    
+}
+
+class TransactionSerializer {
+    + void serialize(Transaction transaction, JsonGenerator jGen, SerializerProvider serializerProvider)
+}
+
+class TransactionDeserializer {
+    + Transaction deserialize(JsonParser parser, DeserializationContext ctxt)
+    + Transaction deserialize(JsonNode jsonNode)
+}
+
+
+UserSerializer -- CashFlowModule : uses
+UserDeserializer -- CashFlowModule : uses
+
+
+SimpleModule <|-- CashFlowModule: extends
+
+AccountSerializer  -- UserSerializer : uses
+
+TransactionSerializer  -- AccountSerializer : uses
+
+AccountDeserializer -- UserDeserializer: uses
+
+TransactionDeserializer -- AccountDeserializer: uses
+
+
+@enduml

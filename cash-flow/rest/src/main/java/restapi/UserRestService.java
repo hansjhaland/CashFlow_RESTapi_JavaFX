@@ -17,38 +17,38 @@ import org.slf4j.LoggerFactory;
 @Path(UserRestService.USER_REST_SERVICE_PATH)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserRestService {
-
+    
   public static final String USER_REST_SERVICE_PATH = "user";
 
   private static final Logger LOG = LoggerFactory.getLogger(UserRestService.class);
 
   @Context
-  private User user;
+  public User user;
 
   /**
-   * Method for getting the user, indicating that the method responds to HTTP-GET request.
+   * Method for getting the user, indicating
+   * that the method responds to HTTP-GET request.
    *
    * @return the user
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public User getUser() {
+  public User getUser(){
     LOG.debug("getUser: " + user.getUserId());
     return user;
   }
 
   /**
-   * Method that delegates the methods regarding the the 
-   * users accounts to an AccountResource-object.
+   * Method that delegates the methods regarding the the users accounts to an
+   * AccountResource-object.
    *
    * @param accountNumber the account number of the account
    * @return the AccountResource-object
    */
   @Path("{accountNumber}")
-  public AccountResource getAccount(@PathParam("accountNumber") String accountNumber) {
+  public AccountResource getAccount(@PathParam("accountNumber") String accountNumber){
     AbstractAccount account = getUser().getAccount(Integer.valueOf(accountNumber));
     AccountResource accountResource = new AccountResource(user, accountNumber, account);
     return accountResource;
   }
 }
-

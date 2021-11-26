@@ -1,7 +1,9 @@
 package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
 import core.User;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import json.CashFlowPersistence;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -34,6 +38,7 @@ public class CashFlowControllerTest extends ApplicationTest {
     final String CREATEACCOUNT = "#createAccount";
     final String ACCOUNTTYPE = "#accountType";
     final String ACCOUNTS = "#accounts";
+    final String DETAILSANDTRANSFERS = "#detailsAndTransfers";
 
     private final static String testSaveFile = "SaveDataTest.json";
     private CashFlowPersistence cfp = new CashFlowPersistence();
@@ -259,5 +264,37 @@ public class CashFlowControllerTest extends ApplicationTest {
     public void testCorrectCashFlowAccessInstance() {
         assertTrue(controller.getCashFlowAccess() instanceof DirectAccess);
     }
+
+    @Test
+    public void testOnNextPage() {
+        //Need to create an account before going to the next page
+        clickOn(ACCOUNTTYPE);
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+
+        clickOn(NAMEACCOUNT).write("Account");
+        clickOn(SETAMOUNT).write("5");
+        clickOn(CREATEACCOUNT);
+        WaitForAsyncUtils.waitForFxEvents();
+
+        clickOn(DETAILSANDTRANSFERS);
+        WaitForAsyncUtils.waitForFxEvents();
+
+
+        assertNull(findSceneRootWithId("cashFlowRoot"));
+        assertNotNull(findSceneRootWithId("localDetails"));
+    }
+
+    private Parent findSceneRootWithId(String id) {
+        for (Window window : Window.getWindows()) {
+          if (window instanceof Stage && window.isShowing()) {
+            var root = window.getScene().getRoot();
+            if (id.equals(root.getId())) {
+              return root;
+            }
+          }
+        }
+        return null;
+      }
 
 }

@@ -21,6 +21,7 @@ public class RemoteAccess implements CashFlowAccess {
   private User user;
   private CashFlowPersistence cfp;
   public static final String SERVERSAVEFILE = "Server-SaveData.json";
+  private String saveFile;
 
   /**
    * Constructs a RemoteAccess object which gives the indicates 
@@ -29,6 +30,7 @@ public class RemoteAccess implements CashFlowAccess {
    * @param endpointBaseUri the server URI
    */
   public RemoteAccess(URI endpointBaseUri) {
+    this.saveFile = SERVERSAVEFILE;
     this.endpointBaseUri = endpointBaseUri;
     this.objectMapper = CashFlowPersistence.createObjectMapper();
     this.cfp = new CashFlowPersistence();
@@ -36,19 +38,33 @@ public class RemoteAccess implements CashFlowAccess {
   }
 
   /**
+   * Constructs a RemoteAccess object which gives the indicates 
+   * that the remote app version is running.
+   *
+   * @param endpointBaseUri the server URI
+   */
+  public RemoteAccess(URI endpointBaseUri, String saveFile) {
+    this.saveFile = saveFile;
+    this.endpointBaseUri = endpointBaseUri;
+    this.objectMapper = CashFlowPersistence.createObjectMapper();
+    this.cfp = new CashFlowPersistence();
+    cfp.setSaveFilePath(saveFile);
+  }
+
+  /**
    * Gets a user by sending a http GET request if user field is not set.
    */
   public User getUser() {
     if (user == null) {
-      HttpRequest request = HttpRequest.newBuilder(endpointBaseUri)
-          .header("Accept", "application/json").GET().build();
-      try {
-        final HttpResponse<String> response =
-            HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-        this.user = objectMapper.readValue(response.body(), User.class);
-      } catch (IOException | InterruptedException e) {
-        throw new RuntimeException(e);
-      }
+        HttpRequest request = HttpRequest.newBuilder(endpointBaseUri).header("Accept", "application/json").GET()
+                .build();
+        try {
+            final HttpResponse<String> response = HttpClient.newBuilder().build().send(request,
+                    HttpResponse.BodyHandlers.ofString());
+            this.user = objectMapper.readValue(response.body(), User.class);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
     return user;
   }
@@ -65,27 +81,33 @@ public class RemoteAccess implements CashFlowAccess {
 
   /**
    * Gets the account with the given account number.
-   *
+   * 
    * @param accountNumber the account number
    * @return the account with the given account number
    */
   @Override
   public AbstractAccount getAccount(int accountNumber) {
-    AbstractAccount oldAccount = this.user.getAccount(accountNumber);
+    AbstractAccount oldAccount = null;
+    if (user != null) {
+        oldAccount = this.user.getAccount(accountNumber);
+    }
     if (oldAccount == null) {
-      HttpRequest request =
-          HttpRequest.newBuilder(accountUri(accountNumber))
-              .header("Accept", "application/json").GET().build();
-      try {
-        final HttpResponse<String> response =
-            HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-        String responseString = response.body();
-        System.out.println("getAccount(" + accountNumber + ") response: " + responseString);
-        AbstractAccount account = objectMapper.readValue(responseString, AbstractAccount.class);
-        this.user.addAccount(account);
-      } catch (IOException | InterruptedException e) {
-        throw new RuntimeException(e);
-      }
+        HttpRequest request = HttpRequest.newBuilder(accountUri(accountNumber))
+                .header("Accept", "application/json")
+                .GET().build();
+        try {
+            final HttpResponse<String> response = HttpClient.newBuilder().build().send(request,
+                    HttpResponse.BodyHandlers.ofString());
+            String responseString = response.body();
+            System.out.println("getAccount(" + accountNumber + ") response: " + responseString);
+            AbstractAccount account = objectMapper.readValue(responseString, AbstractAccount.class);
+            if (user != null) {
+                this.user.addAccount(account);
+            }
+            return account;
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
     return oldAccount;
   }
@@ -171,20 +193,19 @@ public class RemoteAccess implements CashFlowAccess {
    */
   @Override
   public void saveUser() throws IllegalStateException, IOException {
-    cfp.saveUser(user, SERVERSAVEFILE);
+    cfp.saveUser(user, saveFile);
   }
 
   /**
    * Loads a user from file if the file exists. Returns a default user otherwise.
-   *
+   * 
    * @return a user from file if the file exists. A default user otherwise.
    */
   @Override
   public User loadInitialUser() throws IllegalStateException, IOException {
-    if (cfp.doesFileExist(SERVERSAVEFILE)) {
-      return cfp.loadUser(SERVERSAVEFILE);
+    if (cfp.doesFileExist(saveFile)) {
+        return cfp.loadUser(saveFile);
     }
     return new User(123456);
   }
-
 }
